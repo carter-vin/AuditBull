@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start", 
-    "lint": "eslint src/**/*.{ts,tsx} --quiet --fix"
+    "lint":"next lint",
+    "lint:fix": "eslint src/**/*.{ts,tsx} --quiet --fix"
   },
   "dependencies": {
     "@fluentui/react": "^8.67.2",

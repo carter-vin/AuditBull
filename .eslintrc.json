@@ -45,6 +45,13 @@
         }
       ],
       "react/function-component-definition":"off",
-      "react/jsx-props-no-spreading": "off"
+      "react/jsx-props-no-spreading": "off",
+      "react-hooks/exhaustive-deps": [
+        "warn",
+        {
+          "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+        }
+      ],
+      "no-restricted-syntax": 0
     }
 }
