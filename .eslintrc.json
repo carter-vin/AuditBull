@@ -45,6 +45,7 @@
         }
       ],
       "react/function-component-definition":"off",
+      "react/require-default-props": "off",
       "react/jsx-props-no-spreading": "off",
       "react-hooks/exhaustive-deps": [
         "warn",
@@ -52,6 +53,11 @@
           "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
         }
       ],
-      "no-restricted-syntax": 0
+      "no-restricted-syntax": 0,
+      "no-console": "error",
+      "no-alert": "error",
+      "no-shadow": "error",
+      "import/no-unresolved": "off",
+      "import/extensions":"off"
     }
 }
