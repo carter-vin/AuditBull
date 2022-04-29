@@ -2,12 +2,14 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import type { NextPage } from 'next';
 import { ReactNode } from 'react';
-// import { , EmotionCache } from '@emotion/react';
 
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import createEmotionCache from 'utils/createEmotionCache';
 import theme from 'utils/theme';
-import { ThemeProvider } from '@fluentui/react';
-// import createEmotionCache from 'utils/createEmotionCache';
-// import { CssBaseline, ThemeProvider } from '@mui/material';
+
+const clientSideEmotionCache = createEmotionCache();
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Page<P = {}> = NextPage<P> & {
@@ -16,16 +18,26 @@ type Page<P = {}> = NextPage<P> & {
 
 type Props = AppProps & {
     Component: Page;
-    // emotionCache?: EmotionCache;
+    emotionCache?: EmotionCache;
 };
 
-// const clientSideEmotionCache = createEmotionCache();
+const MyApp = (props: Props) => {
+    const {
+        Component,
+        emotionCache = clientSideEmotionCache,
+        pageProps,
+    } = props;
 
-const MyApp = ({ Component, pageProps }: Props) => {
     const getLayout = Component.getLayout || ((page) => page);
 
     return (
-        <ThemeProvider>{getLayout(<Component {...pageProps} />)}</ThemeProvider>
+        <CacheProvider value={emotionCache}>
+            <ThemeProvider theme={theme}>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline />
+                {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+        </CacheProvider>
     );
 };
 

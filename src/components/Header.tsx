@@ -1,4 +1,5 @@
-import { DefaultButton, Stack } from '@fluentui/react';
+import { AppBar, List, ListItemButton, Toolbar, Box } from '@mui/material';
+import { useRouter } from 'next/router';
 
 export type HeaderMenu = {
     label: string;
@@ -29,38 +30,45 @@ const headerMenu: HeaderMenu[] = [
 ];
 
 const Header = () => {
+    const router = useRouter();
     return (
-        <Stack
-            horizontal
-            horizontalAlign="space-between"
-            tokens={{
-                childrenGap: '32px',
-            }}
-        >
-            <DefaultButton
-                text="Home"
-                className="p-2 rounded-md"
-                allowDisabledFocus
-            />
-
-            <Stack
-                horizontal
-                horizontalAlign="end"
-                className=" w-8/12"
-                tokens={{
-                    childrenGap: 24,
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar
+                position="static"
+                color="transparent"
+                className="drop-shadow-none	"
+                sx={{
+                    boxShadow: 'none',
                 }}
             >
-                {headerMenu.map((item: HeaderMenu) => (
-                    <DefaultButton
-                        key={item.label}
-                        text={item.label}
-                        className="p-2 rounded-md"
-                        allowDisabledFocus
-                    />
-                ))}
-            </Stack>
-        </Stack>
+                <Toolbar className="flex justify-between items-center">
+                    <Box>
+                        <ListItemButton
+                            component="a"
+                            color="inherit"
+                            href="/"
+                            key="home"
+                            selected={router.pathname === '/'}
+                        >
+                            Home
+                        </ListItemButton>
+                    </Box>
+                    <List className="flex justify-end items-center gap-8">
+                        {headerMenu.map((item: HeaderMenu) => (
+                            <ListItemButton
+                                selected={router.pathname === item.href}
+                                component="a"
+                                color="inherit"
+                                href={item.href}
+                                key={item.label}
+                            >
+                                {item.label}
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Toolbar>
+            </AppBar>
+        </Box>
     );
 };
 

@@ -1,4 +1,4 @@
-import { DefaultButton, Stack } from '@fluentui/react';
+import { Stack, Button } from '@mui/material';
 
 export type Menu = {
     label: string;
@@ -12,28 +12,16 @@ const SubHeader = (props: SubHeaderProps) => {
     const { menu } = props;
     return (
         <Stack
-            horizontal
-            horizontalAlign="end"
-            tokens={{
-                childrenGap: '32px',
-            }}
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+            spacing={4}
         >
-            <Stack
-                horizontal
-                horizontalAlign="end"
-                tokens={{
-                    childrenGap: 24,
-                }}
-            >
-                {menu.map((item: Menu) => (
-                    <DefaultButton
-                        key={item.label}
-                        text={item.label}
-                        className="p-4 rounded-md"
-                        allowDisabledFocus
-                    />
-                ))}
-            </Stack>
+            {menu.map((item: Menu) => (
+                <Button variant="outlined" key={item.label}>
+                    {item.label}
+                </Button>
+            ))}
         </Stack>
     );
 };

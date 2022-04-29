@@ -1,26 +1,9 @@
-import { DefaultPalette, IStackStyles, Stack } from '@fluentui/react';
 import Head from 'next/head';
 import type { ReactElement } from 'react';
 
 import Header from 'components/Header';
 import SideBar from 'components/SideBar';
-
-const stackStyles: IStackStyles = {
-    root: {
-        background: DefaultPalette.white,
-        height: '100vh',
-    },
-};
-
-const stackContentStyles: IStackStyles = {
-    root: {
-        background: DefaultPalette.white,
-        height: '100vh',
-        padding: '24px 44px',
-        width: '100%',
-        flex: 1,
-    },
-};
+import { Box, Stack } from '@mui/material';
 
 interface DashboardLayoutProps {
     children?: ReactElement;
@@ -36,19 +19,15 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
                     content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
                 />
             </Head>
-            <Stack horizontal horizontalAlign="start" styles={stackStyles} wrap>
+            <Box sx={{ display: 'flex' }}>
                 <SideBar logoImg="/vercel.svg" logoText="Audit Bull" />
-                <Stack
-                    styles={stackContentStyles}
-                    verticalAlign="start"
-                    tokens={{
-                        childrenGap: '24px',
-                    }}
-                >
-                    {!hideHeader && <Header />}
-                    <div>{children}</div>
+                <Stack component="main" sx={{ flexGrow: 1 }} spacing={3}>
+                    <Box mt={2}>{!hideHeader && <Header />}</Box>
+                    <Stack sx={{ flexGrow: 1 }} spacing={4} px={5}>
+                        {children}
+                    </Stack>
                 </Stack>
-            </Stack>
+            </Box>
         </>
     );
 };

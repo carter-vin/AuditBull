@@ -1,9 +1,16 @@
 import { ReactElement } from 'react';
-import { Text } from '@fluentui/react/lib/Text';
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    Grid,
+    Typography,
+    Stack,
+    CardHeader,
+} from '@mui/material';
 
 import DashboardLayout from 'layouts/DashboardLayout';
-import Card from 'components/Card';
-import { Stack, PrimaryButton, DefaultButton } from '@fluentui/react';
 import SubHeader, { Menu } from 'components/SubHeader';
 
 const subMenu: Menu[] = [
@@ -25,55 +32,44 @@ const Home = () => {
     return (
         <>
             <SubHeader menu={subMenu} />
-            <div className="mt-10">
-                <Stack horizontal>
-                    {[1, 2, 3, 4].map((index) => (
-                        <div
-                            className="flex flex-col justify-center items-center gap-4 flex-1"
-                            key={`item-${index}`}
-                        >
-                            <Text
-                                as="h5"
-                                variant="mediumPlus"
-                                className="text-lg text-center"
-                                block
-                            >
-                                Compliance
-                            </Text>
-                            <Card>
-                                <Stack
-                                    verticalAlign="space-between"
-                                    className="h-[30vh] w-[100%] flex-1"
-                                >
-                                    <Stack
-                                        tokens={{
-                                            childrenGap: '22px',
-                                        }}
-                                    >
-                                        <DefaultButton
-                                            text="Issue"
-                                            allowDisabledFocus
-                                            className="text-black p-6 rounded-md"
-                                        />
-                                        <PrimaryButton
-                                            text="Agg Info"
-                                            allowDisabledFocus
-                                            className="text-black p-6 rounded-md"
-                                            primary
-                                        />
+            <Grid container spacing={2}>
+                {['Compliance', 'System Inventory', 'Access Review'].map(
+                    (item) => (
+                        <Grid item xs={3} key={item}>
+                            <Card variant="outlined">
+                                <CardHeader
+                                    title={
+                                        <Typography
+                                            sx={{
+                                                fontSize: 20,
+                                                textAlign: 'center',
+                                            }}
+                                            textTransform="capitalize"
+                                            gutterBottom
+                                        >
+                                            {item}
+                                        </Typography>
+                                    }
+                                />
+                                <CardContent className="w-full flex flex-col justify-between gap-16">
+                                    <Stack direction="column" spacing={2}>
+                                        <Button variant="contained" fullWidth>
+                                            Issues
+                                        </Button>
+
+                                        <Button variant="contained" fullWidth>
+                                            Agg Info
+                                        </Button>
                                     </Stack>
-                                    <PrimaryButton
-                                        primary
-                                        text="Recommendation"
-                                        allowDisabledFocus
-                                        className="text-black p-6 rounded-md"
-                                    />
-                                </Stack>
+                                    <Button variant="contained" fullWidth>
+                                        Recommendation
+                                    </Button>
+                                </CardContent>
                             </Card>
-                        </div>
-                    ))}
-                </Stack>
-            </div>
+                        </Grid>
+                    )
+                )}
+            </Grid>
         </>
     );
 };
