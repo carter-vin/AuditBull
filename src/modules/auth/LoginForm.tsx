@@ -46,11 +46,25 @@ const LoginForm = () => {
                 .required('Email is required'),
             password: Yup.string().required('Password is required'),
         }),
-        onSubmit: (values: LoginPayload) => {
-            // eslint-disable-next-line no-console
-            console.log('the values are', values);
+        onSubmit: async (values: LoginPayload, { setSubmitting }) => {
+            setSubmitting(true);
+            await Auth.signIn({
+                username: values.email,
+                password: values.password,
+            });
+            setSubmitting(false);
         },
     });
+
+    const signUpMe = async () => {
+        await Auth.signUp({
+            username: 'something@gmail.com',
+            password: '12345678',
+            attributes: {
+                email: 'something@gmail.com',
+            },
+        });
+    };
 
     useEffect(() => {
         const unsubscribe = Hub.listen(
@@ -89,11 +103,6 @@ const LoginForm = () => {
             px={16}
             spacing={8}
         >
-            <p>{user && user.getUsername()}</p>
-            <Box>
-                <pre>{JSON.stringify(customState)}</pre>
-            </Box>
-
             <Box width="100%" display="flex" flexDirection="column" gap={1}>
                 <Typography variant="h4" className="font-bold">
                     Log in
@@ -118,12 +127,31 @@ const LoginForm = () => {
                     >
                         Google
                     </Button>
-                    <Button startIcon={<AcUnitIcon />}>Slack</Button>
+                    <Button
+                        startIcon={<AcUnitIcon />}
+                        onClick={() =>
+                            Auth.federatedSignIn({
+                                customProvider: 'slack',
+                            })
+                        }
+                    >
+                        Slack
+                    </Button>
+                    <Button
+                        startIcon={<GroupsIcon />}
+                        onClick={() =>
+                            Auth.federatedSignIn({
+                                customProvider: 'azure',
+                            })
+                        }
+                    >
+                        teams
+                    </Button>
                     <Button
                         startIcon={<GroupsIcon />}
                         onClick={() => Auth.federatedSignIn()}
                     >
-                        teams
+                        Together
                     </Button>
                 </ButtonGroup>
             </Box>
