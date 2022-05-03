@@ -18,5 +18,25 @@
         }
       }
     }
+  },
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-auditbull-staging-193858-authRole",
+      "UnauthRoleArn": "arn:aws:iam::554093311945:role/amplify-auditbull-staging-193858-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::554093311945:role/amplify-auditbull-staging-193858-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+      "UnauthRoleName": "amplify-auditbull-staging-193858-unauthRole",
+      "StackName": "amplify-auditbull-staging-193858",
+      "StackId": "arn:aws:cloudformation:us-east-1:554093311945:stack/amplify-auditbull-staging-193858/9524c0c0-cae8-11ec-856c-12f1e3fc1d25",
+      "AmplifyAppId": "dhrbp3dq0eyju"
+    },
+    "categories": {
+      "auth": {
+        "auditbull37e38ef1": {
+          "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com"
+        }
+      }
+    }
   }
 }

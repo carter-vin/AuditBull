@@ -1,5 +1,5 @@
 {
-  "Description": "Amplify Cognito Stack for AWS Amplify CLI",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.1.0\",\"stackType\":\"auth-Cognito\",\"metadata\":{}}",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "env": {
@@ -113,17 +113,11 @@
     "dependsOn": {
       "Type": "CommaDelimitedList"
     },
-    "authProviders": {
-      "Type": "CommaDelimitedList"
-    },
     "parentStack": {
       "Type": "String"
     },
     "permissions": {
       "Type": "CommaDelimitedList"
-    },
-    "thirdPartyAuth": {
-      "Type": "String"
     },
     "userPoolGroups": {
       "Type": "String"
@@ -140,13 +134,16 @@
     "hostedUIProviderMeta": {
       "Type": "String"
     },
+    "authProviders": {
+      "Type": "CommaDelimitedList"
+    },
+    "googleClientId": {
+      "Type": "String"
+    },
     "oAuthMetadata": {
       "Type": "String"
     },
     "hostedUIProviderCreds": {
-      "Type": "String"
-    },
-    "googleClientId": {
       "Type": "String"
     }
   },
@@ -951,11 +948,6 @@
               ]
             }
           ]
-        },
-        "SupportedLoginProviders": {
-          "accounts.google.com": {
-            "Ref": "googleClientId"
-          }
         }
       },
       "DependsOn": [

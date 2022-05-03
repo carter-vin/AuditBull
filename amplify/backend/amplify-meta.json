@@ -1,14 +1,14 @@
 {
   "providers": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-auditbull-dev-230241-authRole",
-      "UnauthRoleArn": "arn:aws:iam::554093311945:role/amplify-auditbull-dev-230241-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::554093311945:role/amplify-auditbull-dev-230241-authRole",
+      "AuthRoleName": "amplify-auditbull-staging-193858-authRole",
+      "UnauthRoleArn": "arn:aws:iam::554093311945:role/amplify-auditbull-staging-193858-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::554093311945:role/amplify-auditbull-staging-193858-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-auditbull-dev-230241-deployment",
-      "UnauthRoleName": "amplify-auditbull-dev-230241-unauthRole",
-      "StackName": "amplify-auditbull-dev-230241",
-      "StackId": "arn:aws:cloudformation:us-east-1:554093311945:stack/amplify-auditbull-dev-230241/c7fcd6c0-ca3b-11ec-8360-12149972aea3",
+      "DeploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+      "UnauthRoleName": "amplify-auditbull-staging-193858-unauthRole",
+      "StackName": "amplify-auditbull-staging-193858",
+      "StackId": "arn:aws:cloudformation:us-east-1:554093311945:stack/amplify-auditbull-staging-193858/9524c0c0-cae8-11ec-856c-12f1e3fc1d25",
       "AmplifyAppId": "dhrbp3dq0eyju"
     }
   },
@@ -38,24 +38,24 @@
           "EMAIL"
         ]
       },
+      "lastPushTimeStamp": "2022-05-03T14:26:38.883Z",
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-dev-230241-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-02T17:47:57.225Z",
       "output": {
-        "UserPoolId": "us-east-1_7BaljQxPv",
-        "AppClientIDWeb": "4m4c0o22c4vd2j9mcjdb4bg5cs",
-        "AppClientID": "5vog9ro5fbjkje5c6ftp6g3831",
-        "HostedUIDomain": "auditbullfc006a7a-fc006a7a-dev",
-        "IdentityPoolId": "us-east-1:2ddf241d-9c80-4767-a8be-fa61c6641d10",
-        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:554093311945:userpool/us-east-1_7BaljQxPv",
-        "IdentityPoolName": "auditbull37e38ef1_identitypool_37e38ef1__dev",
-        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
-        "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1",
-        "GoogleWebClient": "1079117078469-j0bqa31a3t3f3a6tu87d0nl6kpl3qlsm.apps.googleusercontent.com"
+        "GoogleWebClient": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
+        "UserPoolId": "us-east-1_GNePfVnuf",
+        "AppClientIDWeb": "7v4leh22baubc8749u7hi59dou",
+        "AppClientID": "757i3mbt2v8c4bfpirdflv4o7e",
+        "HostedUIDomain": "auditbull-staging-staging",
+        "IdentityPoolId": "us-east-1:ef6a836d-6846-4180-bfe1-3b67a087a12a",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:554093311945:userpool/us-east-1_GNePfVnuf",
+        "IdentityPoolName": "auditbull37e38ef1_identitypool_37e38ef1__staging",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\",\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\",\"https://ab-app-five.vercel.app/\"]}",
+        "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushDirHash": "6ZfT9SPV6s7HZMPaZDucCwMVNEU="
+      "lastPushDirHash": "swg7DyuD513bR3FusjSO/W69KCs="
     }
   }
 }

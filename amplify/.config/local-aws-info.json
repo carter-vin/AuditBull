@@ -3,5 +3,8 @@
     "configLevel": "project",
     "useProfile": true,
     "profileName": "AuditBull"
+  },
+  "staging": {
+    "configLevel": "amplifyAdmin"
   }
 }

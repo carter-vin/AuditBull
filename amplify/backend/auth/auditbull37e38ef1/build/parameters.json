@@ -34,7 +34,7 @@
   "sharedId": "37e38ef1",
   "resourceName": "auditbull37e38ef1",
   "authSelections": "identityPoolAndUserPool",
-  "useDefault": "manual",
+  "useDefault": "defaultSocial",
   "hostedUI": true,
   "triggers": "{}",
   "userPoolGroupList": [],
@@ -55,20 +55,18 @@
   },
   "breakCircularDependency": true,
   "dependsOn": [],
-  "authProviders": [
-    "accounts.google.com"
-  ],
   "parentStack": {
     "Ref": "AWS::StackId"
   },
   "permissions": [],
-  "thirdPartyAuth": true,
   "userPoolGroups": false,
   "adminQueries": false,
-  "hostedUIDomainName": "auditbullfc006a7a-fc006a7a",
+  "hostedUIDomainName": "auditbull-staging",
   "authProvidersUserPool": [
     "Google"
   ],
   "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-  "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}"
+  "authProviders": [],
+  "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
+  "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\",\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\",\"https://ab-app-five.vercel.app/\"]}"
 }
