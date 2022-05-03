@@ -38,11 +38,6 @@
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2022-05-03T14:26:38.883Z",
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
-        "logicalId": "authauditbull37e38ef1"
-      },
       "output": {
         "GoogleWebClient": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
         "UserPoolId": "us-east-1_GNePfVnuf",
@@ -52,10 +47,15 @@
         "IdentityPoolId": "us-east-1:ef6a836d-6846-4180-bfe1-3b67a087a12a",
         "UserPoolArn": "arn:aws:cognito-idp:us-east-1:554093311945:userpool/us-east-1_GNePfVnuf",
         "IdentityPoolName": "auditbull37e38ef1_identitypool_37e38ef1__staging",
-        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\",\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\",\"https://ab-app-five.vercel.app/\"]}",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushDirHash": "swg7DyuD513bR3FusjSO/W69KCs="
+      "lastPushTimeStamp": "2022-05-03T15:23:06.196Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
+        "logicalId": "authauditbull37e38ef1"
+      },
+      "lastPushDirHash": "wzQvj/ZTqRKkDHO4r817vgF8vf0="
     }
   }
 }

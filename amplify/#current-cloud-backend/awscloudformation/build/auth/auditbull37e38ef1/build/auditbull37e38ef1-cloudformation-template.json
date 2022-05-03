@@ -1,5 +1,5 @@
 {
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.1.0\",\"stackType\":\"auth-Cognito\",\"metadata\":{}}",
+  "Description": "Amplify Cognito Stack for AWS Amplify CLI",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "env": {
@@ -137,10 +137,10 @@
     "authProviders": {
       "Type": "CommaDelimitedList"
     },
-    "googleClientId": {
+    "oAuthMetadata": {
       "Type": "String"
     },
-    "oAuthMetadata": {
+    "thirdPartyAuth": {
       "Type": "String"
     },
     "hostedUIProviderCreds": {
@@ -1057,11 +1057,6 @@
         ]
       },
       "Condition": "ShouldOutputAppClientSecrets"
-    },
-    "GoogleWebClient": {
-      "Value": {
-        "Ref": "googleClientId"
-      }
     }
   }
 }
