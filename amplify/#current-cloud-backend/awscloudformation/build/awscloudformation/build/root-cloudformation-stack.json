@@ -155,7 +155,7 @@
     "authauditbull37e38ef1": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-dev-230241-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "Parameters": {
           "identityPoolName": "auditbull37e38ef1_identitypool_37e38ef1",
           "allowUnauthenticatedIdentities": false,
@@ -203,21 +203,20 @@
           },
           "breakCircularDependency": true,
           "dependsOn": "",
-          "authProviders": "",
           "parentStack": {
             "Ref": "AWS::StackId"
           },
           "permissions": "",
-          "thirdPartyAuth": false,
           "userPoolGroups": false,
           "adminQueries": false,
-          "hostedUIDomainName": "auditbullfc006a7a-fc006a7a",
+          "hostedUIDomainName": "auditbull-staging",
           "authProvidersUserPool": "Google",
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
+          "authProviders": "",
+          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
+          "thirdPartyAuth": false,
           "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com\",\"client_secret\":\"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\"}]",
-          "googleClientId": "1079117078469-j0bqa31a3t3f3a6tu87d0nl6kpl3qlsm.apps.googleusercontent.com",
-          "env": "dev"
+          "env": "staging"
         }
       }
     },
