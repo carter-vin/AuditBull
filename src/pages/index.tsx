@@ -1,17 +1,19 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import {
     Button,
     Card,
-    CardActions,
     CardContent,
     Grid,
     Typography,
     Stack,
     CardHeader,
+    CircularProgress,
+    Box,
 } from '@mui/material';
-
 import DashboardLayout from 'layouts/DashboardLayout';
 import SubHeader, { Menu } from 'components/SubHeader';
+import { useAuth } from 'hooks/useAuth';
+import { useRouter } from 'next/router';
 
 const subMenu: Menu[] = [
     {
@@ -29,6 +31,22 @@ const subMenu: Menu[] = [
 ];
 
 const Home = () => {
+    const { loginUser, loading } = useAuth();
+    const router = useRouter();
+    useEffect(() => {
+        if (loginUser === null || !loginUser) {
+            router.push('/login');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loginUser]);
+
+    if (loading) {
+        return (
+            <Box className="h-full w-full flex flex-col items-center justify-center">
+                <CircularProgress />
+            </Box>
+        );
+    }
     return (
         <>
             <SubHeader menu={subMenu} />

@@ -5,6 +5,7 @@ import {
     GridColDef,
     GridRowParams,
     MuiEvent,
+    GridToolbar,
 } from '@mui/x-data-grid';
 
 interface TabelProps {
@@ -30,6 +31,8 @@ const Table = (props: TabelProps) => {
             checkboxSelection={false}
             disableSelectionOnClick={false}
             onRowClick={onRowClick}
+            components={{ Toolbar: GridToolbar }}
+            hideFooter
         />
     );
 };

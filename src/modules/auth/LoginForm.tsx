@@ -22,7 +22,7 @@ import {
 import GoogleIcon from '@mui/icons-material/Google';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import GroupsIcon from '@mui/icons-material/Groups';
-import { useState, useEffect } from 'react';
+import { useAuth } from 'hooks/useAuth';
 
 type LoginPayload = {
     email: string;
@@ -31,8 +31,7 @@ type LoginPayload = {
 };
 
 const LoginForm = () => {
-    const [user, setUser] = useState<any>(null);
-    const [customState, setCustomState] = useState(null);
+    const { loginBySlack } = useAuth();
 
     const formik = useFormik<LoginPayload>({
         initialValues: {
@@ -65,32 +64,6 @@ const LoginForm = () => {
             },
         });
     };
-
-    useEffect(() => {
-        const unsubscribe = Hub.listen(
-            'auth',
-            ({ payload: { event, data } }) => {
-                switch (event) {
-                    case 'signIn':
-                        setUser(data);
-                        break;
-                    case 'signOut':
-                        setUser(null);
-                        break;
-                    case 'customOAuthState':
-                        setCustomState(data);
-                }
-            }
-        );
-
-        Auth.currentAuthenticatedUser()
-            .then((currentUser) => {
-                setUser(currentUser);
-            })
-            .catch(() => unsubscribe());
-
-        return unsubscribe;
-    }, []);
 
     return (
         <Stack
@@ -129,11 +102,7 @@ const LoginForm = () => {
                     </Button>
                     <Button
                         startIcon={<AcUnitIcon />}
-                        onClick={() =>
-                            Auth.federatedSignIn({
-                                customProvider: 'slack',
-                            })
-                        }
+                        onClick={() => loginBySlack()}
                     >
                         Slack
                     </Button>
@@ -146,12 +115,6 @@ const LoginForm = () => {
                         }
                     >
                         teams
-                    </Button>
-                    <Button
-                        startIcon={<GroupsIcon />}
-                        onClick={() => Auth.federatedSignIn()}
-                    >
-                        Together
                     </Button>
                 </ButtonGroup>
             </Box>

@@ -1,5 +1,17 @@
-import { AppBar, List, ListItemButton, Toolbar, Box } from '@mui/material';
+import {
+    AppBar,
+    List,
+    ListItemButton,
+    Avatar,
+    Toolbar,
+    Box,
+    Menu,
+    MenuItem,
+} from '@mui/material';
+import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { stringAvatar, stringToColor } from 'utils/stringAvatar';
 
 export type HeaderMenu = {
     label: string;
@@ -28,9 +40,20 @@ const headerMenu: HeaderMenu[] = [
         href: '/settings',
     },
 ];
-
 const Header = () => {
     const router = useRouter();
+    const { logOutUser, loginUser } = useAuth();
+    const { name } = (loginUser && loginUser.attributes) || {};
+    const [menu, setMenu] = useState<null | HTMLElement>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setMenu(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setMenu(null);
+    };
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
@@ -65,6 +88,44 @@ const Header = () => {
                                 {item.label}
                             </ListItemButton>
                         ))}
+
+                        <Box>
+                            <Avatar
+                                id="menu-positioned-button"
+                                aria-controls={
+                                    menu ? 'menu-positioned-button' : undefined
+                                }
+                                aria-haspopup="true"
+                                aria-expanded={menu ? 'true' : undefined}
+                                onClick={handleClick}
+                                {...stringAvatar(name || 'Unknown User')}
+                                sx={{
+                                    cursor: 'pointer',
+                                    textTransform: 'uppercase',
+                                    bgcolor: stringToColor(
+                                        name || 'Unknown User'
+                                    ),
+                                }}
+                            />
+                            <Menu
+                                id="menu-positioned-button"
+                                aria-labelledby="menu-positioned-button"
+                                anchorEl={menu}
+                                open={Boolean(menu)}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <MenuItem onClick={handleClose}>
+                                    Profile
+                                </MenuItem>
+                                <MenuItem onClick={() => logOutUser()}>
+                                    Logout
+                                </MenuItem>
+                            </Menu>
+                        </Box>
                     </List>
                 </Toolbar>
             </AppBar>

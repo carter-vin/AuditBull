@@ -39,7 +39,6 @@
         ]
       },
       "output": {
-        "GoogleWebClient": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
         "UserPoolId": "us-east-1_GNePfVnuf",
         "AppClientIDWeb": "7v4leh22baubc8749u7hi59dou",
         "AppClientID": "757i3mbt2v8c4bfpirdflv4o7e",
@@ -50,7 +49,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-03T15:21:46.783Z",
+      "lastPushTimeStamp": "2022-05-06T16:45:24.627Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"

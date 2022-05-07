@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 import DashboardLayout from 'layouts/DashboardLayout';
 import {
@@ -10,17 +10,20 @@ import {
     Card,
     CardContent,
     TextareaAutosize,
-    TextField,
     Box,
-    InputAdornment,
+    CircularProgress,
 } from '@mui/material';
 import { GridColDef, GridRowParams } from '@mui/x-data-grid';
-import SearchIcon from '@mui/icons-material/Search';
 
 import Table from 'components/Table';
 import Tab from 'components/Tab';
+import { OptionType } from 'modules/vendors/components/VendorTableAction';
+import Fuse from 'fuse.js';
+import { map, pick, uniqWith, isEqual } from 'lodash';
+import { useAuth } from 'hooks/useAuth';
+import { useRouter } from 'next/router';
 
-type VendorItem = {
+export type VendorItem = {
     id: string;
     name: string;
     status: string;
@@ -49,8 +52,9 @@ const columns: GridColDef[] = [
     },
     {
         field: 'owner',
-        headerName: 'Qwner',
+        headerName: 'Owner',
         flex: 1,
+        filterable: true,
     },
     // {
     //     field: 'product',
@@ -72,52 +76,72 @@ const mockData: VendorItem[] = [
     {
         id: '1',
         name: 'Miro',
-        status: 'seeking evaluation',
-        compliance: 'Yes',
+        status: 'seeking-approval',
+        compliance: 'yes',
         owner: 'John Doe',
         website: '',
     },
     {
         id: '2',
         name: 'Jira',
-        status: 'Approved for evaluation',
-        compliance: 'No',
-        owner: 'John Doe',
+        status: 'budget-approved',
+        compliance: 'no',
+        owner: 'Jake Blitch',
     },
     {
         id: '3',
         name: 'Salesforce',
-        status: 'Active',
-        compliance: 'No',
-        owner: 'John Doe',
+        status: 'active',
+        compliance: 'no',
+        owner: 'Elon Musk',
     },
     {
         id: '4',
         name: 'AWS',
-        status: 'Active',
-        compliance: 'Yes',
+        status: 'evaluation',
+        compliance: 'yes',
         owner: 'John Doe',
     },
     {
         id: '5',
         name: 'Microsoft',
-        status: 'Approved',
-        compliance: 'No',
-        owner: 'John Doe',
+        status: 'evaluation',
+        compliance: 'no',
+        owner: 'Elon Musk',
     },
 ];
 
+const fuseOptions = {
+    keys: [
+        {
+            name: 'name',
+            weight: 2,
+        },
+        {
+            name: 'owner',
+            weight: 3,
+        },
+    ],
+};
+
 const Vendors = () => {
-    const [loading, setLoading] = useState<boolean>(false);
+    const router = useRouter();
+    const { loginUser, loading } = useAuth();
+
+    const [rowLoading, setRowLoading] = useState<boolean>(false);
+    const [query, setQuery] = useState<string>('');
+    const [ownerOptions, setOwnerOptions] = useState<OptionType[]>([]);
+
+    const [vendorList, setVendorList] = useState<VendorItem[]>(mockData || []);
     const [selectedVendor, setSelectedVendor] = useState<VendorItem>(
         mockData[0]
     );
 
     const handleRowClicked = (params: GridRowParams) => {
-        setLoading(true);
+        setRowLoading(true);
         setSelectedVendor(params?.row);
         setTimeout(() => {
-            setLoading(false);
+            setRowLoading(false);
         }, 500);
     };
 
@@ -236,28 +260,65 @@ const Vendors = () => {
         },
     ];
 
+    const getOwnerOptions = () => {
+        const options: OptionType[] = [
+            {
+                label: 'All Users',
+                value: 'all',
+            },
+        ];
+        map(mockData, (item) => {
+            options.push({
+                label: String(pick(item, ['owner']).owner) || '',
+                value: String(pick(item, ['owner']).owner) || '',
+            });
+        });
+        setOwnerOptions(uniqWith(options, isEqual));
+    };
+
+    const fuse = new Fuse(vendorList, fuseOptions);
+    const results = fuse.search(query);
+    const vendors = query ? results.map((vendor) => vendor.item) : vendorList;
+
+    useEffect(() => {
+        getOwnerOptions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mockData]);
+
+    useEffect(() => {
+        if (loginUser === null || !loginUser) {
+            router.push({
+                pathname: 'login',
+                query: {
+                    redirect: router.pathname,
+                },
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loginUser]);
+
+    if (loading) {
+        return (
+            <Box className="h-full w-full flex flex-col items-center justify-center">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
     return (
         <Grid container spacing={4}>
             <Grid item xs={8} sx={{ height: 400, width: '100%' }}>
-                <Stack spacing={4}>
-                    <Box className="flex justify-end items-center">
-                        <TextField
-                            id="outlined-basic"
-                            variant="outlined"
-                            placeholder="Search"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
+                <Stack spacing={2}>
+                    {/* <VendorTableAction
+                        setVendorList={setVendorList}
+                        vendorList={mockData}
+                        setQuery={setQuery}
+                        query={query}
+                        ownerOptions={ownerOptions}
+                    /> */}
                     <Table
                         columns={columns || []}
-                        data={mockData || []}
+                        data={vendors || []}
                         onRowClick={handleRowClicked}
                     />
                 </Stack>
@@ -268,7 +329,7 @@ const Vendors = () => {
                         minHeight: 440,
                     }}
                 >
-                    <Tab tabs={tabs} activeTab={0} loading={loading} />
+                    <Tab tabs={tabs} activeTab={0} loading={rowLoading} />
                 </Card>
             </Grid>
         </Grid>

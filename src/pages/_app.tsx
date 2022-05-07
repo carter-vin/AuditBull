@@ -1,3 +1,5 @@
+/* eslint-disable import/export */
+/* eslint-disable prefer-destructuring */
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import type { NextPage } from 'next';
@@ -9,14 +11,10 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Amplify } from 'aws-amplify';
 import createEmotionCache from 'utils/createEmotionCache';
 import theme from 'utils/theme';
+import { AuthProvider } from 'hooks/useAuth';
 import awsmobile from '../aws-exports';
 
-Amplify.configure(awsmobile);
-
-Amplify.configure({
-    ...awsmobile,
-    ssr: true,
-});
+Amplify.configure({ ...awsmobile, ssr: true });
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -40,13 +38,15 @@ const MyApp = (props: Props) => {
     const getLayout = Component.getLayout || ((page) => page);
 
     return (
-        <CacheProvider value={emotionCache}>
-            <ThemeProvider theme={theme}>
-                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                <CssBaseline />
-                {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
-        </CacheProvider>
+        <AuthProvider>
+            <CacheProvider value={emotionCache}>
+                <ThemeProvider theme={theme}>
+                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline />
+                    {getLayout(<Component {...pageProps} />)}
+                </ThemeProvider>
+            </CacheProvider>
+        </AuthProvider>
     );
 };
 

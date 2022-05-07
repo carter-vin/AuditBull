@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head';
-import type { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import Header from 'components/Header';
 import SideBar from 'components/SideBar';
@@ -11,6 +12,7 @@ interface DashboardLayoutProps {
 }
 const DashboardLayout = (props: DashboardLayoutProps) => {
     const { children, hideHeader } = props;
+
     return (
         <>
             <Head>
