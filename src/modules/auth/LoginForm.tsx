@@ -3,7 +3,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Auth, Hub } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 
 import {
@@ -28,6 +28,7 @@ type LoginPayload = {
     email: string;
     password: string;
     rememberme: boolean;
+    new_password: 'random';
 };
 
 const LoginForm = () => {
@@ -37,6 +38,7 @@ const LoginForm = () => {
         initialValues: {
             email: '',
             password: '',
+            new_password: 'random',
             rememberme: false,
         },
         validationSchema: Yup.object().shape({
@@ -47,9 +49,22 @@ const LoginForm = () => {
         }),
         onSubmit: async (values: LoginPayload, { setSubmitting }) => {
             setSubmitting(true);
-            await Auth.signIn({
+            Auth.signIn({
                 username: values.email,
                 password: values.password,
+            }).then((user) => {
+                if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+                    Auth.completeNewPassword(
+                        user,
+                        formik.values.new_password
+                    ).then(() => {
+                        Auth.signIn({
+                            username: user.username,
+                            password: formik.values.new_password,
+                        });
+                        setSubmitting(false);
+                    });
+                }
             });
             setSubmitting(false);
         },

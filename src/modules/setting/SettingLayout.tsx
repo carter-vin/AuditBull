@@ -1,21 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import Head from 'next/head';
-import { ReactElement } from 'react';
-
-import Header from 'components/Header';
-import SideBar, { SideBarType } from 'components/SideBar';
 import { Box, Stack } from '@mui/material';
+import SideBar, { SideBarType } from 'components/SideBar';
+import type { ReactElement } from 'react';
+import Head from 'next/head';
 
-// icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import CommentIcon from '@mui/icons-material/Comment';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import Header from 'components/Header';
 
-import { AppRoute } from 'utils/route';
-
-interface DashboardLayoutProps {
+interface SettingLayoutProps {
     children?: ReactElement;
     hideHeader?: boolean;
 }
@@ -23,45 +18,51 @@ interface DashboardLayoutProps {
 const sidebar: SideBarType = {
     links: [
         {
-            name: 'Metrics/Dashboard',
-            url: AppRoute.Dashboard,
-            key: '/',
+            name: 'Support',
+            url: '/setting/support',
+            key: '/setting/support',
             icon: <DashboardIcon />,
         },
         {
-            name: 'Vendor List',
-            url: AppRoute.Vendors,
-            key: '/vendors',
+            name: 'Users and Roles',
+            url: '/setting/user-setting',
+            key: '/setting/user-setting',
             className: 'mt-5',
             icon: <DeliveryDiningIcon />,
         },
         {
-            name: 'Onboarding',
-            url: AppRoute.Onboarding,
+            name: 'License',
+            url: '/setting/license',
             key: '/onboarding',
             className: 'mt-5',
             icon: <AirplanemodeActiveIcon />,
         },
         {
-            name: 'Compliance',
-            url: AppRoute.Compliance,
-            key: '/compliance',
+            name: 'Learn',
+            url: '/setting/learn',
+            key: '/setting/learn',
             className: 'mt-5',
             icon: <CommentIcon />,
         },
         {
-            name: 'Contracts',
-            url: AppRoute.Contracts,
-            key: '/contracts',
+            name: 'Billing & Invoices',
+            url: '/setting/billing',
+            key: '/setting/billing',
+            className: 'mt-5',
+            icon: <DocumentScannerIcon />,
+        },
+        {
+            name: 'Integrations',
+            url: '/setting/integration',
+            key: '/setting/integration',
             className: 'mt-5',
             icon: <DocumentScannerIcon />,
         },
     ],
 };
 
-const DashboardLayout = (props: DashboardLayoutProps) => {
+const SettingLayout = (props: SettingLayoutProps) => {
     const { children, hideHeader } = props;
-
     return (
         <>
             <Head>
@@ -87,4 +88,4 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
     );
 };
 
-export default DashboardLayout;
+export default SettingLayout;

@@ -37,7 +37,7 @@ const headerMenu: HeaderMenu[] = [
     },
     {
         label: 'Settings',
-        href: '/settings',
+        href: '/setting',
     },
 ];
 const Header = () => {

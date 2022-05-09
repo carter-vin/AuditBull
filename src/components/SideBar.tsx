@@ -11,15 +11,6 @@ import {
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-// icons
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
-import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import CommentIcon from '@mui/icons-material/Comment';
-import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
-
-import { AppRoute } from 'utils/route';
-
 const drawerWidth = 250;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -60,12 +51,7 @@ const Drawer = styled(MuiDrawer, {
     }),
 }));
 
-interface SideBarProps {
-    logoImg: string;
-    logoText: string;
-}
-
-type SideBarLink = {
+export type SideBarLink = {
     name: string;
     url: string;
     key: string;
@@ -73,51 +59,18 @@ type SideBarLink = {
     icon: JSX.Element;
 };
 
-type SideBar = {
+export type SideBarType = {
     links: SideBarLink[];
 };
 
-const sidebar: SideBar = {
-    links: [
-        {
-            name: 'Metrics/Dashboard',
-            url: AppRoute.Dashboard,
-            key: '/',
-            icon: <DashboardIcon />,
-        },
-        {
-            name: 'Vendor List',
-            url: AppRoute.Vendors,
-            key: '/vendors',
-            className: 'mt-5',
-            icon: <DeliveryDiningIcon />,
-        },
-        {
-            name: 'Onboarding',
-            url: AppRoute.Onboarding,
-            key: '/onboarding',
-            className: 'mt-5',
-            icon: <AirplanemodeActiveIcon />,
-        },
-        {
-            name: 'Compliance',
-            url: AppRoute.Compliance,
-            key: '/compliance',
-            className: 'mt-5',
-            icon: <CommentIcon />,
-        },
-        {
-            name: 'Contracts',
-            url: AppRoute.Contracts,
-            key: '/contracts',
-            className: 'mt-5',
-            icon: <DocumentScannerIcon />,
-        },
-    ],
-};
+interface SideBarProps {
+    logoImg: string;
+    logoText: string;
+    menu: SideBarType;
+}
 
 const SideBar = (props: SideBarProps) => {
-    const { logoImg, logoText } = props;
+    const { logoImg, logoText, menu } = props;
     const router = useRouter();
     return (
         <Drawer variant="permanent" open>
@@ -125,7 +78,7 @@ const SideBar = (props: SideBarProps) => {
                 <Image src={logoImg} alt={logoText} width={150} height={100} />
             </div>
             <List>
-                {sidebar.links.map((sideBarMenu: SideBarLink) => (
+                {menu.links.map((sideBarMenu: SideBarLink) => (
                     <ListItemButton
                         component="a"
                         key={sideBarMenu.key}
