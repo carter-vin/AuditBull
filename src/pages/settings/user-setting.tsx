@@ -137,7 +137,7 @@ const UserSetting = () => {
             router.push({
                 pathname: '/login',
                 query: {
-                    redirect: '/setting/user-setting',
+                    redirect: '/settings/user-setting',
                 },
             });
         }

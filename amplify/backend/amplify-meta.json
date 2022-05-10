@@ -49,7 +49,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-10T13:13:30.292Z",
+      "lastPushTimeStamp": "2022-05-10T13:25:29.886Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"
