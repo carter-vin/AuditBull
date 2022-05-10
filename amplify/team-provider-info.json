@@ -16,6 +16,12 @@
         "auditbull37e38ef1": {
           "googleClientId": "1079117078469-j0bqa31a3t3f3a6tu87d0nl6kpl3qlsm.apps.googleusercontent.com"
         }
+      },
+      "function": {
+        "AdminQueries8d7ebc4f": {
+          "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
+          "s3Key": "amplify-builds/AdminQueries8d7ebc4f-43546a706e5750384355-build.zip"
+        }
       }
     }
   },
@@ -35,6 +41,12 @@
       "auth": {
         "auditbull37e38ef1": {
           "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com"
+        }
+      },
+      "function": {
+        "AdminQueries8d7ebc4f": {
+          "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+          "s3Key": "amplify-builds/AdminQueries8d7ebc4f-43546a706e5750384355-build.zip"
         }
       }
     }

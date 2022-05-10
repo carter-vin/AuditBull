@@ -290,7 +290,7 @@ const Vendors = () => {
             router.push({
                 pathname: 'login',
                 query: {
-                    redirect: router.pathname,
+                    redirect: '/vendors',
                 },
             });
         }

@@ -70,16 +70,6 @@ const LoginForm = () => {
         },
     });
 
-    const signUpMe = async () => {
-        await Auth.signUp({
-            username: 'something@gmail.com',
-            password: '12345678',
-            attributes: {
-                email: 'something@gmail.com',
-            },
-        });
-    };
-
     return (
         <Stack
             direction="column"

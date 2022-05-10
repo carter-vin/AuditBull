@@ -37,6 +37,10 @@ type UserRegisterPayload = {
     username?: string;
 };
 
+type RolePayload = {
+    roleName: string;
+};
+
 const role = [
     { value: 'admin', label: 'Admin' },
     { value: 'user', label: 'User' },
@@ -48,8 +52,13 @@ const UserSetting = () => {
 
     // states
     const [addUserModal, setAdduserModal] = useState<boolean>(false);
+    const [addRoleModal, setAddRoleModal] = useState<boolean>(false);
     const handleAddUserModal = () => {
         setAdduserModal(!addUserModal);
+    };
+
+    const handleAddRoleModal = () => {
+        setAddRoleModal(!addRoleModal);
     };
 
     const formik = useFormik<UserRegisterPayload>({
@@ -109,22 +118,35 @@ const UserSetting = () => {
         },
     });
 
+    const roleFormik = useFormik<RolePayload>({
+        initialValues: {
+            roleName: '',
+        },
+        validationSchema: Yup.object().shape({
+            roleName: Yup.string().required('First name is required'),
+        }),
+        onSubmit: async (values: RolePayload, { setSubmitting }) => {
+            setSubmitting(true);
+            console.log('the values', values);
+            setSubmitting(false);
+        },
+    });
+
     const getListOfUsers = async () => {
         console.log('the response are');
         const user = await Auth.currentAuthenticatedUser();
-        const token = user.signInUserSession.idToken.jwtToken;
+        const token = user.signInUserSession.accessToken.jwtToken;
         console.log({ token });
 
         const requestInfo = {
             headers: {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                    'Origin, X-Requested-With, Content-Type, Accept',
-                Authorization: token,
+                'Access-Control-Allow-Credentials': true,
+                Authorization: `Bearer ${token}`,
             },
         };
 
-        const data = await API.post('AdminQueries', '/listGroups', requestInfo);
+        const data = await API.get('AdminQueries', '/listUsers', requestInfo);
         console.log({ data });
     };
 
@@ -194,8 +216,9 @@ const UserSetting = () => {
                     alignItems="center"
                 >
                     <Typography variant="h6">User Lists</Typography>
-                    {loginUser?.attributes['custom:role'] === 'admin' && (
-                        <div>
+                    {(loginUser?.attributes['custom:role'] === 'admin' ||
+                        !loginUser?.attributes['custom:role']) && (
+                        <div className="flex gap-8 justify-center items-center">
                             <Button
                                 variant="contained"
                                 className="capitalize"
@@ -204,11 +227,19 @@ const UserSetting = () => {
                             >
                                 Add user
                             </Button>
+                            <Button
+                                variant="contained"
+                                className="capitalize"
+                                startIcon={<AddIcon />}
+                                onClick={handleAddRoleModal}
+                            >
+                                Add role
+                            </Button>
                         </div>
                     )}
                 </Stack>
                 <Box>
-                    <Table columns={columns || []} data={[]} />
+                    <Table columns={columns || []} data={[]} noFilter />
                 </Box>
             </Stack>
             <Modal
@@ -392,6 +423,60 @@ const UserSetting = () => {
                             variant="contained"
                             className="capitalize"
                             onClick={() => formik.handleSubmit()}
+                        >
+                            Save
+                        </Button>
+                    </Box>
+                </Stack>
+            </Modal>
+            <Modal
+                open={addRoleModal}
+                onClose={handleAddRoleModal}
+                name="add-user-modal"
+            >
+                <Stack spacing={4}>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                        <Box>
+                            <InputLabel htmlFor="email">
+                                <strong className="text-gray-700">
+                                    Role Name
+                                </strong>
+                            </InputLabel>
+                        </Box>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="roleName"
+                            value={roleFormik.values.roleName}
+                            onChange={roleFormik.handleChange}
+                            id="roleName"
+                            placeholder="admin"
+                            variant="outlined"
+                        />
+                        {Boolean(
+                            roleFormik.touched.roleName &&
+                                roleFormik.errors.roleName
+                        ) && (
+                            <FormHelperText error id="firstname" color="red">
+                                {roleFormik.errors.roleName}
+                            </FormHelperText>
+                        )}
+                    </Box>
+                    <Box className="flex justify-end gap-4 items-center">
+                        <Button
+                            variant="outlined"
+                            className="capitalize"
+                            onClick={() => {
+                                roleFormik.resetForm();
+                                handleAddRoleModal();
+                            }}
+                        >
+                            cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            className="capitalize"
+                            onClick={() => roleFormik.handleSubmit()}
                         >
                             Save
                         </Button>

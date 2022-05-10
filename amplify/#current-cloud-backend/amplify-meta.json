@@ -39,22 +39,93 @@
         ]
       },
       "output": {
+        "GoogleWebClient": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
         "UserPoolId": "us-east-1_GNePfVnuf",
         "AppClientIDWeb": "7v4leh22baubc8749u7hi59dou",
         "AppClientID": "757i3mbt2v8c4bfpirdflv4o7e",
-        "HostedUIDomain": "auditbull-staging-staging",
+        "HostedUIDomain": "auditbullfc006a7a-fc006a7a-staging",
         "IdentityPoolId": "us-east-1:ef6a836d-6846-4180-bfe1-3b67a087a12a",
         "UserPoolArn": "arn:aws:cognito-idp:us-east-1:554093311945:userpool/us-east-1_GNePfVnuf",
         "IdentityPoolName": "auditbull37e38ef1_identitypool_37e38ef1__staging",
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-06T16:45:24.627Z",
+      "lastPushTimeStamp": "2022-05-10T14:01:24.386Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"
       },
-      "lastPushDirHash": "wzQvj/ZTqRKkDHO4r817vgF8vf0="
+      "lastPushDirHash": "BPDj6s+wNckTjaAhIQoqM0r25bU="
+    }
+  },
+  "function": {
+    "AdminQueries8d7ebc4f": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ],
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:554093311945:function:AdminQueries8d7ebc4f-staging",
+        "Name": "AdminQueries8d7ebc4f-staging",
+        "LambdaExecutionRole": "AdminQueries8d7ebc4fLambdaRole-staging"
+      },
+      "lastPushTimeStamp": "2022-05-10T14:01:24.386Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries8d7ebc4f-cloudformation-template.json",
+        "logicalId": "functionAdminQueries8d7ebc4f"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+        "s3Key": "amplify-builds/AdminQueries8d7ebc4f-43546a706e5750384355-build.zip"
+      },
+      "lastBuildTimeStamp": "2022-05-10T13:58:51.813Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2022-05-10T13:58:52.583Z",
+      "distZipFilename": "AdminQueries8d7ebc4f-43546a706e5750384355-build.zip",
+      "lastPushDirHash": "qo7MYAxLNWQ2UZNBkOCIFPaGcfE="
+    }
+  },
+  "api": {
+    "AdminQueries": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueries8d7ebc4f",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ],
+      "output": {
+        "ApiName": "AdminQueries",
+        "RootUrl": "https://rj0ug9rft1.execute-api.us-east-1.amazonaws.com/staging",
+        "ApiId": "rj0ug9rft1"
+      },
+      "lastPushTimeStamp": "2022-05-10T14:01:24.320Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
+        "logicalId": "apiAdminQueries"
+      }
     }
   }
 }

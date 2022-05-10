@@ -11,6 +11,7 @@ import {
 interface TabelProps {
     data: any;
     columns: GridColDef[];
+    noFilter?: boolean;
     onRowClick?: (
         params: GridRowParams,
         event: MuiEvent<React.MouseEvent>,
@@ -18,7 +19,7 @@ interface TabelProps {
     ) => void;
 }
 const Table = (props: TabelProps) => {
-    const { data, columns, onRowClick } = props;
+    const { data, columns, onRowClick, noFilter } = props;
     return (
         <DataGrid
             density="standard"
@@ -31,7 +32,7 @@ const Table = (props: TabelProps) => {
             checkboxSelection={false}
             disableSelectionOnClick={false}
             onRowClick={onRowClick}
-            components={{ Toolbar: GridToolbar }}
+            components={{ Toolbar: !noFilter ? GridToolbar : null }}
             hideFooter
         />
     );

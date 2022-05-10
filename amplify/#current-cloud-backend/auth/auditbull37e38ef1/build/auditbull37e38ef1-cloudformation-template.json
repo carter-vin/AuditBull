@@ -113,11 +113,17 @@
     "dependsOn": {
       "Type": "CommaDelimitedList"
     },
+    "authProviders": {
+      "Type": "CommaDelimitedList"
+    },
     "parentStack": {
       "Type": "String"
     },
     "permissions": {
       "Type": "CommaDelimitedList"
+    },
+    "thirdPartyAuth": {
+      "Type": "String"
     },
     "userPoolGroups": {
       "Type": "String"
@@ -134,13 +140,10 @@
     "hostedUIProviderMeta": {
       "Type": "String"
     },
-    "authProviders": {
-      "Type": "CommaDelimitedList"
-    },
     "oAuthMetadata": {
       "Type": "String"
     },
-    "thirdPartyAuth": {
+    "adminQueryGroup": {
       "Type": "String"
     },
     "hostedUIProviderCreds": {

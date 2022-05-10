@@ -203,19 +203,64 @@
           },
           "breakCircularDependency": true,
           "dependsOn": "",
+          "authProviders": "",
           "parentStack": {
             "Ref": "AWS::StackId"
           },
           "permissions": "",
+          "thirdPartyAuth": false,
           "userPoolGroups": false,
           "adminQueries": false,
-          "hostedUIDomainName": "auditbull-staging",
+          "hostedUIDomainName": "auditbullfc006a7a-fc006a7a",
           "authProvidersUserPool": "Google",
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-          "authProviders": "",
           "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
-          "thirdPartyAuth": false,
+          "adminQueryGroup": "users",
           "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com\",\"client_secret\":\"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\"}]",
+          "env": "staging"
+        }
+      }
+    },
+    "functionAdminQueries8d7ebc4f": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries8d7ebc4f-cloudformation-template.json",
+        "Parameters": {
+          "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+          "s3Key": "amplify-builds/AdminQueries8d7ebc4f-43546a706e5750384355-build.zip",
+          "authauditbull37e38ef1UserPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "env": "staging"
+        }
+      }
+    },
+    "apiAdminQueries": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
+        "Parameters": {
+          "authauditbull37e38ef1UserPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "functionAdminQueries8d7ebc4fArn": {
+            "Fn::GetAtt": [
+              "functionAdminQueries8d7ebc4f",
+              "Outputs.Arn"
+            ]
+          },
+          "functionAdminQueries8d7ebc4fName": {
+            "Fn::GetAtt": [
+              "functionAdminQueries8d7ebc4f",
+              "Outputs.Name"
+            ]
+          },
           "env": "staging"
         }
       }

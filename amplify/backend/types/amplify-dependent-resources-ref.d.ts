@@ -12,5 +12,20 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string",
             "GoogleWebClient": "string"
         }
+    },
+    "function": {
+        "AdminQueries8d7ebc4f": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        }
+    },
+    "api": {
+        "AdminQueries": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        }
     }
 }

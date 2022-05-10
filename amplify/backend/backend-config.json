@@ -26,5 +26,45 @@
         ]
       }
     }
+  },
+  "function": {
+    "AdminQueries8d7ebc4f": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ]
+    }
+  },
+  "api": {
+    "AdminQueries": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueries8d7ebc4f",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ]
+    }
   }
 }

@@ -8,7 +8,7 @@ const awsmobile = {
     "aws_user_pools_id": "us-east-1_GNePfVnuf",
     "aws_user_pools_web_client_id": "7v4leh22baubc8749u7hi59dou",
     "oauth": {
-        "domain": "auditbull-staging-staging.auth.us-east-1.amazoncognito.com",
+        "domain": "auditbullfc006a7a-fc006a7a-staging.auth.us-east-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -38,6 +38,13 @@ const awsmobile = {
     },
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
+    ],
+    "aws_cloud_logic_custom": [
+        {
+            "name": "AdminQueries",
+            "endpoint": "https://rj0ug9rft1.execute-api.us-east-1.amazonaws.com/staging",
+            "region": "us-east-1"
+        }
     ]
 };
 
