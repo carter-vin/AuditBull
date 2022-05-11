@@ -6,13 +6,13 @@
       "Type": "String",
       "Default": "authauditbull37e38ef1UserPoolId"
     },
-    "functionAdminQueries8d7ebc4fName": {
+    "functionAdminQueriesaf68d25fName": {
       "Type": "String",
-      "Default": "functionAdminQueries8d7ebc4fName"
+      "Default": "functionAdminQueriesaf68d25fName"
     },
-    "functionAdminQueries8d7ebc4fArn": {
+    "functionAdminQueriesaf68d25fArn": {
       "Type": "String",
-      "Default": "functionAdminQueries8d7ebc4fArn"
+      "Default": "functionAdminQueriesaf68d25fArn"
     },
     "env": {
       "Type": "String"
@@ -74,7 +74,7 @@
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
-          "Ref": "functionAdminQueries8d7ebc4fName"
+          "Ref": "functionAdminQueriesaf68d25fName"
         },
         "Principal": "apigateway.amazonaws.com",
         "SourceArn": {
@@ -224,7 +224,7 @@
                         },
                         ":lambda:path/2015-03-31/functions/",
                         {
-                          "Ref": "functionAdminQueries8d7ebc4fArn"
+                          "Ref": "functionAdminQueriesaf68d25fArn"
                         },
                         "/invocations"
                       ]
@@ -291,7 +291,7 @@
         "Name": "AdminQueries"
       }
     },
-    "DeploymentAPIGWAdminQueries2698ddcb": {
+    "DeploymentAPIGWAdminQueries217828e3": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

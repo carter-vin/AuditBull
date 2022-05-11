@@ -185,7 +185,7 @@
           "useDefault": "manual",
           "hostedUI": true,
           "triggers": "{}",
-          "userPoolGroupList": "",
+          "userPoolGroupList": "admin,users",
           "serviceName": "Cognito",
           "usernameCaseSensitive": false,
           "useEnabledMfas": true,
@@ -214,20 +214,66 @@
           "hostedUIDomainName": "auditbullfc006a7a-fc006a7a",
           "authProvidersUserPool": "Google",
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-          "adminQueryGroup": "users",
+          "adminQueryGroup": "admin",
+          "hostedUIProviderCreds": "[]",
+          "googleClientId": "1079117078469-j0bqa31a3t3f3a6tu87d0nl6kpl3qlsm.apps.googleusercontent.com",
           "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com\",\"client_secret\":\"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\"}]",
           "env": "dev"
         }
       }
     },
-    "functionAdminQueries8d7ebc4f": {
+    "authuserPoolGroups": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-dev-230241-deployment/amplify-cfn-templates/function/AdminQueries8d7ebc4f-cloudformation-template.json",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-dev-230241-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
+        "Parameters": {
+          "AuthRoleArn": {
+            "Fn::GetAtt": [
+              "AuthRole",
+              "Arn"
+            ]
+          },
+          "UnauthRoleArn": {
+            "Fn::GetAtt": [
+              "UnauthRole",
+              "Arn"
+            ]
+          },
+          "authauditbull37e38ef1UserPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "authauditbull37e38ef1AppClientIDWeb": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.AppClientIDWeb"
+            ]
+          },
+          "authauditbull37e38ef1AppClientID": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.AppClientID"
+            ]
+          },
+          "authauditbull37e38ef1IdentityPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.IdentityPoolId"
+            ]
+          },
+          "env": "dev"
+        }
+      }
+    },
+    "functionAdminQueriesaf68d25f": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-dev-230241-deployment/amplify-cfn-templates/function/AdminQueriesaf68d25f-cloudformation-template.json",
         "Parameters": {
           "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
-          "s3Key": "amplify-builds/AdminQueries8d7ebc4f-43546a706e5750384355-build.zip",
+          "s3Key": "amplify-builds/AdminQueriesaf68d25f-6c3745346d666a646b46-build.zip",
           "authauditbull37e38ef1UserPoolId": {
             "Fn::GetAtt": [
               "authauditbull37e38ef1",
@@ -249,15 +295,15 @@
               "Outputs.UserPoolId"
             ]
           },
-          "functionAdminQueries8d7ebc4fArn": {
+          "functionAdminQueriesaf68d25fArn": {
             "Fn::GetAtt": [
-              "functionAdminQueries8d7ebc4f",
+              "functionAdminQueriesaf68d25f",
               "Outputs.Arn"
             ]
           },
-          "functionAdminQueries8d7ebc4fName": {
+          "functionAdminQueriesaf68d25fName": {
             "Fn::GetAtt": [
-              "functionAdminQueries8d7ebc4f",
+              "functionAdminQueriesaf68d25f",
               "Outputs.Name"
             ]
           },

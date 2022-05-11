@@ -11,10 +11,14 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string",
             "GoogleWebClient": "string"
+        },
+        "userPoolGroups": {
+            "adminGroupRole": "string",
+            "usersGroupRole": "string"
         }
     },
     "function": {
-        "AdminQueries8d7ebc4f": {
+        "AdminQueriesaf68d25f": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",

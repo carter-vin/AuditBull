@@ -23,22 +23,24 @@ import GoogleIcon from '@mui/icons-material/Google';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { useAuth } from 'hooks/useAuth';
+import { useState } from 'react';
 
 type LoginPayload = {
     email: string;
     password: string;
     rememberme: boolean;
-    new_password: 'random';
+    new_password: string;
 };
 
 const LoginForm = () => {
     const { loginBySlack } = useAuth();
+    const [newPasswordButton, setNewPasswordButton] = useState<boolean>(false);
 
     const formik = useFormik<LoginPayload>({
         initialValues: {
             email: '',
             password: '',
-            new_password: 'random',
+            new_password: '',
             rememberme: false,
         },
         validationSchema: Yup.object().shape({
@@ -53,7 +55,12 @@ const LoginForm = () => {
                 username: values.email,
                 password: values.password,
             }).then((user) => {
+                console.log('the login user', {
+                    user,
+                    challegename: user.challengeName,
+                });
                 if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+                    setNewPasswordButton(true);
                     Auth.completeNewPassword(
                         user,
                         formik.values.new_password
@@ -181,6 +188,39 @@ const LoginForm = () => {
                         </FormHelperText>
                     )}
                 </Box>
+                {newPasswordButton && (
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="flex-start"
+                        gap={1}
+                    >
+                        <InputLabel htmlFor="password">
+                            <strong className="text-gray-700">Password</strong>
+                        </InputLabel>
+                        <TextField
+                            size="small"
+                            type="new_password"
+                            fullWidth
+                            id="new_password"
+                            name="new_password"
+                            value={formik.values.new_password}
+                            onChange={formik.handleChange}
+                            placeholder="********"
+                            variant="outlined"
+                        />
+
+                        {Boolean(
+                            formik.touched.new_password &&
+                                formik.errors.new_password
+                        ) && (
+                            <FormHelperText error id="new_password" color="red">
+                                {formik.errors.new_password}
+                            </FormHelperText>
+                        )}
+                    </Box>
+                )}
+
                 <Box>
                     <FormControlLabel
                         control={
@@ -200,7 +240,7 @@ const LoginForm = () => {
                     variant="contained"
                     onClick={() => formik.handleSubmit()}
                 >
-                    Login
+                    {newPasswordButton ? 'Update Password' : 'Login'}
                 </Button>
             </Stack>
         </Stack>

@@ -27,6 +27,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Modal from 'components/Modal';
 import { API, Auth } from 'aws-amplify';
+import { stringValueLength1to1024 } from 'aws-sdk/clients/finspacedata';
 
 type UserRegisterPayload = {
     firstname: string;
@@ -48,17 +49,38 @@ const role = [
 const UserSetting = () => {
     const { loginUser, loading } = useAuth();
     const router = useRouter();
-    console.log('the login User', loginUser);
 
     // states
     const [addUserModal, setAdduserModal] = useState<boolean>(false);
     const [addRoleModal, setAddRoleModal] = useState<boolean>(false);
+    const [users, setUsers] = useState([]);
     const handleAddUserModal = () => {
         setAdduserModal(!addUserModal);
     };
 
     const handleAddRoleModal = () => {
         setAddRoleModal(!addRoleModal);
+    };
+
+    const addUserToGroup = async (username: string, userRole?: string) => {
+        const requestInfo = {
+            body: {
+                username,
+                groupname: userRole || 'users',
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+            },
+        };
+        const res = await API.post(
+            'AdminQueries',
+            '/addUserToGroup',
+            requestInfo
+        );
+        return res;
     };
 
     const formik = useFormik<UserRegisterPayload>({
@@ -90,30 +112,17 @@ const UserSetting = () => {
             })
                 .then(async (res) => {
                     // Auth.('NEW_PASSWORD_REQUIRED');
+                    await addUserToGroup(
+                        values?.username || values?.email || '',
+                        values.role
+                    );
                     await Auth.sendCustomChallengeAnswer(
                         res,
                         'NEW_PASSWORD_REQUIRED'
                     );
-                    const token = loginUser.signInUserSession.idToken.jwtToken;
-                    const requestInfo = {
-                        body: {
-                            username: values.email,
-                            groupname: 'users',
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': "'*'",
-                            Authorization: token,
-                        },
-                    };
-                    const data = await API.post(
-                        'AdminQueries',
-                        '/addUserToGroup',
-                        requestInfo
-                    );
-                    console.log('the post data are', data);
                 })
                 .catch((err) => console.log(`Error signing up: ${err}`));
+            setAdduserModal(false);
             setSubmitting(false);
         },
     });
@@ -133,22 +142,68 @@ const UserSetting = () => {
     });
 
     const getListOfUsers = async () => {
-        console.log('the response are');
-        const user = await Auth.currentAuthenticatedUser();
-        const token = user.signInUserSession.accessToken.jwtToken;
-        console.log({ token });
-
         const requestInfo = {
+            response: true,
+            queryStringParameters: {
+                groupname: 'users',
+            },
             headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': true,
-                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                Authorization: `${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
             },
         };
-
-        const data = await API.get('AdminQueries', '/listUsers', requestInfo);
-        console.log({ data });
+        const res = await API.get(
+            'AdminQueries',
+            '/listUsersInGroup',
+            requestInfo
+        );
+        setUsers(
+            res.data.Users.map(
+                (
+                    user: {
+                        Username: string;
+                    },
+                    index: number
+                ) => {
+                    console.log('the user', user);
+                    return {
+                        id: index + 1,
+                        username: user.Username || '',
+                    };
+                }
+            )
+        );
     };
+
+    if (loading) {
+        return (
+            <Box className="h-full w-full flex flex-col items-center justify-center">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    const columns: GridColDef[] = [
+        {
+            field: 'id',
+            headerName: 'ID',
+        },
+        {
+            field: 'username',
+            headerName: 'Username',
+            flex: 1,
+        },
+    ];
+
+    console.log('the role is', {
+        role: loginUser?.signInUserSession.idToken.payload?.['cognito:groups'],
+        isAdmin:
+            loginUser?.signInUserSession.idToken.payload?.[
+                'cognito:groups'
+            ]?.includes('admin'),
+    });
 
     useEffect(() => {
         getListOfUsers();
@@ -165,46 +220,6 @@ const UserSetting = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    if (loading) {
-        return (
-            <Box className="h-full w-full flex flex-col items-center justify-center">
-                <CircularProgress />
-            </Box>
-        );
-    }
-
-    const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 90 },
-        {
-            field: 'name',
-            headerName: 'Name',
-            flex: 1,
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            flex: 1,
-        },
-        {
-            field: '',
-            headerName: 'Actions',
-            flex: 1,
-            filterable: false,
-            renderCell: () => {
-                return (
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                        <IconButton aria-label="delete">
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete">
-                            <DeleteIcon />
-                        </IconButton>
-                    </Stack>
-                );
-            },
-        },
-    ];
 
     return (
         <>
@@ -235,11 +250,23 @@ const UserSetting = () => {
                             >
                                 Add role
                             </Button>
+                            {/* <Button
+                                variant="contained"
+                                className="capitalize"
+                                startIcon={<AddIcon />}
+                                onClick={() => sendMail()}
+                            >
+                                Send Mail
+                            </Button> */}
                         </div>
                     )}
                 </Stack>
                 <Box>
-                    <Table columns={columns || []} data={[]} noFilter />
+                    <Table
+                        columns={columns || []}
+                        data={users || []}
+                        noFilter
+                    />
                 </Box>
             </Stack>
             <Modal

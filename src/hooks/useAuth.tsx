@@ -4,11 +4,28 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useContext, createContext, useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
-import { Auth } from 'aws-amplify';
+import { API, Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 
 const authContext = createContext<any>({});
 const { Provider } = authContext;
+
+const addUserToGroup = async (username: string, userRole?: string) => {
+    const requestInfo = {
+        body: {
+            username,
+            groupname: userRole || 'users',
+        },
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${(await Auth.currentSession())
+                .getAccessToken()
+                .getJwtToken()}`,
+        },
+    };
+    const res = await API.post('AdminQueries', '/addUserToGroup', requestInfo);
+    return res;
+};
 
 // setting up the state (reducers)
 const useAuthProvider = () => {
@@ -20,6 +37,25 @@ const useAuthProvider = () => {
         setLoading(true);
         try {
             const responseUser = await Auth.currentAuthenticatedUser();
+            if (
+                responseUser?.signInUserSession.idToken.payload?.[
+                    'cognito:groups'
+                ]?.includes(
+                    'us-east-1_7BaljQxPv_Google' ||
+                        'us-east-1_7BaljQxPv_azure' ||
+                        'us-east-1_7BaljQxPv_slack'
+                )
+            ) {
+                await addUserToGroup(
+                    responseUser?.username ||
+                        responseUser?.attribute?.email ||
+                        '',
+                    'admin'
+                );
+                await Auth.updateUserAttributes(responseUser, {
+                    'custom:role': 'admin',
+                });
+            }
             setLoginUser(responseUser);
             setLoading(false);
         } catch (error) {

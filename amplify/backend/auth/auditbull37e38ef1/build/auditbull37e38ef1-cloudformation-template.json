@@ -143,13 +143,13 @@
     "adminQueryGroup": {
       "Type": "String"
     },
-    "oAuthMetadata": {
-      "Type": "String"
-    },
     "hostedUIProviderCreds": {
       "Type": "String"
     },
     "googleClientId": {
+      "Type": "String"
+    },
+    "oAuthMetadata": {
       "Type": "String"
     }
   },
