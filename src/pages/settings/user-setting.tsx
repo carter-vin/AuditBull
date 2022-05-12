@@ -82,7 +82,7 @@ const UserSetting = () => {
     const formik = useFormik<UserRegisterPayload>({
         initialValues: {
             email: '',
-            role: '',
+            role: 'users',
             username: '',
             firstname: '',
             middlename: '',
