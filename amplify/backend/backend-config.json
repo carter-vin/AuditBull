@@ -44,7 +44,7 @@
     }
   },
   "function": {
-    "AdminQueriesaf68d25f": {
+    "AdminQueriese1c5c961": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true,
@@ -74,7 +74,7 @@
         },
         {
           "category": "function",
-          "resourceName": "AdminQueriesaf68d25f",
+          "resourceName": "AdminQueriese1c5c961",
           "attributes": [
             "Arn",
             "Name"

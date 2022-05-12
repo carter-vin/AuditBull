@@ -14,7 +14,7 @@ const Login = () => {
             router.push(String(redirectPath));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginUser]);
+    }, []);
     if (loading) {
         return (
             <Box className="h-screen w-screen flex flex-col items-center justify-center">

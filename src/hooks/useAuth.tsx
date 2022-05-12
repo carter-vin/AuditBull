@@ -38,31 +38,32 @@ const useAuthProvider = () => {
         try {
             const responseUser = await Auth.currentAuthenticatedUser();
             console.log('the responseUser', responseUser);
-            if (
-                responseUser?.signInUserSession.idToken.payload?.[
-                    'cognito:groups'
-                ]?.includes(
-                    'us-east-1_7BaljQxPv_Google' ||
-                        'us-east-1_7BaljQxPv_azure' ||
-                        'us-east-1_7BaljQxPv_slack'
-                )
-            ) {
-                await addUserToGroup(
-                    responseUser?.username ||
-                        responseUser?.attribute?.email ||
-                        '',
-                    'admin'
-                );
-                await Auth.updateUserAttributes(responseUser, {
-                    'custom:role': 'admin',
-                });
-            }
+            // if (
+            //     responseUser?.signInUserSession.idToken.payload?.[
+            //         'cognito:groups'
+            //     ]?.includes(
+            //         'us-east-1_7BaljQxPv_Google' ||
+            //             'us-east-1_7BaljQxPv_azure' ||
+            //             'us-east-1_7BaljQxPv_slack'
+            //     )
+            // ) {
+            //     await addUserToGroup(
+            //         responseUser?.username ||
+            //             responseUser?.attribute?.email ||
+            //             '',
+            //         'admin'
+            //     );
+            //     await Auth.updateUserAttributes(responseUser, {
+            //         'custom:role': 'admin',
+            //     });
+            // }
             setLoginUser(responseUser);
             setLoading(false);
         } catch (error) {
             console.log('the error: ', error);
             setLoginUser(null);
             setLoading(false);
+            router.push('/login');
         }
     };
 

@@ -25,10 +25,26 @@
           "EMAIL"
         ]
       }
+    },
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ]
+        }
+      ]
     }
   },
   "function": {
-    "AdminQueries8d7ebc4f": {
+    "AdminQueriese1c5c961": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true,
@@ -58,7 +74,7 @@
         },
         {
           "category": "function",
-          "resourceName": "AdminQueries8d7ebc4f",
+          "resourceName": "AdminQueriese1c5c961",
           "attributes": [
             "Arn",
             "Name"

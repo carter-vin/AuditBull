@@ -37,8 +37,11 @@ const Home = () => {
 
     console.log('the loginUser: ', loginUser);
     useEffect(() => {
+        console.log('hello world');
         if (loginUser === null || !loginUser) {
             router.push('/login');
+        } else {
+            console.log('what is here: ', loginUser);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

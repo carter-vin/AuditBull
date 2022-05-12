@@ -20,7 +20,7 @@ const awsmobile = {
         "redirectSignOut": "https://ab-app-five.vercel.app/",
         "responseType": "code"
     },
-    "federationTarget": "COGNITO_USER_POOLS",
+    "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
     "aws_cognito_username_attributes": [],
     "aws_cognito_social_providers": [
         "GOOGLE"
@@ -42,7 +42,7 @@ const awsmobile = {
     "aws_cloud_logic_custom": [
         {
             "name": "AdminQueries",
-            "endpoint": "https://rj0ug9rft1.execute-api.us-east-1.amazonaws.com/staging",
+            "endpoint": "https://u5rr89knu5.execute-api.us-east-1.amazonaws.com/staging",
             "region": "us-east-1"
         }
     ]
