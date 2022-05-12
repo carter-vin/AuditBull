@@ -73,10 +73,17 @@ const useAuthProvider = () => {
         checkUser();
     };
 
+    const loginByAzure = () => {
+        Auth.federatedSignIn({
+            customProvider: 'azure',
+        });
+        checkUser();
+    };
+
     const logOutUser = async () => {
         setLoading(true);
         try {
-            const res = await Auth.signOut({ global: true });
+            const res = await Auth.signOut();
             if (res) {
                 setLoginUser({});
                 setLoading(false);
@@ -98,6 +105,7 @@ const useAuthProvider = () => {
         setLoginUser,
         logOutUser,
         loginBySlack,
+        loginByAzure,
     };
 };
 

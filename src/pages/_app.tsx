@@ -15,6 +15,7 @@ import { AuthProvider } from 'hooks/useAuth';
 import awsmobile from '../aws-exports';
 
 Amplify.configure({ ...awsmobile, ssr: true });
+Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 const clientSideEmotionCache = createEmotionCache();
 

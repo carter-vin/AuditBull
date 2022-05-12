@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ReactElement, useEffect } from 'react';
 import {
     Button,
@@ -33,12 +34,14 @@ const subMenu: Menu[] = [
 const Home = () => {
     const { loginUser, loading } = useAuth();
     const router = useRouter();
+
+    console.log('the loginUser: ', loginUser);
     useEffect(() => {
         if (loginUser === null || !loginUser) {
             router.push('/login');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginUser]);
+    }, []);
 
     if (loading) {
         return (

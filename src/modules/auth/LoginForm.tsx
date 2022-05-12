@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable default-case */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -33,7 +34,7 @@ type LoginPayload = {
 };
 
 const LoginForm = () => {
-    const { loginBySlack } = useAuth();
+    const { loginBySlack, loginByAzure } = useAuth();
     const [newPasswordButton, setNewPasswordButton] = useState<boolean>(false);
 
     const formik = useFormik<LoginPayload>({
@@ -120,11 +121,7 @@ const LoginForm = () => {
                     </Button>
                     <Button
                         startIcon={<GroupsIcon />}
-                        onClick={() =>
-                            Auth.federatedSignIn({
-                                customProvider: 'azure',
-                            })
-                        }
+                        onClick={() => loginByAzure()}
                     >
                         teams
                     </Button>

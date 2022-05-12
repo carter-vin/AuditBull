@@ -140,16 +140,13 @@
     "hostedUIProviderMeta": {
       "Type": "String"
     },
+    "oAuthMetadata": {
+      "Type": "String"
+    },
     "adminQueryGroup": {
       "Type": "String"
     },
     "hostedUIProviderCreds": {
-      "Type": "String"
-    },
-    "googleClientId": {
-      "Type": "String"
-    },
-    "oAuthMetadata": {
       "Type": "String"
     }
   },
@@ -1063,11 +1060,6 @@
         ]
       },
       "Condition": "ShouldOutputAppClientSecrets"
-    },
-    "GoogleWebClient": {
-      "Value": {
-        "Ref": "googleClientId"
-      }
     }
   }
 }
