@@ -37,6 +37,7 @@ const useAuthProvider = () => {
         setLoading(true);
         try {
             const responseUser = await Auth.currentAuthenticatedUser();
+            console.log('the responseUser', responseUser);
             if (
                 responseUser?.signInUserSession.idToken.payload?.[
                     'cognito:groups'

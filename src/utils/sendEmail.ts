@@ -7,7 +7,6 @@ export const sendMail = async () => {
         region: awsmobile.aws_cognito_region,
     });
     const ses = new AWS.SES({ apiVersion: '2022-05-11' });
-    console.log('I am sending the mail');
     const res = await ses
         .sendEmail({
             Destination: {
@@ -28,6 +27,5 @@ export const sendMail = async () => {
             },
         })
         .promise();
-    console.log('the res', res);
     return res;
 };

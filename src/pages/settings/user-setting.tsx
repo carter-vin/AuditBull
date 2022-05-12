@@ -6,7 +6,6 @@ import {
     Typography,
     Stack,
     Button,
-    IconButton,
     FormHelperText,
     InputLabel,
     TextField,
@@ -23,11 +22,8 @@ import Table from 'components/Table';
 
 // icons
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Modal from 'components/Modal';
 import { API, Auth } from 'aws-amplify';
-import { stringValueLength1to1024 } from 'aws-sdk/clients/finspacedata';
 
 type UserRegisterPayload = {
     firstname: string;
