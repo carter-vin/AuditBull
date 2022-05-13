@@ -37,26 +37,31 @@ const useAuthProvider = () => {
         setLoading(true);
         try {
             const responseUser = await Auth.currentAuthenticatedUser();
-            console.log('the responseUser', responseUser);
-            // if (
-            //     responseUser?.signInUserSession.idToken.payload?.[
-            //         'cognito:groups'
-            //     ]?.includes(
-            //         'us-east-1_7BaljQxPv_Google' ||
-            //             'us-east-1_7BaljQxPv_azure' ||
-            //             'us-east-1_7BaljQxPv_slack'
-            //     )
-            // ) {
-            //     await addUserToGroup(
-            //         responseUser?.username ||
-            //             responseUser?.attribute?.email ||
-            //             '',
-            //         'admin'
-            //     );
-            //     await Auth.updateUserAttributes(responseUser, {
-            //         'custom:role': 'admin',
-            //     });
-            // }
+            console.log('the responseUser: ', {
+                responseUser,
+                idToken: responseUser.signInUserSession?.idToken,
+                payload: responseUser.signInUserSession?.accessToken?.payload,
+                group: responseUser.signInUserSession?.idToken?.payload?.[
+                    'cognito:groups'
+                ]?.includes('us-east-1_7BaljQxPv_slack'),
+            });
+            if (
+                responseUser &&
+                responseUser.signInUserSession?.idToken?.payload?.[
+                    'cognito:groups'
+                ]?.includes('us-east-1_7BaljQxPv_slack')
+            ) {
+                console.log('is this is working');
+                await addUserToGroup(
+                    responseUser?.username ||
+                        responseUser?.attribute?.email ||
+                        '',
+                    'admin'
+                );
+                await Auth.updateUserAttributes(responseUser, {
+                    'custom:role': 'admin',
+                });
+            }
             setLoginUser(responseUser);
             setLoading(false);
         } catch (error) {

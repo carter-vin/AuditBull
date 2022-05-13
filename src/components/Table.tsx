@@ -34,6 +34,7 @@ const Table = (props: TabelProps) => {
             onRowClick={onRowClick}
             components={{ Toolbar: !noFilter ? GridToolbar : null }}
             hideFooter
+            getRowId={(row) => row.id}
         />
     );
 };

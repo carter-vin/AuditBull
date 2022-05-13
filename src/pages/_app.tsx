@@ -12,10 +12,11 @@ import { Amplify } from 'aws-amplify';
 import createEmotionCache from 'utils/createEmotionCache';
 import theme from 'utils/theme';
 import { AuthProvider } from 'hooks/useAuth';
+import { AppDataProvider } from 'hooks/useAppData';
 import awsmobile from '../aws-exports';
 
 Amplify.configure({ ...awsmobile, ssr: true });
-Amplify.Logger.LOG_LEVEL = 'DEBUG';
+// Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -40,13 +41,15 @@ const MyApp = (props: Props) => {
 
     return (
         <AuthProvider>
-            <CacheProvider value={emotionCache}>
-                <ThemeProvider theme={theme}>
-                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                    <CssBaseline />
-                    {getLayout(<Component {...pageProps} />)}
-                </ThemeProvider>
-            </CacheProvider>
+            <AppDataProvider>
+                <CacheProvider value={emotionCache}>
+                    <ThemeProvider theme={theme}>
+                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                        <CssBaseline />
+                        {getLayout(<Component {...pageProps} />)}
+                    </ThemeProvider>
+                </CacheProvider>
+            </AppDataProvider>
         </AuthProvider>
     );
 };
