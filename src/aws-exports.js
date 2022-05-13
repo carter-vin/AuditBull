@@ -20,7 +20,7 @@ const awsmobile = {
         "redirectSignOut": "https://ab-app-five.vercel.app/",
         "responseType": "code"
     },
-    "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
+    "federationTarget": "COGNITO_USER_POOLS",
     "aws_cognito_username_attributes": [],
     "aws_cognito_social_providers": [
         "GOOGLE"

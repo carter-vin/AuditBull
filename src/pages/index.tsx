@@ -44,7 +44,7 @@ const Home = () => {
             console.log('what is here: ', loginUser);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loginUser]);
 
     if (loading) {
         return (
