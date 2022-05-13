@@ -1,6 +1,4 @@
 /* eslint-disable */
-/* eslint-disable no-console */
-
 /*
  * Copyright 2019-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -298,5 +296,5 @@ module.exports = {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
-  createUserByAdmin,
+  createUserByAdmin
 };
