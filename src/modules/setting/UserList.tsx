@@ -21,21 +21,28 @@ const UserList = () => {
         {
             field: 'username',
             headerName: 'Username',
-            flex: 1,
+            align: 'left',
+            width: 250,
         },
         {
             field: 'name',
             headerName: 'Name',
+            width: 250,
+            align: 'left',
+            colSpan: 2,
+            resizable: true,
         },
         {
             field: 'email',
+            align: 'left',
             headerName: 'Email',
             flex: 1,
         },
         {
             field: 'role',
             headerName: 'Role',
-            flex: 1,
+            align: 'left',
+            width: 200,
         },
     ];
 
@@ -44,6 +51,8 @@ const UserList = () => {
             getListOfUsers();
         }
     }, []);
+
+    console.log('the users', users);
 
     if (userLoading) {
         return (

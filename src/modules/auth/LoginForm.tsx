@@ -27,7 +27,7 @@ import { useAuth } from 'hooks/useAuth';
 import { useState } from 'react';
 
 type LoginPayload = {
-    email: string;
+    username: string;
     password: string;
     rememberme: boolean;
     new_password: string;
@@ -39,21 +39,19 @@ const LoginForm = () => {
 
     const formik = useFormik<LoginPayload>({
         initialValues: {
-            email: '',
+            username: '',
             password: '',
             new_password: '',
             rememberme: false,
         },
         validationSchema: Yup.object().shape({
-            email: Yup.string()
-                .email('Please provide valid email')
-                .required('Email is required'),
+            username: Yup.string().required('Username is required'),
             password: Yup.string().required('Password is required'),
         }),
         onSubmit: async (values: LoginPayload, { setSubmitting }) => {
             setSubmitting(true);
             Auth.signIn({
-                username: values.email,
+                username: values.username,
                 password: values.password,
             }).then((user) => {
                 console.log('the login user', {
@@ -132,24 +130,24 @@ const LoginForm = () => {
                 <Box display="flex" flexDirection="column" gap={1}>
                     <Box>
                         <InputLabel htmlFor="email">
-                            <strong className="text-gray-700">
-                                Email address
-                            </strong>
+                            <strong className="text-gray-700">Username</strong>
                         </InputLabel>
                     </Box>
                     <TextField
                         size="small"
                         fullWidth
-                        name="email"
-                        value={formik.values.email}
+                        name="username"
+                        value={formik.values.username}
                         onChange={formik.handleChange}
-                        id="email"
-                        placeholder="john@gmail.com"
+                        id="username"
+                        placeholder="johndoe"
                         variant="outlined"
                     />
-                    {Boolean(formik.touched.email && formik.errors.email) && (
-                        <FormHelperText error id="email" color="red">
-                            {formik.errors.email}
+                    {Boolean(
+                        formik.touched.username && formik.errors.username
+                    ) && (
+                        <FormHelperText error id="username" color="red">
+                            {formik.errors.username}
                         </FormHelperText>
                     )}
                 </Box>
@@ -193,7 +191,9 @@ const LoginForm = () => {
                         gap={1}
                     >
                         <InputLabel htmlFor="password">
-                            <strong className="text-gray-700">Password</strong>
+                            <strong className="text-gray-700">
+                                New Password
+                            </strong>
                         </InputLabel>
                         <TextField
                             size="small"
@@ -235,6 +235,7 @@ const LoginForm = () => {
 
                 <Button
                     variant="contained"
+                    disabled={!formik.values.new_password}
                     onClick={() => formik.handleSubmit()}
                 >
                     {newPasswordButton ? 'Update Password' : 'Login'}

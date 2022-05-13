@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { API, Auth } from 'aws-amplify';
 import { useState } from 'react';
 
@@ -64,7 +65,7 @@ const useUser = () => {
         const requestInfo = {
             body: {
                 username,
-                groupname: userRole || 'user',
+                groupname: userRole || 'admin',
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -83,30 +84,53 @@ const useUser = () => {
     };
 
     const createUser = async (values: IUsers) => {
-        await Auth.signUp({
-            username: values?.username || values?.email || '',
-            password: 'Ch@ng3Me',
-            attributes: {
-                email: values?.email,
+        const requestInfo = {
+            response: true,
+            body: {
+                username: values?.username || values?.email || '',
+                password: 'Ch@ng3Me',
+                email: values?.email || '',
+                role: values?.role || '',
                 name: `${values?.firstname} ${values?.lastname}`,
-                'custom:role': values?.role,
             },
-        })
-            .then(async (res) => {
-                // Auth.('NEW_PASSWORD_REQUIRED');
-                await addUserToGroup(
-                    values?.username || values?.email || '',
-                    'admin'
-                );
-                await Auth.sendCustomChallengeAnswer(
-                    res,
-                    'NEW_PASSWORD_REQUIRED'
-                );
-                getListOfUsers();
-            })
-            // eslint-disable-next-line no-console
-            .catch((err) => console.log(`Error signing up: ${err}`));
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+            },
+        };
+        const res = await API.post(
+            'AdminQueries',
+            '/adminCreateUser',
+            requestInfo
+        );
+        console.log('the response', res);
         getListOfUsers();
+        // await Auth.signUp({
+        // username: values?.username || values?.email || '',
+        // password: 'Ch@ng3Me',
+        // attributes: {
+        //     email: values?.email,
+        //     name: `${values?.firstname} ${values?.lastname}`,
+        //     'custom:role': values?.role,
+        // },
+        // })
+        //     .then(async (res) => {
+        //         // Auth.('NEW_PASSWORD_REQUIRED');
+        //         await addUserToGroup(
+        //             values?.username || values?.email || '',
+        //             'admin'
+        //         );
+        //         await Auth.sendCustomChallengeAnswer(
+        //             res,
+        //             'NEW_PASSWORD_REQUIRED'
+        //         );
+        //         getListOfUsers();
+        //     })
+        //     // eslint-disable-next-line no-console
+        //     .catch((err) => console.log(`Error signing up: ${err}`));
+        // getListOfUsers();
     };
 
     return {

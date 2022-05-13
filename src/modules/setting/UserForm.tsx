@@ -26,7 +26,7 @@ interface UserFormProps {
 
 const roleOptions = [
     { label: 'Admin', value: 'superadmin' },
-    { label: 'System Admin', value: 'systemadmin' },
+    { label: 'System', value: 'system' },
     { label: 'Vendor', value: 'vendor' },
     { label: 'Personal', value: 'personal' },
     { label: 'Audit', value: 'audit' },
@@ -184,9 +184,7 @@ const UserForm = (props: UserFormProps) => {
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="email">
-                        <strong className="text-gray-700">
-                            User Name ( optional )
-                        </strong>
+                        <strong className="text-gray-700">User Role</strong>
                     </InputLabel>
                 </Box>
                 <TextField
