@@ -27,6 +27,8 @@ const {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
+  createUserByAdmin,
+  deleteUser
 } = require('./cognitoActions');
 
 const app = express();
@@ -298,7 +300,22 @@ app.post("/adminCreateUser", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
- })
+})
+ 
+app.post('/deleteUser', async (req, res, next) => {
+  if (!req.body.username) {
+    const err = new Error('username is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await deleteUser(req.body.username);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Error middleware must be defined last
 app.use((err, req, res, next) => {

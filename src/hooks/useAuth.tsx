@@ -6,6 +6,7 @@ import { useContext, createContext, useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { API, Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 const authContext = createContext<any>({});
 const { Provider } = authContext;
@@ -27,11 +28,23 @@ const addUserToGroup = async (username: string, userRole?: string) => {
     return res;
 };
 
+type LoginPayload = {
+    username: string;
+    password: string;
+    rememberme: boolean;
+};
+
+export type NewPasswordType = {
+    username: string;
+    password: string;
+};
+
 // setting up the state (reducers)
 const useAuthProvider = () => {
     const router = useRouter();
     const [loginUser, setLoginUser] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [newPasswordButton, setNewPasswordButton] = useState(null);
 
     const checkUser = async () => {
         setLoading(true);
@@ -86,6 +99,46 @@ const useAuthProvider = () => {
         checkUser();
     };
 
+    const loginByUserName = (values: LoginPayload) => {
+        Auth.signIn({
+            username: values.username,
+            password: values.password,
+        })
+            .then((user) => {
+                if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+                    setNewPasswordButton(user);
+                } else {
+                    router.push('/');
+                    checkUser();
+                    setNewPasswordButton(null);
+                }
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response?.data?.message || 'Error logging in'
+                );
+            });
+    };
+
+    const updateNewPassword = ({ username, password }: NewPasswordType) => {
+        console.log('the new details', { password, username });
+        Auth.completeNewPassword(newPasswordButton, password)
+            .then(() => {
+                setNewPasswordButton(null);
+                loginByUserName({
+                    username,
+                    password,
+                    rememberme: false,
+                });
+            })
+            .catch((error) => {
+                console.log('the error', error);
+                toast.error(
+                    error.response?.data?.message || 'Error updating password'
+                );
+            });
+    };
+
     const logOutUser = async () => {
         setLoading(true);
         try {
@@ -108,10 +161,13 @@ const useAuthProvider = () => {
     return {
         loading,
         loginUser,
+        newPasswordButton,
         setLoginUser,
         logOutUser,
         loginBySlack,
         loginByAzure,
+        loginByUserName,
+        updateNewPassword,
     };
 };
 

@@ -24,7 +24,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { useAuth } from 'hooks/useAuth';
-import { useState } from 'react';
+import PasswordUpdateForm from './PasswordUpdateForm';
 
 type LoginPayload = {
     username: string;
@@ -34,8 +34,8 @@ type LoginPayload = {
 };
 
 const LoginForm = () => {
-    const { loginBySlack, loginByAzure } = useAuth();
-    const [newPasswordButton, setNewPasswordButton] = useState<boolean>(false);
+    const { loginBySlack, loginByAzure, loginByUserName, newPasswordButton } =
+        useAuth();
 
     const formik = useFormik<LoginPayload>({
         initialValues: {
@@ -48,33 +48,20 @@ const LoginForm = () => {
             username: Yup.string().required('Username is required'),
             password: Yup.string().required('Password is required'),
         }),
-        onSubmit: async (values: LoginPayload, { setSubmitting }) => {
+        onSubmit: async (
+            values: LoginPayload,
+            { setSubmitting, resetForm }
+        ) => {
             setSubmitting(true);
-            Auth.signIn({
-                username: values.username,
-                password: values.password,
-            }).then((user) => {
-                console.log('the login user', {
-                    user,
-                    challegename: user.challengeName,
-                });
-                if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-                    setNewPasswordButton(true);
-                    Auth.completeNewPassword(
-                        user,
-                        formik.values.new_password
-                    ).then(() => {
-                        Auth.signIn({
-                            username: user.username,
-                            password: formik.values.new_password,
-                        });
-                        setSubmitting(false);
-                    });
-                }
-            });
+            loginByUserName(values);
+            resetForm();
             setSubmitting(false);
         },
     });
+
+    if (newPasswordButton) {
+        return <PasswordUpdateForm username={formik.values.username} />;
+    }
 
     return (
         <Stack
@@ -235,10 +222,10 @@ const LoginForm = () => {
 
                 <Button
                     variant="contained"
-                    disabled={!formik.values.new_password}
+                    disabled={newPasswordButton && !formik.values.new_password}
                     onClick={() => formik.handleSubmit()}
                 >
-                    {newPasswordButton ? 'Update Password' : 'Login'}
+                    {formik.isSubmitting ? 'lodaing...' : 'Login'}
                 </Button>
             </Stack>
         </Stack>

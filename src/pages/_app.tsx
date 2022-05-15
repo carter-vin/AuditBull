@@ -8,12 +8,16 @@ import { ReactNode } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { ToastContainer, toast } from 'react-toastify';
+
 import { Amplify } from 'aws-amplify';
 import createEmotionCache from 'utils/createEmotionCache';
 import theme from 'utils/theme';
 import { AuthProvider } from 'hooks/useAuth';
 import { AppDataProvider } from 'hooks/useAppData';
 import awsmobile from '../aws-exports';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 Amplify.configure({ ...awsmobile, ssr: true });
 // Amplify.Logger.LOG_LEVEL = 'DEBUG';
@@ -46,6 +50,7 @@ const MyApp = (props: Props) => {
                     <ThemeProvider theme={theme}>
                         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                         <CssBaseline />
+                        <ToastContainer />
                         {getLayout(<Component {...pageProps} />)}
                     </ThemeProvider>
                 </CacheProvider>

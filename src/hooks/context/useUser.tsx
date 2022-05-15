@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { API, Auth } from 'aws-amplify';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 type IUsers = {
     id?: string;
@@ -29,36 +30,47 @@ const useUser = () => {
                     .getJwtToken()}`,
             },
         };
-        const res = await API.get('AdminQueries', '/listUsers', requestInfo);
-        const roles = res.data.Users.map(
-            (
-                user: {
-                    Username: string;
-                    Attributes: any;
-                },
-                index: number
-            ): any => {
-                const attributes = user.Attributes;
-                return {
-                    id: `${user.Username}-${index + 1}-${Math.random().toFixed(
-                        2
-                    )}`,
-                    username: user.Username || '',
-                    name:
-                        attributes?.find((attr: any) => attr.Name === 'name')
-                            ?.Value || '',
-                    email:
-                        attributes?.find((attr: any) => attr.Name === 'email')
-                            ?.Value || '',
-                    role:
-                        attributes?.find(
-                            (attr: any) => attr.Name === 'custom:role'
-                        )?.Value || '',
-                };
-            }
-        );
-        setUsers(roles);
-        setUserLoading(false);
+        API.get('AdminQueries', '/listUsers', requestInfo)
+            .then((res) => {
+                const roles = res.data.Users.map(
+                    (
+                        user: {
+                            Username: string;
+                            Attributes: any;
+                        },
+                        index: number
+                    ): any => {
+                        const attributes = user.Attributes;
+                        return {
+                            id: `${user.Username}-${
+                                index + 1
+                            }-${Math.random().toFixed(2)}`,
+                            username: user.Username || '',
+                            name:
+                                attributes?.find(
+                                    (attr: any) => attr.Name === 'name'
+                                )?.Value || '',
+                            email:
+                                attributes?.find(
+                                    (attr: any) => attr.Name === 'email'
+                                )?.Value || '',
+                            role:
+                                attributes?.find(
+                                    (attr: any) => attr.Name === 'custom:role'
+                                )?.Value || '',
+                        };
+                    }
+                );
+                setUsers(roles);
+                setUserLoading(false);
+            })
+            .catch((error) => {
+                setUsers([]);
+                setUserLoading(false);
+                toast.error(
+                    error.response?.data?.message || 'Failed to fetch users'
+                );
+            });
     };
 
     const addUserToGroup = async (username: string, userRole?: string) => {
@@ -100,37 +112,44 @@ const useUser = () => {
                     .getJwtToken()}`,
             },
         };
-        const res = await API.post(
-            'AdminQueries',
-            '/adminCreateUser',
-            requestInfo
-        );
-        console.log('the response', res);
-        getListOfUsers();
-        // await Auth.signUp({
-        // username: values?.username || values?.email || '',
-        // password: 'Ch@ng3Me',
-        // attributes: {
-        //     email: values?.email,
-        //     name: `${values?.firstname} ${values?.lastname}`,
-        //     'custom:role': values?.role,
-        // },
-        // })
-        //     .then(async (res) => {
-        //         // Auth.('NEW_PASSWORD_REQUIRED');
-        //         await addUserToGroup(
-        //             values?.username || values?.email || '',
-        //             'admin'
-        //         );
-        //         await Auth.sendCustomChallengeAnswer(
-        //             res,
-        //             'NEW_PASSWORD_REQUIRED'
-        //         );
-        //         getListOfUsers();
-        //     })
-        //     // eslint-disable-next-line no-console
-        //     .catch((err) => console.log(`Error signing up: ${err}`));
-        // getListOfUsers();
+        API.post('AdminQueries', '/adminCreateUser', requestInfo)
+            .then((res) => {
+                console.log('the res', res);
+                getListOfUsers();
+                toast.success('User created successfully');
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response?.data?.message || 'Error creating user'
+                );
+            });
+    };
+
+    const deleteUser = async (username: string) => {
+        console.log('the username', username);
+        const requestInfo = {
+            response: true,
+            body: {
+                username,
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+            },
+        };
+        API.post('AdminQueries', '/deleteUser', requestInfo)
+            .then((res) => {
+                console.log('the res', res);
+                getListOfUsers();
+                toast.success('User deleted successfully');
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response?.data?.message || 'Error deleteing user'
+                );
+            });
     };
 
     return {
@@ -138,6 +157,8 @@ const useUser = () => {
         userLoading,
         getListOfUsers,
         createUser,
+        addUserToGroup,
+        deleteUser,
     };
 };
 

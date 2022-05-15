@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box } from '@mui/material';
-import Table from 'components/Table';
-import { GridColDef } from '@mui/x-data-grid';
 import { useEffect } from 'react';
+import { Box, Stack, IconButton } from '@mui/material';
+import { GridColDef } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import Table from 'components/Table';
+
 import { useAuth } from 'hooks/useAuth';
 import { useAppData } from 'hooks/useAppData';
 
 const UserList = () => {
     const { loginUser } = useAuth();
     const {
-        userReducer: { getListOfUsers, users, userLoading },
+        userReducer: { getListOfUsers, users, userLoading, deleteUser },
     } = useAppData();
 
     const columns: GridColDef[] = [
@@ -30,7 +33,6 @@ const UserList = () => {
             width: 250,
             align: 'left',
             colSpan: 2,
-            resizable: true,
         },
         {
             field: 'email',
@@ -44,6 +46,26 @@ const UserList = () => {
             align: 'left',
             width: 200,
         },
+        {
+            field: '',
+            headerName: 'Action',
+            renderCell: (rowData: any) => {
+                return (
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <IconButton
+                            aria-label="delete"
+                            onClick={() => deleteUser(rowData.row.username)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Stack>
+                );
+            },
+        },
     ];
 
     useEffect(() => {
@@ -51,8 +73,6 @@ const UserList = () => {
             getListOfUsers();
         }
     }, []);
-
-    console.log('the users', users);
 
     if (userLoading) {
         return (

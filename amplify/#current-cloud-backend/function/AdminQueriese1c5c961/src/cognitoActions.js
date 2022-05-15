@@ -244,6 +244,65 @@ async function signUserOut(username) {
   }
 }
 
+async function createUserByAdmin(username, password, email,role, name) {
+  const params = {
+    UserPoolId: userPoolId /* required */,
+    Username: username /* required */,
+    DesiredDeliveryMediums: [  'EMAIL' ],
+    // (optional) ForceAliasCreation: true || false,
+    // MessageAction: 'SUPPRESS',
+    TemporaryPassword: password,
+    UserAttributes: [
+      {
+        Name: "name",
+        Value: name
+      },
+      {
+        Name: "email",
+        Value: email,
+      },
+      {
+        Name: "custom:role",
+        Value: role,
+      },
+    ],
+  };
+  console.log(`Attempting to create user ${username}`);
+  try {
+    const result = await cognitoIdentityServiceProvider
+      .adminCreateUser(params)
+      .promise();
+    if (result) {
+      addUserToGroup(username, "admin")
+    }
+    console.log(`${username} successfully created`); // successful response
+    return {
+      message: `${username} successfully created`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+async function deleteUser(username) {
+  const params = {
+    UserPoolId: userPoolId,
+    Username: username,
+  };
+
+  try {
+    const result = await cognitoIdentityServiceProvider.adminDeleteUser(params).promise();
+    console.log(`Delete ${username}`);
+    return {
+      message: `Delete ${username}`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 module.exports = {
   addUserToGroup,
   removeUserFromGroup,
@@ -256,4 +315,6 @@ module.exports = {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
+  createUserByAdmin,
+  deleteUser
 };
