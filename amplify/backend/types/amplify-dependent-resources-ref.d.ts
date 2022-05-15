@@ -18,7 +18,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "function": {
-        "AdminQueriese1c5c961": {
+        "AdminQueriesaf93a191": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",

@@ -13,7 +13,7 @@
  */
 
 const { CognitoIdentityServiceProvider } = require('aws-sdk');
-const securePassword = requrie("secure-random-password")
+const securePassword = require("secure-random-password")
 
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 const userPoolId = process.env.USERPOOL;

@@ -62,7 +62,12 @@ const useAuthProvider = () => {
                 responseUser &&
                 responseUser.signInUserSession?.idToken?.payload?.[
                     'cognito:groups'
-                ]?.includes('us-east-1_7BaljQxPv_slack')
+                ]?.includes(
+                    'us-east-1_7BaljQxPv_slack' ||
+                        'us-east-1_GNePfVnuf_azure' ||
+                        'us-east-1_GNePfVnuf_slack' ||
+                        'us-east-1_GNePfVnuf_Google'
+                )
             ) {
                 console.log('is this is working');
                 await addUserToGroup(
