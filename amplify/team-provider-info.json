@@ -48,7 +48,7 @@
       "function": {
         "AdminQueriese1c5c961": {
           "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-          "s3Key": "amplify-builds/AdminQueriese1c5c961-5975304f516b58465343-build.zip"
+          "s3Key": "amplify-builds/AdminQueriese1c5c961-2f5a6349304255305645-build.zip"
         }
       }
     }

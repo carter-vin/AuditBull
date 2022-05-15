@@ -27,8 +27,8 @@ const {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
-  createUserByAdmin,
-  deleteUser
+  deleteUser,
+  createUserByAdmin
 } = require('./cognitoActions');
 
 const app = express();

@@ -143,6 +143,9 @@
     "adminQueryGroup": {
       "Type": "String"
     },
+    "googleClientId": {
+      "Type": "String"
+    },
     "oAuthMetadata": {
       "Type": "String"
     },
@@ -328,7 +331,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 300
       },
       "DependsOn": [
@@ -444,7 +447,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 300
       },
       "DependsOn": [
@@ -609,7 +612,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 300
       },
       "DependsOn": [
@@ -758,7 +761,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 300
       },
       "DependsOn": [
@@ -1060,6 +1063,11 @@
         ]
       },
       "Condition": "ShouldOutputAppClientSecrets"
+    },
+    "GoogleWebClient": {
+      "Value": {
+        "Ref": "googleClientId"
+      }
     }
   }
 }
