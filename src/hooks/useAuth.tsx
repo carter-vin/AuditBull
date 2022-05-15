@@ -139,9 +139,9 @@ const useAuthProvider = () => {
                 await loginByUserName(values);
             })
             .catch((error) => {
-                console.log('the error', error);
                 toast.error(
-                    error.response?.data?.message || 'Error updating password'
+                    error.response?.data?.message ||
+                        'Password patterns donot match'
                 );
             });
     };

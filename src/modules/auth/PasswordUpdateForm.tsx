@@ -5,6 +5,10 @@ import {
     TextField,
     FormHelperText,
     Button,
+    Alert,
+    AlertTitle,
+    ListItem,
+    ListItemText,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -68,6 +72,22 @@ const PasswordUpdateForm = ({ username }: { username: string }) => {
                         </FormHelperText>
                     )}
                 </Box>
+
+                <Alert severity="info">
+                    <AlertTitle>Password Pattern</AlertTitle>
+                    <Stack
+                        direction="column"
+                        justifyContent="flex-start"
+                        justifyItems="flex-start"
+                        alignItems="flex-start"
+                    >
+                        <ListItemText primary="Password must be of 8 character" />
+                        <ListItemText primary="Password must have capitale letter" />
+                        <ListItemText primary="Password must have sepcial letter" />
+                        <ListItemText primary="Password must have digits letter" />
+                    </Stack>
+                </Alert>
+
                 <Button
                     variant="contained"
                     disabled={!formik.values.password}
