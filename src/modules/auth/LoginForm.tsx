@@ -53,7 +53,7 @@ const LoginForm = () => {
             { setSubmitting, resetForm }
         ) => {
             setSubmitting(true);
-            loginByUserName(values);
+            await loginByUserName(values);
             resetForm();
             setSubmitting(false);
         },

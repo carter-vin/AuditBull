@@ -13,6 +13,7 @@
  */
 
 const { CognitoIdentityServiceProvider } = require('aws-sdk');
+const securePassword = requrie("secure-random-password")
 
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 const userPoolId = process.env.USERPOOL;
@@ -244,14 +245,16 @@ async function signUserOut(username) {
   }
 }
 
-async function createUserByAdmin(username, password, email,role, name) {
+async function createUserByAdmin( email, role, name) {
+  const tempPassword = securePassword.randomPassword({ characters: [securePassword.lower, securePassword.upper, securePassword.digits, securePassword.symbols] })
+  console.log('the temp password is: ', tempPassword)
   const params = {
     UserPoolId: userPoolId /* required */,
-    Username: username /* required */,
+    Username: email /* required */,
     DesiredDeliveryMediums: [  'EMAIL' ],
     // (optional) ForceAliasCreation: true || false,
     // MessageAction: 'SUPPRESS',
-    TemporaryPassword: password,
+    TemporaryPassword: tempPassword,
     UserAttributes: [
       {
         Name: "name",
@@ -267,17 +270,17 @@ async function createUserByAdmin(username, password, email,role, name) {
       },
     ],
   };
-  console.log(`Attempting to create user ${username}`);
+  console.log(`Attempting to create user ${email}`);
   try {
     const result = await cognitoIdentityServiceProvider
       .adminCreateUser(params)
       .promise();
     if (result) {
-      addUserToGroup(username, "admin")
+      addUserToGroup(email, "admin")
     }
-    console.log(`${username} successfully created`); // successful response
+    console.log(`${email} successfully created`); // successful response
     return {
-      message: `${username} successfully created`,
+      message: `${email} successfully created`,
     };
   } catch (err) {
     console.log(err);

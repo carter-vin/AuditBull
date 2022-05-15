@@ -59,7 +59,7 @@ const UserForm = (props: UserFormProps) => {
             { setSubmitting, resetForm }
         ) => {
             setSubmitting(true);
-            createUser(values);
+            await createUser(values);
             resetForm();
             callback();
             setSubmitting(false);
@@ -71,7 +71,7 @@ const UserForm = (props: UserFormProps) => {
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="email">
-                        <strong className="text-gray-700">First Name</strong>
+                        <strong className="text-gray-700">First Name *</strong>
                     </InputLabel>
                 </Box>
                 <TextField
@@ -114,7 +114,7 @@ const UserForm = (props: UserFormProps) => {
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="lastname">
-                        <strong className="text-gray-700">Last Name</strong>
+                        <strong className="text-gray-700">Last Name *</strong>
                     </InputLabel>
                 </Box>
                 <TextField
@@ -136,7 +136,9 @@ const UserForm = (props: UserFormProps) => {
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="email">
-                        <strong className="text-gray-700">Email address</strong>
+                        <strong className="text-gray-700">
+                            Email address *
+                        </strong>
                     </InputLabel>
                 </Box>
                 <TextField
@@ -156,7 +158,7 @@ const UserForm = (props: UserFormProps) => {
                 )}
             </Box>
 
-            <Box display="flex" flexDirection="column" gap={1}>
+            {/* <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="email">
                         <strong className="text-gray-700">
@@ -179,12 +181,12 @@ const UserForm = (props: UserFormProps) => {
                         {formik.errors.username}
                     </FormHelperText>
                 )}
-            </Box>
+            </Box> */}
 
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="email">
-                        <strong className="text-gray-700">User Role</strong>
+                        <strong className="text-gray-700">User Role </strong>
                     </InputLabel>
                 </Box>
                 <TextField

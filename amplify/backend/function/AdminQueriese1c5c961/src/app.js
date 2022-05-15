@@ -263,16 +263,6 @@ app.post('/signUserOut', async (req, res, next) => {
 });
 
 app.post("/adminCreateUser", async (req, res, next) => {
-   if (!req.body.username) {
-    const err = new Error("username is required");
-    err.statusCode = 400;
-    return next(err);
-  }
-  if (!req.body.password) {
-    const err = new Error("password is required");
-    err.statusCode = 400;
-    return next(err);
-  }
   if (!req.body.email) {
     const err = new Error("email is required");
     err.statusCode = 400;
@@ -290,8 +280,6 @@ app.post("/adminCreateUser", async (req, res, next) => {
   }
   try {
     const response = await createUserByAdmin(
-      req.body.username,
-      req.body.password,
       req.body.email,
       req.body.role,
       req.body.name

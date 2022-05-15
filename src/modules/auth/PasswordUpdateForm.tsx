@@ -23,7 +23,7 @@ const PasswordUpdateForm = ({ username }: { username: string }) => {
         }),
         onSubmit: async (values: NewPasswordType, { setSubmitting }) => {
             setSubmitting(true);
-            updateNewPassword(values);
+            await updateNewPassword(values);
             setSubmitting(false);
         },
     });

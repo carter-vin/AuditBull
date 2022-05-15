@@ -103,8 +103,6 @@ const useUser = () => {
         const requestInfo = {
             response: true,
             body: {
-                username: values?.username || values?.email || '',
-                password: 'Ch@ng3Me',
                 email: values?.email || '',
                 role: values?.role || '',
                 name: `${values?.firstname} ${values?.lastname}`,
