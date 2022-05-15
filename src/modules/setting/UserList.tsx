@@ -6,11 +6,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import Table from 'components/Table';
 
-import { useAuth } from 'hooks/useAuth';
 import { useAppData } from 'hooks/useAppData';
 
 const UserList = () => {
-    const { loginUser } = useAuth();
     const {
         userReducer: { getListOfUsers, users, userLoading, deleteUser },
     } = useAppData();
@@ -32,7 +30,6 @@ const UserList = () => {
             headerName: 'Name',
             width: 250,
             align: 'left',
-            colSpan: 2,
         },
         {
             field: 'email',
@@ -69,9 +66,7 @@ const UserList = () => {
     ];
 
     useEffect(() => {
-        if (loginUser !== null || loginUser) {
-            getListOfUsers();
-        }
+        getListOfUsers();
     }, []);
 
     if (userLoading) {

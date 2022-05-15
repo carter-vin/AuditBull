@@ -31,7 +31,7 @@ const addUserToGroup = async (username: string, userRole?: string) => {
 type LoginPayload = {
     username: string;
     password: string;
-    rememberme: boolean;
+    rememberme?: boolean;
 };
 
 export type NewPasswordType = {
@@ -114,22 +114,24 @@ const useAuthProvider = () => {
                 }
             })
             .catch((error) => {
-                toast.error(
-                    error.response?.data?.message || 'Error logging in'
-                );
+                checkUser();
+                console.log('the error: ', error);
+                // toast.error(
+                //     error.response?.data?.message || 'Error logging in'
+                // );
             });
     };
 
     const updateNewPassword = ({ username, password }: NewPasswordType) => {
         console.log('the new details', { password, username });
         Auth.completeNewPassword(newPasswordButton, password)
-            .then(() => {
+            .then(async () => {
                 setNewPasswordButton(null);
-                loginByUserName({
+                const values = {
                     username,
                     password,
-                    rememberme: false,
-                });
+                };
+                await loginByUserName(values);
             })
             .catch((error) => {
                 console.log('the error', error);
@@ -139,19 +141,23 @@ const useAuthProvider = () => {
             });
     };
 
-    const logOutUser = async () => {
+    const logOutUser = () => {
         setLoading(true);
-        try {
-            const res = await Auth.signOut();
-            if (res) {
+        Auth.signOut()
+            .then(() => {
                 setLoginUser({});
                 setLoading(false);
+                checkUser();
                 router.push('/login');
-            }
-        } catch (error) {
-            console.log('error signing out: ', error);
-            setLoading(false);
-        }
+                toast.success('Logged out successfully');
+            })
+            .catch((error) => {
+                console.log('the error', error);
+                toast.error(
+                    error.response?.data?.message || 'Error logging out'
+                );
+            });
+        checkUser();
     };
 
     useEffect(() => {

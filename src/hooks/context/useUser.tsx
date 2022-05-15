@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { API, Auth } from 'aws-amplify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 type IUsers = {
@@ -23,6 +23,9 @@ const useUser = () => {
         setUserLoading(true);
         const requestInfo = {
             response: true,
+            queryStringParameters: {
+                limit: '60',
+            },
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `${(await Auth.currentSession())
@@ -41,6 +44,7 @@ const useUser = () => {
                         index: number
                     ): any => {
                         const attributes = user.Attributes;
+                        console.log('the attributes', attributes);
                         return {
                             id: `${user.Username}-${
                                 index + 1
@@ -151,6 +155,10 @@ const useUser = () => {
                 );
             });
     };
+
+    useEffect(() => {
+        getListOfUsers();
+    }, []);
 
     return {
         users,
