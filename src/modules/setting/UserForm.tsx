@@ -4,19 +4,24 @@ import {
     InputLabel,
     TextField,
     FormHelperText,
-    MenuItem,
     Button,
 } from '@mui/material';
+import Select from 'react-select';
+
 import { useFormik } from 'formik';
 import { useAppData } from 'hooks/useAppData';
 import * as Yup from 'yup';
+import { map } from 'lodash';
 
 type UserRegisterPayload = {
     firstname: string;
     middlename: string;
     lastname: string;
     email: string;
-    role: string;
+    role: {
+        label: string;
+        value: string;
+    };
     username?: string;
 };
 
@@ -28,7 +33,7 @@ const roleOptions = [
     { label: 'Admin', value: 'superadmin' },
     { label: 'System', value: 'system' },
     { label: 'Vendor', value: 'vendor' },
-    { label: 'Personal', value: 'personal' },
+    { label: 'Personnel', value: 'personnel' },
     { label: 'Audit', value: 'audit' },
 ];
 
@@ -41,7 +46,10 @@ const UserForm = (props: UserFormProps) => {
     const formik = useFormik<UserRegisterPayload>({
         initialValues: {
             email: '',
-            role: 'personal',
+            role: {
+                label: 'Personnal',
+                value: 'personnal',
+            },
             username: '',
             firstname: '',
             middlename: '',
@@ -58,8 +66,20 @@ const UserForm = (props: UserFormProps) => {
             values: UserRegisterPayload,
             { setSubmitting, resetForm }
         ) => {
+            const roles = map(values.role, (item: { value: string }) => {
+                return item.value;
+            });
+
+            const loginPayload = {
+                email: values.email,
+                firstname: values.firstname,
+                lastname: values.lastname,
+                middlename: values.middlename,
+                role: roles.toString(),
+                username: values.email,
+            };
             setSubmitting(true);
-            await createUser(values);
+            await createUser(loginPayload);
             resetForm();
             callback();
             setSubmitting(false);
@@ -189,7 +209,13 @@ const UserForm = (props: UserFormProps) => {
                         <strong className="text-gray-700">User Role </strong>
                     </InputLabel>
                 </Box>
-                <TextField
+                <Select
+                    options={roleOptions}
+                    isMulti
+                    value={formik.values.role}
+                    onChange={(values) => formik.setFieldValue('role', values)}
+                />
+                {/* <TextField
                     size="small"
                     select
                     fullWidth
@@ -204,7 +230,7 @@ const UserForm = (props: UserFormProps) => {
                             {option.label}
                         </MenuItem>
                     ))}
-                </TextField>
+                </TextField> */}
             </Box>
             <Box className="flex justify-end gap-4 items-center">
                 <Button

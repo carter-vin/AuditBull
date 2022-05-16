@@ -111,7 +111,6 @@ const useAuthProvider = () => {
                 }
             })
             .catch((error) => {
-                checkUser();
                 toast.error(
                     error.message ||
                         'User Email or Password is not matched. Try again.'
@@ -121,13 +120,12 @@ const useAuthProvider = () => {
 
     const updateNewPassword = ({ username, password }: NewPasswordType) => {
         Auth.completeNewPassword(newPasswordButton, password)
-            .then(async () => {
+            .then(async (res) => {
                 setNewPasswordButton(null);
-                const values = {
-                    username,
+                await loginByUserName({
+                    username: res?.username || username,
                     password,
-                };
-                await loginByUserName(values);
+                });
             })
             .catch((error) => {
                 toast.error(error?.message || 'Password patterns donot match');
