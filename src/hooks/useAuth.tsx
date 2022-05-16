@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable default-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-empty-function */
@@ -50,14 +49,6 @@ const useAuthProvider = () => {
         setLoading(true);
         try {
             const responseUser = await Auth.currentAuthenticatedUser();
-            console.log('the responseUser: ', {
-                responseUser,
-                idToken: responseUser.signInUserSession?.idToken,
-                payload: responseUser.signInUserSession?.accessToken?.payload,
-                group: responseUser.signInUserSession?.idToken?.payload?.[
-                    'cognito:groups'
-                ]?.includes('us-east-1_7BaljQxPv_slack'),
-            });
             if (
                 responseUser &&
                 responseUser.signInUserSession?.idToken?.payload?.[
@@ -69,7 +60,6 @@ const useAuthProvider = () => {
                         'us-east-1_GNePfVnuf_Google'
                 )
             ) {
-                console.log('is this is working');
                 await addUserToGroup(
                     responseUser?.username ||
                         responseUser?.attribute?.email ||
@@ -83,7 +73,6 @@ const useAuthProvider = () => {
             setLoginUser(responseUser);
             setLoading(false);
         } catch (error) {
-            console.log('the error: ', error);
             setLoginUser(null);
             setLoading(false);
             router.push('/login');
@@ -113,22 +102,18 @@ const useAuthProvider = () => {
                 if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
                     setNewPasswordButton(user);
                 } else {
-                    router.push('/');
                     checkUser();
+                    router.push('/');
                     setNewPasswordButton(null);
                 }
             })
             .catch((error) => {
                 checkUser();
-                console.log('the error: ', error);
-                // toast.error(
-                //     error.response?.data?.message || 'Error logging in'
-                // );
+                toast.error(error.message || 'Error logging in');
             });
     };
 
     const updateNewPassword = ({ username, password }: NewPasswordType) => {
-        console.log('the new details', { password, username });
         Auth.completeNewPassword(newPasswordButton, password)
             .then(async () => {
                 setNewPasswordButton(null);
@@ -139,10 +124,7 @@ const useAuthProvider = () => {
                 await loginByUserName(values);
             })
             .catch((error) => {
-                toast.error(
-                    error.response?.data?.message ||
-                        'Password patterns donot match'
-                );
+                toast.error(error?.message || 'Password patterns donot match');
             });
     };
 
@@ -157,10 +139,7 @@ const useAuthProvider = () => {
                 toast.success('Logged out successfully');
             })
             .catch((error) => {
-                console.log('the error', error);
-                toast.error(
-                    error.response?.data?.message || 'Error logging out'
-                );
+                toast.error(error?.message || 'Error logging out');
             });
         checkUser();
     };

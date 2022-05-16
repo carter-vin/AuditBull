@@ -10,9 +10,9 @@ const Settings = () => {
     useEffect(() => {
         if (loginUser === null || !loginUser) {
             router.push({
-                pathname: 'login',
+                pathname: '/login',
                 query: {
-                    redirect: router.pathname,
+                    redirect: '/settings',
                 },
             });
         }

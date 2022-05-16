@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import { API, Auth } from 'aws-amplify';
+import { useAuth } from 'hooks/useAuth';
+import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -15,12 +17,14 @@ type IUsers = {
 };
 const useUser = () => {
     // states
+    const { loginUser } = useAuth();
     const [users, setUsers] = useState<IUsers[]>([]);
     const [userLoading, setUserLoading] = useState<boolean>(false);
 
     // functions
     const getListOfUsers = async () => {
         setUserLoading(true);
+        const currentUser = await Auth.currentAuthenticatedUser();
         const requestInfo = {
             response: true,
             queryStringParameters: {
@@ -35,16 +39,22 @@ const useUser = () => {
         };
         API.get('AdminQueries', '/listUsers', requestInfo)
             .then((res) => {
+                console.log('the res', {
+                    user: res.data.Users,
+                });
                 const roles = res.data.Users.map(
                     (
                         user: {
                             Username: string;
-                            Attributes: any;
+                            Attributes: {
+                                Name: string;
+                                Value: string;
+                            }[];
+                            UserStatus: string;
                         },
                         index: number
-                    ): any => {
+                    ) => {
                         const attributes = user.Attributes;
-                        console.log('the attributes', attributes);
                         return {
                             id: `${user.Username}-${
                                 index + 1
@@ -52,20 +62,31 @@ const useUser = () => {
                             username: user.Username || '',
                             name:
                                 attributes?.find(
-                                    (attr: any) => attr.Name === 'name'
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'name'
                                 )?.Value || '',
                             email:
                                 attributes?.find(
-                                    (attr: any) => attr.Name === 'email'
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'email'
                                 )?.Value || '',
                             role:
-                                attributes?.find(
-                                    (attr: any) => attr.Name === 'custom:role'
-                                )?.Value || '',
+                                user.UserStatus === 'FORCE_CHANGE_PASSWORD'
+                                    ? 'pending'
+                                    : attributes?.find(
+                                          (attr: { Name: string }) =>
+                                              attr.Name === 'custom:role'
+                                      )?.Value || '',
                         };
                     }
                 );
-                setUsers(roles);
+                setUsers(
+                    filter(
+                        roles,
+                        (user: { username: string }) =>
+                            user.username !== currentUser?.username
+                    )
+                );
                 setUserLoading(false);
             })
             .catch((error) => {

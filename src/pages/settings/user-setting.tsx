@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import {
     CircularProgress,
     Box,
@@ -16,9 +16,10 @@ import AddIcon from '@mui/icons-material/Add';
 import Modal from 'components/Modal';
 import UserList from 'modules/setting/UserList';
 import UserForm from 'modules/setting/UserForm';
-import { withAuth } from 'hooks/withAuth';
+import { useRouter } from 'next/router';
 
 const UserSetting = () => {
+    const router = useRouter();
     const { loginUser, loading } = useAuth();
 
     // states
@@ -35,6 +36,18 @@ const UserSetting = () => {
             </Box>
         );
     }
+
+    useEffect(() => {
+        if (loginUser === null || !loginUser) {
+            router.push({
+                pathname: '/login',
+                query: {
+                    redirect: '/settings/user-setting',
+                },
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loginUser]);
 
     return (
         <>
@@ -76,22 +89,5 @@ const UserSetting = () => {
 UserSetting.getLayout = (page: ReactElement) => {
     return <SettingLayout>{page}</SettingLayout>;
 };
-
-export async function getServerSideProps(context: any) {
-    const res = await withAuth(context);
-    console.log('the res', res);
-    if (res !== null) {
-        return {
-            props: {
-                user: JSON.stringify(res),
-            },
-        };
-    }
-    return {
-        redirect: {
-            destination: '/login',
-        }, // will be passed to the page component as props
-    };
-}
 
 export default UserSetting;

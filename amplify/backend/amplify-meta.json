@@ -50,7 +50,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-15T19:22:20.392Z",
+      "lastPushTimeStamp": "2022-05-16T13:43:16.043Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"
@@ -75,7 +75,7 @@
         "adminGroupRole": "arn:aws:iam::554093311945:role/us-east-1_GNePfVnuf-adminGroupRole",
         "usersGroupRole": "arn:aws:iam::554093311945:role/us-east-1_GNePfVnuf-usersGroupRole"
       },
-      "lastPushTimeStamp": "2022-05-15T19:22:21.647Z",
+      "lastPushTimeStamp": "2022-05-16T13:43:17.282Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
         "logicalId": "authuserPoolGroups"
@@ -118,7 +118,7 @@
         "Name": "AdminQueriesaf93a191-staging",
         "LambdaExecutionRole": "AdminQueriesaf93a191LambdaRole-staging"
       },
-      "lastPushTimeStamp": "2022-05-15T19:22:20.403Z",
+      "lastPushTimeStamp": "2022-05-16T13:43:16.048Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueriesaf93a191-cloudformation-template.json",
         "logicalId": "functionAdminQueriesaf93a191"
@@ -156,7 +156,7 @@
         "RootUrl": "https://u5rr89knu5.execute-api.us-east-1.amazonaws.com/staging",
         "ApiId": "u5rr89knu5"
       },
-      "lastPushTimeStamp": "2022-05-15T19:22:20.405Z",
+      "lastPushTimeStamp": "2022-05-16T13:43:16.052Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
         "logicalId": "apiAdminQueries"
