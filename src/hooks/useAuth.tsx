@@ -55,18 +55,21 @@ const useAuthProvider = () => {
                     'cognito:groups'
                 ]?.includes(
                     'us-east-1_7BaljQxPv_slack' ||
+                        'us-east-1_7BaljQxPv_Google' ||
+                        'us-east-1_7BaljQxPv_azure' ||
+                        'us-east-1_7BaljQxPv_slack' ||
                         'us-east-1_GNePfVnuf_azure' ||
                         'us-east-1_GNePfVnuf_slack' ||
                         'us-east-1_GNePfVnuf_Google'
                 )
             ) {
-                await addUserToGroup(
+                addUserToGroup(
                     responseUser?.username ||
                         responseUser?.attribute?.email ||
                         '',
                     'admin'
                 );
-                await Auth.updateUserAttributes(responseUser, {
+                Auth.updateUserAttributes(responseUser, {
                     'custom:role': 'admin',
                 });
             }
@@ -109,7 +112,10 @@ const useAuthProvider = () => {
             })
             .catch((error) => {
                 checkUser();
-                toast.error(error.message || 'Error logging in');
+                toast.error(
+                    error.message ||
+                        'User Email or Password is not matched. Try again.'
+                );
             });
     };
 

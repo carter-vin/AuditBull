@@ -117,7 +117,7 @@ const LoginForm = () => {
                 <Box display="flex" flexDirection="column" gap={1}>
                     <Box>
                         <InputLabel htmlFor="email">
-                            <strong className="text-gray-700">Username</strong>
+                            <strong className="text-gray-700">Email</strong>
                         </InputLabel>
                     </Box>
                     <TextField
@@ -142,11 +142,26 @@ const LoginForm = () => {
                     display="flex"
                     flexDirection="column"
                     justifyContent="flex-start"
+                    justifyItems="center"
                     gap={1}
                 >
-                    <InputLabel htmlFor="password">
-                        <strong className="text-gray-700">Password</strong>
-                    </InputLabel>
+                    <Box
+                        display="flex"
+                        flexDirection="row"
+                        justifyContent="space-between"
+                    >
+                        <InputLabel htmlFor="password">
+                            <strong className="text-gray-700">Password</strong>
+                        </InputLabel>
+                        <Button
+                            variant="text"
+                            style={{
+                                marginTop: '-7px',
+                            }}
+                        >
+                            Forget Password ?
+                        </Button>
+                    </Box>
                     <TextField
                         size="small"
                         type="password"
@@ -158,10 +173,6 @@ const LoginForm = () => {
                         placeholder="********"
                         variant="outlined"
                     />
-                    <Box mr={-1} display="flex" justifyContent="flex-end">
-                        <Button variant="text">Forget Password ?</Button>
-                    </Box>
-
                     {Boolean(
                         formik.touched.password && formik.errors.password
                     ) && (
@@ -170,41 +181,6 @@ const LoginForm = () => {
                         </FormHelperText>
                     )}
                 </Box>
-                {newPasswordButton && (
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        justifyContent="flex-start"
-                        gap={1}
-                    >
-                        <InputLabel htmlFor="password">
-                            <strong className="text-gray-700">
-                                New Password
-                            </strong>
-                        </InputLabel>
-                        <TextField
-                            size="small"
-                            type="new_password"
-                            fullWidth
-                            id="new_password"
-                            name="new_password"
-                            value={formik.values.new_password}
-                            onChange={formik.handleChange}
-                            placeholder="********"
-                            variant="outlined"
-                        />
-
-                        {Boolean(
-                            formik.touched.new_password &&
-                                formik.errors.new_password
-                        ) && (
-                            <FormHelperText error id="new_password" color="red">
-                                {formik.errors.new_password}
-                            </FormHelperText>
-                        )}
-                    </Box>
-                )}
-
                 <Box>
                     <FormControlLabel
                         control={
@@ -219,7 +195,6 @@ const LoginForm = () => {
                         label="Remember Information"
                     />
                 </Box>
-
                 <Button
                     variant="contained"
                     disabled={newPasswordButton && !formik.values.new_password}
