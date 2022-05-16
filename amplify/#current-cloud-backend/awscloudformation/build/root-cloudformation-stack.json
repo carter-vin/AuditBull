@@ -216,7 +216,7 @@
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
           "adminQueryGroup": "admin",
           "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
-          "hostedUIProviderCreds": "[]",
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\"}]",
           "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
           "env": "staging"
         }
@@ -273,7 +273,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueriesaf93a191-cloudformation-template.json",
         "Parameters": {
           "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-          "s3Key": "amplify-builds/AdminQueriesaf93a191-2f683743415076694f4c-build.zip",
+          "s3Key": "amplify-builds/AdminQueriesaf93a191-645337634f302b4a4736-build.zip",
           "authauditbull37e38ef1UserPoolId": {
             "Fn::GetAtt": [
               "authauditbull37e38ef1",

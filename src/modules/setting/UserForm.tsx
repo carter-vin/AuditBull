@@ -12,6 +12,7 @@ import { useFormik } from 'formik';
 import { useAppData } from 'hooks/useAppData';
 import * as Yup from 'yup';
 import { map } from 'lodash';
+import { IUsers } from 'hooks/context/useUser';
 
 type UserRegisterPayload = {
     firstname: string;
@@ -23,10 +24,12 @@ type UserRegisterPayload = {
         value: string;
     }[];
     username?: string;
+    name?: string;
 };
 
 interface UserFormProps {
     callback: () => void;
+    user?: IUsers;
 }
 
 const roleOptions = [
@@ -37,28 +40,46 @@ const roleOptions = [
     { label: 'Audit', value: 'audit' },
 ];
 
+const converRoleStringToArray = (role: string) => {
+    const tempArray = role.split(',');
+    return map(tempArray, (item: string) => {
+        return { label: item, value: item };
+    });
+};
+
 const UserForm = (props: UserFormProps) => {
-    const { callback } = props;
+    const { callback, user } = props;
+
     const {
-        userReducer: { createUser },
+        userReducer: { createUser, editUserRole },
     } = useAppData();
 
+    converRoleStringToArray(user?.role || '');
     const formik = useFormik<UserRegisterPayload>({
         initialValues: {
-            email: '',
-            role: [],
-            username: '',
-            firstname: '',
-            middlename: '',
-            lastname: '',
+            email: user?.email || '',
+            role: converRoleStringToArray(user?.role || '') || [],
+            username: user?.username || '',
+            firstname: user?.firstname || '',
+            middlename: user?.middlename || '',
+            lastname: user?.lastname || '',
+            name: user?.name || '',
         },
-        validationSchema: Yup.object().shape({
-            email: Yup.string()
-                .email('Please provide valid email')
-                .required('Email is required'),
-            firstname: Yup.string().required('First name is required'),
-            lastname: Yup.string().required('Last name is required'),
-        }),
+        validationSchema: user
+            ? Yup.object().shape({
+                  email: Yup.string()
+                      .email('Please provide valid email')
+                      .required('Email is required'),
+                  role: Yup.array().required('Role is required'),
+              })
+            : Yup.object().shape({
+                  email: Yup.string()
+                      .email('Please provide valid email')
+                      .required('Email is required'),
+                  firstname: Yup.string().required('First name is required'),
+                  lastname: Yup.string().required('Last name is required'),
+                  role: Yup.array().required('Role is required'),
+              }),
         onSubmit: async (
             values: UserRegisterPayload,
             { setSubmitting, resetForm }
@@ -76,7 +97,12 @@ const UserForm = (props: UserFormProps) => {
                 username: values.email,
             };
             setSubmitting(true);
-            await createUser(loginPayload);
+            if (user) {
+                await editUserRole(loginPayload);
+            } else {
+                await createUser(loginPayload);
+            }
+
             resetForm();
             callback();
             setSubmitting(false);
@@ -85,71 +111,103 @@ const UserForm = (props: UserFormProps) => {
 
     return (
         <Stack spacing={4}>
-            <Box display="flex" flexDirection="column" gap={1}>
-                <Box>
-                    <InputLabel htmlFor="email">
-                        <strong className="text-gray-700">First Name *</strong>
-                    </InputLabel>
+            {user ? (
+                <Box display="flex" flexDirection="column" gap={1}>
+                    <Box>
+                        <InputLabel htmlFor="email">
+                            <strong className="text-gray-700">Full Name</strong>
+                        </InputLabel>
+                    </Box>
+                    <TextField
+                        size="small"
+                        fullWidth
+                        name="name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        id="name"
+                        placeholder="jhon_doe"
+                        variant="outlined"
+                        disabled={Boolean(user)}
+                    />
                 </Box>
-                <TextField
-                    size="small"
-                    fullWidth
-                    name="firstname"
-                    value={formik.values.firstname}
-                    onChange={formik.handleChange}
-                    id="firstname"
-                    placeholder="jhon_doe"
-                    variant="outlined"
-                />
-                {Boolean(
-                    formik.touched.firstname && formik.errors.firstname
-                ) && (
-                    <FormHelperText error id="firstname" color="red">
-                        {formik.errors.firstname}
-                    </FormHelperText>
-                )}
-            </Box>
-            <Box display="flex" flexDirection="column" gap={1}>
-                <Box>
-                    <InputLabel htmlFor="middlename">
-                        <strong className="text-gray-700">
-                            Middle Name ( optional )
-                        </strong>
-                    </InputLabel>
-                </Box>
-                <TextField
-                    size="small"
-                    fullWidth
-                    name="middlename"
-                    value={formik.values.middlename}
-                    onChange={formik.handleChange}
-                    id="middlename"
-                    placeholder="jhon_doe"
-                    variant="outlined"
-                />
-            </Box>
-            <Box display="flex" flexDirection="column" gap={1}>
-                <Box>
-                    <InputLabel htmlFor="lastname">
-                        <strong className="text-gray-700">Last Name *</strong>
-                    </InputLabel>
-                </Box>
-                <TextField
-                    size="small"
-                    fullWidth
-                    name="lastname"
-                    value={formik.values.lastname}
-                    onChange={formik.handleChange}
-                    id="lastname"
-                    placeholder="jhon_doe"
-                    variant="outlined"
-                />
-                {Boolean(formik.touched.lastname && formik.errors.lastname) && (
-                    <FormHelperText error id="lastname" color="red">
-                        {formik.errors.lastname}
-                    </FormHelperText>
-                )}
-            </Box>
+            ) : (
+                <>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                        <Box>
+                            <InputLabel htmlFor="email">
+                                <strong className="text-gray-700">
+                                    First Name *
+                                </strong>
+                            </InputLabel>
+                        </Box>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="firstname"
+                            value={formik.values.firstname}
+                            onChange={formik.handleChange}
+                            id="firstname"
+                            placeholder="jhon_doe"
+                            variant="outlined"
+                            disabled={Boolean(user)}
+                        />
+                        {Boolean(
+                            formik.touched.firstname && formik.errors.firstname
+                        ) && (
+                            <FormHelperText error id="firstname" color="red">
+                                {formik.errors.firstname}
+                            </FormHelperText>
+                        )}
+                    </Box>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                        <Box>
+                            <InputLabel htmlFor="middlename">
+                                <strong className="text-gray-700">
+                                    Middle Name ( optional )
+                                </strong>
+                            </InputLabel>
+                        </Box>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="middlename"
+                            value={formik.values.middlename}
+                            onChange={formik.handleChange}
+                            id="middlename"
+                            placeholder="jhon_doe"
+                            variant="outlined"
+                            disabled={Boolean(user)}
+                        />
+                    </Box>
+                    <Box display="flex" flexDirection="column" gap={1}>
+                        <Box>
+                            <InputLabel htmlFor="lastname">
+                                <strong className="text-gray-700">
+                                    Last Name *
+                                </strong>
+                            </InputLabel>
+                        </Box>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            name="lastname"
+                            value={formik.values.lastname}
+                            onChange={formik.handleChange}
+                            id="lastname"
+                            placeholder="jhon_doe"
+                            variant="outlined"
+                            disabled={Boolean(user)}
+                        />
+                        {Boolean(
+                            formik.touched.lastname && formik.errors.lastname
+                        ) && (
+                            <FormHelperText error id="lastname" color="red">
+                                {formik.errors.lastname}
+                            </FormHelperText>
+                        )}
+                    </Box>
+                </>
+            )}
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
                     <InputLabel htmlFor="email">
@@ -167,6 +225,7 @@ const UserForm = (props: UserFormProps) => {
                     id="email"
                     placeholder="john@gmail.com"
                     variant="outlined"
+                    disabled={Boolean(user)}
                 />
                 {Boolean(formik.touched.email && formik.errors.email) && (
                     <FormHelperText error id="email" color="red">
@@ -174,31 +233,6 @@ const UserForm = (props: UserFormProps) => {
                     </FormHelperText>
                 )}
             </Box>
-
-            {/* <Box display="flex" flexDirection="column" gap={1}>
-                <Box>
-                    <InputLabel htmlFor="email">
-                        <strong className="text-gray-700">
-                            User Name ( optional )
-                        </strong>
-                    </InputLabel>
-                </Box>
-                <TextField
-                    size="small"
-                    fullWidth
-                    name="username"
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
-                    id="username"
-                    placeholder="jhon_doe"
-                    variant="outlined"
-                />
-                {Boolean(formik.touched.username && formik.errors.username) && (
-                    <FormHelperText error id="username" color="red">
-                        {formik.errors.username}
-                    </FormHelperText>
-                )}
-            </Box> */}
 
             <Box display="flex" flexDirection="column" gap={1}>
                 <Box>
@@ -212,22 +246,6 @@ const UserForm = (props: UserFormProps) => {
                     value={formik.values.role}
                     onChange={(values) => formik.setFieldValue('role', values)}
                 />
-                {/* <TextField
-                    size="small"
-                    select
-                    fullWidth
-                    name="role"
-                    value={formik.values.role}
-                    onChange={formik.handleChange}
-                    id="role"
-                    variant="outlined"
-                >
-                    {roleOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
-                </TextField> */}
             </Box>
             <Box className="flex justify-end gap-4 items-center">
                 <Button
@@ -245,7 +263,7 @@ const UserForm = (props: UserFormProps) => {
                     className="capitalize"
                     onClick={() => formik.handleSubmit()}
                 >
-                    Save
+                    {user ? 'Update' : 'Save'}
                 </Button>
             </Box>
         </Stack>

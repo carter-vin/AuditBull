@@ -14,12 +14,15 @@
     "categories": {
       "auth": {
         "auditbull37e38ef1": {
-          "googleClientId": "1079117078469-j0bqa31a3t3f3a6tu87d0nl6kpl3qlsm.apps.googleusercontent.com"
+          "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com"
         },
         "userPoolGroups": {}
       },
       "function": {
-        "AdminQueriesaf93a191": {}
+        "AdminQueriesaf93a191": {
+          "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
+          "s3Key": "amplify-builds/AdminQueriesaf93a191-2b587441684f6d7a7877-build.zip"
+        }
       }
     }
   },
@@ -45,7 +48,7 @@
       "function": {
         "AdminQueriesaf93a191": {
           "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-          "s3Key": "amplify-builds/AdminQueriesaf93a191-2f683743415076694f4c-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesaf93a191-645337634f302b4a4736-build.zip"
         }
       }
     }

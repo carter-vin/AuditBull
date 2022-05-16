@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable default-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-empty-function */
@@ -42,6 +43,7 @@ export type NewPasswordType = {
 const useAuthProvider = () => {
     const router = useRouter();
     const [loginUser, setLoginUser] = useState<any>(null);
+    const [codeSent, setCodeSent] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [newPasswordButton, setNewPasswordButton] = useState(null);
 
@@ -78,7 +80,6 @@ const useAuthProvider = () => {
         } catch (error) {
             setLoginUser(null);
             setLoading(false);
-            router.push('/login');
         }
     };
 
@@ -132,6 +133,46 @@ const useAuthProvider = () => {
             });
     };
 
+    const forgetPassword = (username: string) => {
+        Auth.forgotPassword(username)
+            .then((data) => {
+                setCodeSent(true);
+                console.log('data on forgetPassword', data);
+                toast.success(`Confirmation code is send to ${username}`);
+            })
+            .catch((err) => {
+                setCodeSent(false);
+                console.log('error on forgetPassword', err);
+                toast.error(
+                    err.message || 'User Email is not matched. Try again.'
+                );
+            });
+    };
+
+    const confirmForgetPassword = ({
+        username,
+        code,
+        newPassword,
+    }: {
+        username: string;
+        code: string;
+        newPassword: string;
+    }) => {
+        Auth.forgotPasswordSubmit(username, code, newPassword)
+            .then((data) => {
+                console.log('the response data', data);
+                toast.success('Password is changed successfully');
+                setCodeSent(false);
+                router.push('/');
+            })
+            .catch((err) => {
+                console.log('the error', err);
+                toast.error(
+                    err.message || 'Invalid code  Or Failed to update password'
+                );
+            });
+    };
+
     const logOutUser = () => {
         setLoading(true);
         Auth.signOut()
@@ -154,6 +195,7 @@ const useAuthProvider = () => {
 
     return {
         loading,
+        codeSent,
         loginUser,
         newPasswordButton,
         setLoginUser,
@@ -162,6 +204,8 @@ const useAuthProvider = () => {
         loginByAzure,
         loginByUserName,
         updateNewPassword,
+        forgetPassword,
+        confirmForgetPassword,
     };
 };
 

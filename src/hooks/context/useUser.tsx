@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import { API, Auth } from 'aws-amplify';
-import { useAuth } from 'hooks/useAuth';
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-type IUsers = {
+export type IUsers = {
     id?: string;
     firstname?: string;
     lastname?: string;
@@ -17,7 +16,6 @@ type IUsers = {
 };
 const useUser = () => {
     // states
-    const { loginUser } = useAuth();
     const [users, setUsers] = useState<IUsers[]>([]);
     const [userLoading, setUserLoading] = useState<boolean>(false);
 
@@ -136,14 +134,39 @@ const useUser = () => {
             },
         };
         API.post('AdminQueries', '/adminCreateUser', requestInfo)
-            .then((res) => {
-                console.log('the res', res);
+            .then(() => {
                 getListOfUsers();
                 toast.success('User created successfully');
             })
             .catch((error) => {
                 toast.error(
                     error.response?.data?.message || 'Error creating user'
+                );
+            });
+    };
+
+    const editUserRole = async (values: IUsers) => {
+        const requestInfo = {
+            response: true,
+            body: {
+                username: values?.username || values?.email || '',
+                role: values?.role || '',
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+            },
+        };
+        API.post('AdminQueries', '/adminUpdateUserAttribute', requestInfo)
+            .then(() => {
+                getListOfUsers();
+                toast.success('User role is updated successfully');
+            })
+            .catch((error) => {
+                toast.error(
+                    error.response?.data?.message || 'Error updating user'
                 );
             });
     };
@@ -163,8 +186,7 @@ const useUser = () => {
             },
         };
         API.post('AdminQueries', '/deleteUser', requestInfo)
-            .then((res) => {
-                console.log('the res', res);
+            .then(() => {
                 getListOfUsers();
                 toast.success('User deleted successfully');
             })
@@ -186,6 +208,7 @@ const useUser = () => {
         createUser,
         addUserToGroup,
         deleteUser,
+        editUserRole,
     };
 };
 

@@ -23,7 +23,10 @@ import {
 import GoogleIcon from '@mui/icons-material/Google';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import GroupsIcon from '@mui/icons-material/Groups';
+
 import { useAuth } from 'hooks/useAuth';
+import Password from 'components/Password';
+import { useRouter } from 'next/router';
 import PasswordUpdateForm from './PasswordUpdateForm';
 
 type LoginPayload = {
@@ -34,6 +37,7 @@ type LoginPayload = {
 };
 
 const LoginForm = () => {
+    const router = useRouter();
     const { loginBySlack, loginByAzure, loginByUserName, newPasswordButton } =
         useAuth();
 
@@ -45,7 +49,7 @@ const LoginForm = () => {
             rememberme: false,
         },
         validationSchema: Yup.object().shape({
-            username: Yup.string().required('Username is required'),
+            username: Yup.string().required('Email is required'),
             password: Yup.string().required('No password provided.'),
         }),
         onSubmit: async (
@@ -153,26 +157,18 @@ const LoginForm = () => {
                         <InputLabel htmlFor="password">
                             <strong className="text-gray-700">Password</strong>
                         </InputLabel>
+
                         <Button
                             variant="text"
                             style={{
                                 marginTop: '-7px',
                             }}
+                            onClick={() => router.push('/forget-password')}
                         >
                             Forget Password ?
                         </Button>
                     </Box>
-                    <TextField
-                        size="small"
-                        type="password"
-                        fullWidth
-                        id="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        placeholder="********"
-                        variant="outlined"
-                    />
+                    <Password formik={formik} name="password" />
                     {Boolean(
                         formik.touched.password && formik.errors.password
                     ) && (

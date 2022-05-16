@@ -28,7 +28,8 @@ const {
   listUsersInGroup,
   signUserOut,
   deleteUser,
-  createUserByAdmin
+  createUserByAdmin,
+  updateUserAttributesByAdmin
 } = require('./cognitoActions');
 
 const app = express();
@@ -299,6 +300,26 @@ app.post('/deleteUser', async (req, res, next) => {
 
   try {
     const response = await deleteUser(req.body.username);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/adminUpdateUserAttribute', async (req, res, next) => {
+  if (!req.body.username) {
+    const err = new Error('username is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+  if (!req.body.role) {
+    const err = new Error('role is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await updateUserAttributesByAdmin(req.body.username, req.body.role);
     res.status(200).json(response);
   } catch (err) {
     next(err);

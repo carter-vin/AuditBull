@@ -306,6 +306,29 @@ async function deleteUser(username) {
   }
 }
 
+async function updateUserAttributesByAdmin(username, role) {
+  const params = {
+      UserPoolId: userPoolId,
+      Username: username,
+      UserAttributes: [ 
+      { 
+         Name: "custom:role",
+         Value: role
+      }
+   ],
+  };
+  try {
+    const result = await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`User Attribute ${role}`);
+    return {
+      message: `User attribute updated`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 module.exports = {
   addUserToGroup,
   removeUserFromGroup,
@@ -319,5 +342,6 @@ module.exports = {
   listUsersInGroup,
   signUserOut,
   createUserByAdmin,
-  deleteUser
+  deleteUser,
+  updateUserAttributesByAdmin
 };

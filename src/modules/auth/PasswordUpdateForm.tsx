@@ -2,7 +2,6 @@ import {
     Stack,
     Box,
     InputLabel,
-    TextField,
     FormHelperText,
     Button,
     Alert,
@@ -13,6 +12,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { NewPasswordType, useAuth } from 'hooks/useAuth';
 import React from 'react';
+import Password from 'components/Password';
 
 const PasswordUpdateForm = ({ username }: { username: string }) => {
     const { updateNewPassword } = useAuth();
@@ -57,17 +57,7 @@ const PasswordUpdateForm = ({ username }: { username: string }) => {
                     <InputLabel htmlFor="password">
                         <strong className="text-gray-700">New Password</strong>
                     </InputLabel>
-                    <TextField
-                        size="small"
-                        type="password"
-                        fullWidth
-                        id="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        placeholder="********"
-                        variant="outlined"
-                    />
+                    <Password formik={formik} name="password" />
 
                     {Boolean(
                         formik.touched.password && formik.errors.password
