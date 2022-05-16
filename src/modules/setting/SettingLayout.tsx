@@ -4,10 +4,12 @@ import type { ReactElement } from 'react';
 import Head from 'next/head';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
-import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import CommentIcon from '@mui/icons-material/Comment';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import GroupIcon from '@mui/icons-material/Group';
+import BookIcon from '@mui/icons-material/Book';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+
 import Header from 'components/Header';
 
 interface SettingLayoutProps {
@@ -28,35 +30,35 @@ const sidebar: SideBarType = {
             url: '/settings/user-setting',
             key: '/settings/user-setting',
             className: 'mt-5',
-            icon: <DeliveryDiningIcon />,
+            icon: <GroupIcon />,
         },
         {
             name: 'License',
             url: '/settings/license',
             key: '/onboarding',
             className: 'mt-5',
-            icon: <AirplanemodeActiveIcon />,
+            icon: <DocumentScannerIcon />,
         },
         {
             name: 'Learn',
             url: '/settings/learn',
             key: '/settings/learn',
             className: 'mt-5',
-            icon: <CommentIcon />,
+            icon: <BookIcon />,
         },
         {
             name: 'Billing & Invoices',
             url: '/settings/billing',
             key: '/settings/billing',
             className: 'mt-5',
-            icon: <DocumentScannerIcon />,
+            icon: <ReceiptIcon />,
         },
         {
             name: 'Integrations',
             url: '/settings/integration',
             key: '/settings/integration',
             className: 'mt-5',
-            icon: <DocumentScannerIcon />,
+            icon: <IntegrationInstructionsIcon />,
         },
     ],
 };

@@ -21,7 +21,7 @@ type UserRegisterPayload = {
     role: {
         label: string;
         value: string;
-    };
+    }[];
     username?: string;
 };
 
@@ -46,10 +46,7 @@ const UserForm = (props: UserFormProps) => {
     const formik = useFormik<UserRegisterPayload>({
         initialValues: {
             email: '',
-            role: {
-                label: 'Personnal',
-                value: 'personnal',
-            },
+            role: [],
             username: '',
             firstname: '',
             middlename: '',
