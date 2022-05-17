@@ -102,7 +102,7 @@ const useAuthProvider = () => {
             username: values.username,
             password: values.password,
         })
-            .then((user) => {
+            .then(async (user) => {
                 if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
                     setNewPasswordButton(user);
                 } else {
@@ -122,6 +122,30 @@ const useAuthProvider = () => {
     const updateNewPassword = ({ username, password }: NewPasswordType) => {
         Auth.completeNewPassword(newPasswordButton, password)
             .then(async (res) => {
+                console.log('the response', res);
+                const requestInfo = {
+                    response: true,
+                    body: {
+                        username: res?.username || '',
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `${
+                            res?.signInUserSession?.accessToken?.jwtToken || ''
+                        }`,
+                    },
+                };
+
+                console.log('the request info', requestInfo);
+                API.post('AdminQueries', '/verifiedUser', requestInfo)
+                    .then(() => {
+                        toast.success('User verified');
+                    })
+                    .catch((error) => {
+                        toast.error(
+                            error.response?.data?.message || 'user not verified'
+                        );
+                    });
                 setNewPasswordButton(null);
                 await loginByUserName({
                     username: res?.username || username,
@@ -133,6 +157,17 @@ const useAuthProvider = () => {
             });
     };
 
+    const getErrorMessage = (code: string, message: string) => {
+        switch (code) {
+            case 'UserNotConfirmedException':
+                return 'You must confirm your account before you can log in';
+            case 'UserNotFoundException':
+                return 'User not found. Please sign up.';
+            default:
+                return message || 'User Email is not matched. Try again.';
+        }
+    };
+
     const forgetPassword = (username: string) => {
         Auth.forgotPassword(username)
             .then((data) => {
@@ -142,10 +177,12 @@ const useAuthProvider = () => {
             })
             .catch((err) => {
                 setCodeSent(false);
-                console.log('error on forgetPassword', err);
-                toast.error(
-                    err.message || 'User Email is not matched. Try again.'
-                );
+                console.log('error on forgetPassword', {
+                    err,
+                    type: err.code,
+                });
+
+                toast.error(getErrorMessage(err.code, err.message));
             });
     };
 

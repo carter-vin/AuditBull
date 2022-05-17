@@ -329,6 +329,29 @@ async function updateUserAttributesByAdmin(username, role) {
   }
 }
 
+async function verifiedUserByAdmin(username) {
+  const params = {
+    UserPoolId: userPoolId,
+    Username: username,
+    UserAttributes: [
+      {
+        Name: "email_verified",
+        Value: 'true'
+      }
+    ],
+  };
+  try {
+    const result = await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`User verified`);
+    return {
+      message: `User verified`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 module.exports = {
   addUserToGroup,
   removeUserFromGroup,
@@ -343,5 +366,6 @@ module.exports = {
   signUserOut,
   createUserByAdmin,
   deleteUser,
-  updateUserAttributesByAdmin
+  updateUserAttributesByAdmin,
+  verifiedUserByAdmin
 };

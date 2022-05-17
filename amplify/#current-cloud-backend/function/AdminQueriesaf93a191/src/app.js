@@ -29,7 +29,8 @@ const {
   signUserOut,
   deleteUser,
   createUserByAdmin,
-  updateUserAttributesByAdmin
+  updateUserAttributesByAdmin,
+  verifiedUserByAdmin
 } = require('./cognitoActions');
 
 const app = express();
@@ -320,6 +321,20 @@ app.post('/adminUpdateUserAttribute', async (req, res, next) => {
 
   try {
     const response = await updateUserAttributesByAdmin(req.body.username, req.body.role);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/verifiedUser', async (req, res, next) => {
+  if (!req.body.username) {
+    const err = new Error('username is required');
+    err.statusCode = 400;
+    return next(err);
+  }
+  try {
+    const response = await verifiedUserByAdmin(req.body.username);
     res.status(200).json(response);
   } catch (err) {
     next(err);
