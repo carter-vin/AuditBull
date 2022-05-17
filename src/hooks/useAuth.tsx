@@ -51,6 +51,7 @@ const useAuthProvider = () => {
         setLoading(true);
         try {
             const responseUser = await Auth.currentAuthenticatedUser();
+            console.log('the response User', responseUser);
             if (
                 responseUser &&
                 responseUser.signInUserSession?.idToken?.payload?.[

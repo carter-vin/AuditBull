@@ -58,7 +58,10 @@ const UserForm = (props: UserFormProps) => {
     const formik = useFormik<UserRegisterPayload>({
         initialValues: {
             email: user?.email || '',
-            role: converRoleStringToArray(user?.role || '') || [],
+            role:
+                user && user.role
+                    ? converRoleStringToArray(user?.role || '')
+                    : [],
             username: user?.username || '',
             firstname: user?.firstname || '',
             middlename: user?.middlename || '',
