@@ -97,7 +97,7 @@ const UserForm = (props: UserFormProps) => {
                 lastname: values.lastname,
                 middlename: values.middlename,
                 role: roles.toString(),
-                username: values.email,
+                username: values.username || values.email,
             };
             setSubmitting(true);
             if (user) {

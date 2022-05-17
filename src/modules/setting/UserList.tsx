@@ -32,7 +32,7 @@ const UserList = () => {
     const handleEditModal = (user?: IUsers) => {
         setEditModal({
             open: !editModal.open,
-            user: editModal.open ? defaultUser : user || defaultUser,
+            user: user || defaultUser,
         });
     };
 
