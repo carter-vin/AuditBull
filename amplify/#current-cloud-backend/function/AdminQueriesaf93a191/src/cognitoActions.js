@@ -14,7 +14,6 @@
 
 const { CognitoIdentityServiceProvider } = require('aws-sdk');
 const securePassword = require("secure-random-password")
-
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 const userPoolId = process.env.USERPOOL;
 
@@ -331,14 +330,14 @@ async function updateUserAttributesByAdmin(username, role) {
 
 async function verifiedUserByAdmin(username) {
   const params = {
-    UserPoolId: userPoolId,
-    Username: username,
-    UserAttributes: [
-      {
-        Name: "email_verified",
-        Value: 'true'
+      UserPoolId: userPoolId,
+      Username: username,
+      UserAttributes: [ 
+      { 
+         Name: "email_verified",
+         Value: 'true'
       }
-    ],
+   ],
   };
   try {
     const result = await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
@@ -367,5 +366,5 @@ module.exports = {
   createUserByAdmin,
   deleteUser,
   updateUserAttributesByAdmin,
-  verifiedUserByAdmin
+  verifiedUserByAdmin,
 };

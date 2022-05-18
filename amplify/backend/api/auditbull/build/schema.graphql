@@ -1,0 +1,263 @@
+
+type Notes @aws_iam @aws_api_key {
+  id: ID!
+  creator: String!
+  note: String!
+  taged: [String!]!
+  vendorsID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum VendorStatusEnum {
+  SEEKINGAPPROVAL
+  BUDGETAPPROVED
+  ACTIVE
+  EVALUATION
+}
+
+type Vendors @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  name: String
+  status: VendorStatusEnum
+  compliance: String
+  owner: String
+  email: String
+  Notes(filter: ModelNotesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelNotesConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelNotesConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [Notes]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelNotesFilterInput {
+  id: ModelIDInput
+  creator: ModelStringInput
+  note: ModelStringInput
+  taged: ModelStringInput
+  vendorsID: ModelIDInput
+  and: [ModelNotesFilterInput]
+  or: [ModelNotesFilterInput]
+  not: ModelNotesFilterInput
+}
+
+type Query {
+  getNotes(id: ID!): Notes @aws_api_key @aws_iam
+  listNotes(filter: ModelNotesFilterInput, limit: Int, nextToken: String): ModelNotesConnection @aws_api_key @aws_iam
+  syncNotes(filter: ModelNotesFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelNotesConnection @aws_api_key @aws_iam
+  getVendors(id: ID!): Vendors @aws_api_key @aws_iam @aws_cognito_user_pools
+  listVendors(filter: ModelVendorsFilterInput, limit: Int, nextToken: String): ModelVendorsConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncVendors(filter: ModelVendorsFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelVendorsConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+input ModelNotesConditionInput {
+  creator: ModelStringInput
+  note: ModelStringInput
+  taged: ModelStringInput
+  vendorsID: ModelIDInput
+  and: [ModelNotesConditionInput]
+  or: [ModelNotesConditionInput]
+  not: ModelNotesConditionInput
+}
+
+input CreateNotesInput {
+  id: ID
+  creator: String!
+  note: String!
+  taged: [String!]!
+  vendorsID: ID!
+  _version: Int
+}
+
+input UpdateNotesInput {
+  id: ID!
+  creator: String
+  note: String
+  taged: [String!]
+  vendorsID: ID
+  _version: Int
+}
+
+input DeleteNotesInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createNotes(input: CreateNotesInput!, condition: ModelNotesConditionInput): Notes @aws_api_key @aws_iam
+  updateNotes(input: UpdateNotesInput!, condition: ModelNotesConditionInput): Notes @aws_api_key @aws_iam
+  deleteNotes(input: DeleteNotesInput!, condition: ModelNotesConditionInput): Notes @aws_api_key @aws_iam
+  createVendors(input: CreateVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_iam @aws_cognito_user_pools
+  updateVendors(input: UpdateVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_iam @aws_cognito_user_pools
+  deleteVendors(input: DeleteVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+type Subscription {
+  onCreateNotes: Notes @aws_subscribe(mutations: ["createNotes"]) @aws_api_key @aws_iam
+  onUpdateNotes: Notes @aws_subscribe(mutations: ["updateNotes"]) @aws_api_key @aws_iam
+  onDeleteNotes: Notes @aws_subscribe(mutations: ["deleteNotes"]) @aws_api_key @aws_iam
+  onCreateVendors: Vendors @aws_subscribe(mutations: ["createVendors"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateVendors: Vendors @aws_subscribe(mutations: ["updateVendors"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteVendors: Vendors @aws_subscribe(mutations: ["deleteVendors"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+type ModelVendorsConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [Vendors]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelVendorStatusEnumInput {
+  eq: VendorStatusEnum
+  ne: VendorStatusEnum
+}
+
+input ModelVendorsFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  status: ModelVendorStatusEnumInput
+  compliance: ModelStringInput
+  owner: ModelStringInput
+  email: ModelStringInput
+  and: [ModelVendorsFilterInput]
+  or: [ModelVendorsFilterInput]
+  not: ModelVendorsFilterInput
+}
+
+input ModelVendorsConditionInput {
+  name: ModelStringInput
+  status: ModelVendorStatusEnumInput
+  compliance: ModelStringInput
+  owner: ModelStringInput
+  email: ModelStringInput
+  and: [ModelVendorsConditionInput]
+  or: [ModelVendorsConditionInput]
+  not: ModelVendorsConditionInput
+}
+
+input CreateVendorsInput {
+  id: ID
+  name: String
+  status: VendorStatusEnum
+  compliance: String
+  owner: String
+  email: String
+  _version: Int
+}
+
+input UpdateVendorsInput {
+  id: ID!
+  name: String
+  status: VendorStatusEnum
+  compliance: String
+  owner: String
+  email: String
+  _version: Int
+}
+
+input DeleteVendorsInput {
+  id: ID!
+  _version: Int
+}
+

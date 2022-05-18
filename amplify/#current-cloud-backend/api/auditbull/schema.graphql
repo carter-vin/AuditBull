@@ -1,0 +1,25 @@
+type Notes @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  creator: String!
+  note: String!
+  taged: [String!]!
+  vendorsID: ID! @index(name: "byVendors")
+}
+
+enum VendorStatusEnum {
+  SEEKINGAPPROVAL
+  BUDGETAPPROVED
+  ACTIVE
+  EVALUATION
+}
+
+type Vendors @model @auth(rules: [{allow: public}, {allow: private}]) {
+  id: ID!
+  name: String
+  status: VendorStatusEnum
+  compliance: String
+  owner: String
+  email: String
+  Notes: [Notes] @hasMany(indexName: "byVendors", fields: ["id"])
+}
+ 

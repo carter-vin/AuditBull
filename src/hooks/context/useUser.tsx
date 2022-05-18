@@ -37,9 +37,6 @@ const useUser = () => {
         };
         API.get('AdminQueries', '/listUsers', requestInfo)
             .then((res) => {
-                console.log('the res', {
-                    user: res.data.Users,
-                });
                 const roles = res.data.Users.map(
                     (
                         user: {

@@ -1,0 +1,19 @@
+{
+    "AppSyncApiName": "auditbull",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authauditbull37e38ef1",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "S3DeploymentBucket": "amplify-auditbull-staging-193858-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/426a65cc44e2a9d277f2bcd5423d21e66ab469d8"
+}

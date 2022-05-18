@@ -27,8 +27,8 @@ const {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
-  deleteUser,
   createUserByAdmin,
+  deleteUser,
   updateUserAttributesByAdmin,
   verifiedUserByAdmin
 } = require('./cognitoActions');

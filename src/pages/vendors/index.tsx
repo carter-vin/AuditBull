@@ -9,11 +9,16 @@ import {
     Typography,
     Card,
     CardContent,
-    TextareaAutosize,
     Box,
+    IconButton,
     CircularProgress,
+    Modal,
+    Badge,
 } from '@mui/material';
 import { GridColDef, GridRowParams } from '@mui/x-data-grid';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import { toast } from 'react-toastify';
+import { API, graphqlOperation } from 'aws-amplify';
 
 import Table from 'components/Table';
 import Tab from 'components/Tab';
@@ -22,6 +27,8 @@ import Fuse from 'fuse.js';
 import { map, pick, uniqWith, isEqual } from 'lodash';
 import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
+import VendorExtraNotes from 'modules/vendors/components/VendorExtraNotes';
+import { listVendors } from 'graphql/query';
 
 export type VendorItem = {
     id: string;
@@ -32,45 +39,6 @@ export type VendorItem = {
     owner?: string;
     website?: string;
 };
-
-const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    {
-        field: 'name',
-        headerName: 'Vendor Name',
-        flex: 1,
-    },
-    {
-        field: 'status',
-        headerName: 'Status',
-        flex: 1,
-    },
-    {
-        field: 'compliance',
-        headerName: 'Compliance',
-        flex: 1,
-    },
-    {
-        field: 'owner',
-        headerName: 'Owner',
-        flex: 1,
-        filterable: true,
-    },
-    // {
-    //     field: 'product',
-    //     headerName: 'Products',
-    //     flex: 1,
-    //     renderCell: (params: GridValueGetterParams) => {
-    //         return (
-    //             <Stack direction="row" spacing={2}>
-    //                 {params.value.map((item: string) => (
-    //                     <Button key={item}>{item}</Button>
-    //                 ))}
-    //             </Stack>
-    //         );
-    //     },
-    // },
-];
 
 const mockData: VendorItem[] = [
     {
@@ -124,6 +92,18 @@ const fuseOptions = {
     ],
 };
 
+const style = {
+    position: 'absolute' as const,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
 const Vendors = () => {
     const router = useRouter();
     const { loginUser, loading } = useAuth();
@@ -131,11 +111,21 @@ const Vendors = () => {
     const [rowLoading, setRowLoading] = useState<boolean>(false);
     const [query, setQuery] = useState<string>('');
     const [ownerOptions, setOwnerOptions] = useState<OptionType[]>([]);
+    const [notesModal, setNotesModal] = useState<boolean>(false);
 
-    const [vendorList, setVendorList] = useState<VendorItem[]>(mockData || []);
+    const [vendorList, setVendorList] = useState<VendorItem[]>([]);
     const [selectedVendor, setSelectedVendor] = useState<VendorItem>(
-        mockData[0]
+        vendorList[0] || {}
     );
+
+    const getVendorList = async () => {
+        const res: any = await API.graphql(graphqlOperation(listVendors));
+        if (res && res.data) {
+            setVendorList(res.data.listVendors.items);
+        } else {
+            toast.error(res.error.message);
+        }
+    };
 
     const handleRowClicked = (params: GridRowParams) => {
         setRowLoading(true);
@@ -244,16 +234,8 @@ const Vendors = () => {
                                 </Grid>
                             </Grid>
                         </Stack>
-                        <Stack direction="column" spacing={2}>
-                            <Typography>Notes</Typography>
-                            <TextareaAutosize
-                                color="primary"
-                                aria-label="minimum height"
-                                minRows={3}
-                                placeholder="Minimum 3 rows"
-                                style={{ width: 200 }}
-                            />
-                        </Stack>
+                        <Divider />
+                        <VendorExtraNotes selectedVendor={selectedVendor} />
                     </Stack>
                 </CardContent>
             ),
@@ -280,6 +262,48 @@ const Vendors = () => {
     const results = fuse.search(query);
     const vendors = query ? results.map((vendor) => vendor.item) : vendorList;
 
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: 'ID', width: 90 },
+        {
+            field: 'name',
+            headerName: 'Vendor Name',
+            flex: 1,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            flex: 1,
+        },
+        {
+            field: 'compliance',
+            headerName: 'Compliance',
+            flex: 1,
+        },
+        {
+            field: 'owner',
+            headerName: 'Owner',
+            flex: 1,
+            filterable: true,
+        },
+        {
+            field: '',
+            headerName: '',
+            renderCell: (row) => {
+                return (
+                    <Box>
+                        <Badge
+                            badgeContent={row?.row?.Notes?.items?.length || 0}
+                            color="primary"
+                            onClick={() => setNotesModal(true)}
+                        >
+                            <ChatBubbleIcon />
+                        </Badge>
+                    </Box>
+                );
+            },
+        },
+    ];
+
     useEffect(() => {
         getOwnerOptions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -294,6 +318,7 @@ const Vendors = () => {
                 },
             });
         }
+        getVendorList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginUser]);
 
@@ -306,33 +331,48 @@ const Vendors = () => {
     }
 
     return (
-        <Grid container spacing={4}>
-            <Grid item xs={8} sx={{ height: 400, width: '100%' }}>
-                <Stack spacing={2}>
-                    {/* <VendorTableAction
+        <>
+            <Grid container spacing={4}>
+                <Grid item xs={8} sx={{ height: 400, width: '100%' }}>
+                    <Stack spacing={2}>
+                        {/* <VendorTableAction
                         setVendorList={setVendorList}
                         vendorList={mockData}
                         setQuery={setQuery}
                         query={query}
                         ownerOptions={ownerOptions}
                     /> */}
-                    <Table
-                        columns={columns || []}
-                        data={vendors || []}
-                        onRowClick={handleRowClicked}
+                        <Table
+                            columns={columns || []}
+                            data={vendors || []}
+                            onRowClick={handleRowClicked}
+                        />
+                    </Stack>
+                </Grid>
+                <Grid item xs={4}>
+                    <Card
+                        sx={{
+                            minHeight: 440,
+                        }}
+                    >
+                        <Tab tabs={tabs} activeTab={0} loading={rowLoading} />
+                    </Card>
+                </Grid>
+            </Grid>
+            <Modal
+                open={notesModal}
+                onClose={() => setNotesModal(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <VendorExtraNotes
+                        selectedVendor={selectedVendor}
+                        refetch={() => getVendorList()}
                     />
-                </Stack>
-            </Grid>
-            <Grid item xs={4}>
-                <Card
-                    sx={{
-                        minHeight: 440,
-                    }}
-                >
-                    <Tab tabs={tabs} activeTab={0} loading={rowLoading} />
-                </Card>
-            </Grid>
-        </Grid>
+                </Box>
+            </Modal>
+        </>
     );
 };
 
