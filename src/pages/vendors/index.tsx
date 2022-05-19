@@ -113,7 +113,11 @@ const Vendors = () => {
     const [notesModal, setNotesModal] = useState<boolean>(false);
 
     const [vendorList, setVendorList] = useState<VendorItem[]>([]);
-    const [selectedVendor, setSelectedVendor] = useState<VendorItem>({});
+    const [selectedVendor, setSelectedVendor] = useState<VendorItem>({
+        id: '',
+        name: '',
+        status: '',
+    });
 
     const getVendorList = async () => {
         const res: any = await API.graphql(graphqlOperation(listVendors));
