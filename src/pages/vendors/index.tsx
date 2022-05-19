@@ -23,7 +23,7 @@ import Table from 'components/Table';
 import Tab from 'components/Tab';
 import { OptionType } from 'modules/vendors/components/VendorTableAction';
 import Fuse from 'fuse.js';
-import { map, pick, uniqWith, isEqual, find } from 'lodash';
+import { map, pick, uniqWith, isEqual, find, filter } from 'lodash';
 import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
 import VendorExtraNotes from 'modules/vendors/components/VendorExtraNotes';
@@ -311,7 +311,20 @@ const Vendors = () => {
                 return (
                     <Box className="flex justify-center items-center w-full ">
                         <Badge
-                            badgeContent={row?.row?.Notes?.items?.length || 0}
+                            badgeContent={
+                                filter(
+                                    row?.row?.Notes?.items,
+                                    (vendorNotes) => {
+                                        return (
+                                            vendorNotes.taged.includes(
+                                                loginUser.username
+                                            ) ||
+                                            vendorNotes.creator ===
+                                                loginUser.username
+                                        );
+                                    }
+                                ).length || 0
+                            }
                             color="primary"
                             className="cursor-pointer text-md"
                             onClick={() => setNotesModal(true)}
