@@ -44,7 +44,7 @@
     }
   },
   "function": {
-    "AdminQueriesaf93a191": {
+    "AdminQueries10de20ac": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true,
@@ -60,28 +60,6 @@
     }
   },
   "api": {
-    "AdminQueries": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "auditbull37e38ef1",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "AdminQueriesaf93a191",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ]
-    },
     "auditbull": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
@@ -116,6 +94,28 @@
           ]
         }
       }
+    },
+    "AdminQueries": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueries10de20ac",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ]
     }
   }
 }

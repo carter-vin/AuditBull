@@ -27,8 +27,8 @@ const {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
-  createUserByAdmin,
   deleteUser,
+  createUserByAdmin,
   updateUserAttributesByAdmin,
   verifiedUserByAdmin
 } = require('./cognitoActions');
@@ -263,6 +263,7 @@ app.post('/signUserOut', async (req, res, next) => {
     next(err);
   }
 });
+
 
 app.post("/adminCreateUser", async (req, res, next) => {
   if (!req.body.email) {

@@ -14,6 +14,7 @@
 
 const { CognitoIdentityServiceProvider } = require('aws-sdk');
 const securePassword = require("secure-random-password")
+
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 const userPoolId = process.env.USERPOOL;
 
@@ -363,8 +364,8 @@ module.exports = {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
-  createUserByAdmin,
   deleteUser,
+  createUserByAdmin,
   updateUserAttributesByAdmin,
-  verifiedUserByAdmin,
+  verifiedUserByAdmin
 };

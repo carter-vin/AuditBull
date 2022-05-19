@@ -16,8 +16,8 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "https://localhost:3000/",
-        "redirectSignOut": "https://localhost:3000/",
+        "redirectSignIn": "https://ab-app-five.vercel.app/",
+        "redirectSignOut": "https://ab-app-five.vercel.app/",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
@@ -39,17 +39,17 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
     ],
+    "aws_appsync_graphqlEndpoint": "https://nj44iovewfgslcapdi2yydiyha.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_region": "us-east-1",
+    "aws_appsync_authenticationType": "API_KEY",
+    "aws_appsync_apiKey": "da2-keewapng5bg2babngn2ieycoqa",
     "aws_cloud_logic_custom": [
         {
             "name": "AdminQueries",
             "endpoint": "https://u5rr89knu5.execute-api.us-east-1.amazonaws.com/staging",
             "region": "us-east-1"
         }
-    ],
-    "aws_appsync_graphqlEndpoint": "https://nj44iovewfgslcapdi2yydiyha.appsync-api.us-east-1.amazonaws.com/graphql",
-    "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-keewapng5bg2babngn2ieycoqa"
+    ]
 };
 
 

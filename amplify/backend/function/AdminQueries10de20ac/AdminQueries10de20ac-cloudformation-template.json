@@ -38,12 +38,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueriesaf93a191",
+            "AdminQueries10de20ac",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueriesaf93a191",
+                  "AdminQueries10de20ac",
                   "-",
                   {
                     "Ref": "env"
@@ -88,12 +88,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueriesaf93a191LambdaRole",
+            "AdminQueries10de20acLambdaRole",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueriesaf93a191LambdaRole",
+                  "AdminQueries10de20acLambdaRole",
                   "-",
                   {
                     "Ref": "env"

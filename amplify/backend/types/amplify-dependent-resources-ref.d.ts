@@ -18,7 +18,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "function": {
-        "AdminQueriesaf93a191": {
+        "AdminQueries10de20ac": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -26,15 +26,15 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "AdminQueries": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
-        },
         "auditbull": {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
+        },
+        "AdminQueries": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     }
 }
