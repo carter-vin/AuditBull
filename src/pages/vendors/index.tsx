@@ -96,11 +96,16 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: {
+        xs: 350,
+        sm: 350,
+        md: 450,
+        lg: 450,
+    },
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    borderRadius: 2,
 };
 
 const Vendors = () => {
@@ -370,23 +375,14 @@ const Vendors = () => {
     return (
         <>
             <Grid container spacing={4}>
-                <Grid item xs={8} sx={{ height: 400, width: '100%' }}>
-                    <Stack spacing={2}>
-                        {/* <VendorTableAction
-                        setVendorList={setVendorList}
-                        vendorList={mockData}
-                        setQuery={setQuery}
-                        query={query}
-                        ownerOptions={ownerOptions}
-                    /> */}
-                        <Table
-                            columns={columns || []}
-                            data={vendors || []}
-                            onRowClick={handleRowClicked}
-                        />
-                    </Stack>
+                <Grid item xs={12} md={8} className="h-44 md:h-[400px]">
+                    <Table
+                        columns={columns || []}
+                        data={vendors || []}
+                        onRowClick={handleRowClicked}
+                    />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={4}>
                     <Card
                         sx={{
                             minHeight: 440,

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 
 import Header from 'components/Header';
 import SideBar, { SideBarType } from 'components/SideBar';
@@ -61,7 +61,6 @@ const sidebar: SideBarType = {
 
 const DashboardLayout = (props: DashboardLayoutProps) => {
     const { children, hideHeader } = props;
-
     return (
         <>
             <Head>
@@ -70,15 +69,15 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
                     content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
                 />
             </Head>
-            <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', width: '100vw' }}>
                 <SideBar
                     logoImg="/vercel.svg"
                     logoText="Audit Bull"
                     menu={sidebar}
                 />
-                <Stack component="main" sx={{ flexGrow: 1 }} spacing={3}>
-                    <Box mt={2}>{!hideHeader && <Header />}</Box>
-                    <Stack sx={{ flexGrow: 1 }} spacing={4} px={5}>
+                <Stack component="main" sx={{ flexGrow: 1 }} className="gap-4">
+                    <Box>{!hideHeader && <Header />}</Box>
+                    <Stack sx={{ flexGrow: 1 }} spacing={4} px={3}>
                         {children}
                     </Stack>
                 </Stack>

@@ -1,13 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 import { ReactElement, useEffect, useState } from 'react';
-import {
-    CircularProgress,
-    Box,
-    Typography,
-    Stack,
-    Button,
-} from '@mui/material';
+import { CircularProgress, Box, Typography, Button } from '@mui/material';
 import { useAuth } from 'hooks/useAuth';
 import SettingLayout from 'modules/setting/SettingLayout';
 
@@ -51,30 +45,38 @@ const UserSetting = () => {
 
     return (
         <>
-            <Stack spacing={4}>
-                <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignContent="center"
-                    alignItems="center"
-                >
+            <Box className="flex flex-col w-full gap-4">
+                <Box className="flex flex-row justify-between">
                     <Typography variant="h6">User Lists</Typography>
                     {(loginUser?.attributes['custom:role'] === 'admin' ||
                         !loginUser?.attributes['custom:role']) && (
-                        <div className="flex gap-8 justify-center items-center">
-                            <Button
-                                variant="contained"
-                                className="capitalize"
-                                startIcon={<AddIcon />}
-                                onClick={handleAddUserModal}
-                            >
-                                Add user
-                            </Button>
-                        </div>
+                        <>
+                            <div className="hidden md:block capitalize">
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    className="hidden md:block capitalize"
+                                    startIcon={<AddIcon />}
+                                    onClick={handleAddUserModal}
+                                >
+                                    Add user
+                                </Button>
+                            </div>
+                            <div className="md:hidden block capitalize">
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    className="md:hidden block capitalize"
+                                    onClick={handleAddUserModal}
+                                >
+                                    <AddIcon />
+                                </Button>
+                            </div>
+                        </>
                     )}
-                </Stack>
+                </Box>
                 <UserList />
-            </Stack>
+            </Box>
             <Modal
                 open={addUserModal}
                 onClose={handleAddUserModal}

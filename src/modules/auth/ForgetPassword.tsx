@@ -61,7 +61,7 @@ const ForgetPasswordComponent = () => {
             alignItems="center"
             height="100vh"
             width="100%"
-            px={16}
+            px={[8, 16]}
             spacing={8}
         >
             <Box width="100%" display="flex" flexDirection="column" gap={1}>

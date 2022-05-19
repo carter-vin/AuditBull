@@ -44,7 +44,7 @@ const PasswordUpdateForm = ({ username }: { username: string }) => {
             alignItems="center"
             height="100vh"
             width="100%"
-            px={16}
+            px={[8, 16]}
             spacing={8}
         >
             <Stack width="100%" spacing={2}>

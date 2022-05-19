@@ -10,7 +10,7 @@ import {
     Box,
     Divider,
 } from '@mui/material';
-import { filter, map, orderBy } from 'lodash';
+import { filter, map, orderBy, split } from 'lodash';
 import { API, graphqlOperation } from 'aws-amplify';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -110,11 +110,11 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
                                 __html: item.note,
                             }}
                             key={index}
-                            className="bg-gray-200 p-2"
+                            className="bg-gray-400 p-2"
                         />
-                        <Box>
+                        <Box className="flex flex-column">
                             <Typography>Tagged:</Typography>
-                            {item.taged.map((tag: string) => {
+                            {item?.taged.map((tag: string) => {
                                 return <Typography key={tag}>{tag}</Typography>;
                             })}
                         </Box>

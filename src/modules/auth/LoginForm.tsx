@@ -6,7 +6,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Auth } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-
 import {
     Box,
     Button,
@@ -75,7 +74,7 @@ const LoginForm = () => {
             alignItems="center"
             height="100vh"
             width="100%"
-            px={16}
+            px={[8, 16]}
             spacing={8}
         >
             <Box width="100%" display="flex" flexDirection="column" gap={1}>
@@ -88,10 +87,13 @@ const LoginForm = () => {
                 </Typography>
                 <ButtonGroup
                     fullWidth
+                    disableElevation
+                    size="small"
                     variant="outlined"
                     aria-label="outlined primary button group"
                 >
                     <Button
+                        size="small"
                         startIcon={<GoogleIcon />}
                         onClick={() =>
                             Auth.federatedSignIn({
@@ -103,12 +105,14 @@ const LoginForm = () => {
                         Google
                     </Button>
                     <Button
+                        size="small"
                         startIcon={<AcUnitIcon />}
                         onClick={() => loginBySlack()}
                     >
                         Slack
                     </Button>
                     <Button
+                        size="small"
                         startIcon={<GroupsIcon />}
                         onClick={() => loginByAzure()}
                     >

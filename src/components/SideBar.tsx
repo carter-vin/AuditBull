@@ -1,9 +1,6 @@
 import {
     ListItemText,
-    styled,
     Drawer as MuiDrawer,
-    Theme,
-    CSSObject,
     List,
     ListItemButton,
     ListItemIcon,
@@ -12,44 +9,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 const drawerWidth = 250;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-});
-
-const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-        ...openedMixin(theme),
-        '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-        ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-}));
 
 export type SideBarLink = {
     name: string;
@@ -73,29 +32,56 @@ const SideBar = (props: SideBarProps) => {
     const { logoImg, logoText, menu } = props;
     const router = useRouter();
     return (
-        <Drawer variant="permanent" open>
-            <div className="flex items-center justify-center w-full">
-                <Image src={logoImg} alt={logoText} width={150} height={100} />
+        <MuiDrawer
+            variant="permanent"
+            open
+            sx={{
+                width: {
+                    xs: 100,
+                    sm: 100,
+                    md: drawerWidth,
+                    lg: drawerWidth,
+                    xl: drawerWidth,
+                },
+            }}
+        >
+            <div className="py-4 md:py-0 flex flex-col gap-4 md:gap-0">
+                <div className="items-center justify-center w-full hidden md:flex">
+                    <Image
+                        src={logoImg}
+                        alt={logoText}
+                        width={150}
+                        height={80}
+                    />
+                </div>
+                <div className="items-center justify-center w-full sm:hidden block">
+                    <h5 className="font-extrabold text-center">AuditBull</h5>
+                </div>
+                <List>
+                    {menu.links.map((sideBarMenu: SideBarLink) => (
+                        <ListItemButton
+                            component="a"
+                            key={sideBarMenu.key}
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: 'initial',
+                                px: 2.5,
+                            }}
+                            href={sideBarMenu.url}
+                            selected={router.pathname === sideBarMenu.url}
+                        >
+                            <ListItemIcon className="flex justify-center items-center">
+                                {sideBarMenu.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={sideBarMenu.name}
+                                className="hidden md:block"
+                            />
+                        </ListItemButton>
+                    ))}
+                </List>
             </div>
-            <List>
-                {menu.links.map((sideBarMenu: SideBarLink) => (
-                    <ListItemButton
-                        component="a"
-                        key={sideBarMenu.key}
-                        sx={{
-                            minHeight: 48,
-                            justifyContent: 'initial',
-                            px: 2.5,
-                        }}
-                        href={sideBarMenu.url}
-                        selected={router.pathname === sideBarMenu.url}
-                    >
-                        <ListItemIcon>{sideBarMenu.icon}</ListItemIcon>
-                        <ListItemText primary={sideBarMenu.name} />
-                    </ListItemButton>
-                ))}
-            </List>
-        </Drawer>
+        </MuiDrawer>
     );
 };
 

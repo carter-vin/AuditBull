@@ -1,4 +1,4 @@
-import { Stack, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 export type Menu = {
     label: string;
@@ -11,18 +11,13 @@ interface SubHeaderProps {
 const SubHeader = (props: SubHeaderProps) => {
     const { menu } = props;
     return (
-        <Stack
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-            spacing={4}
-        >
+        <Box className="flex flex-col md:flex-row  md:w-auto gap-4 space-between">
             {menu.map((item: Menu) => (
                 <Button variant="outlined" key={item.label}>
                     {item.label}
                 </Button>
             ))}
-        </Stack>
+        </Box>
     );
 };
 

@@ -52,10 +52,10 @@ const Home = () => {
     return (
         <>
             <SubHeader menu={subMenu} />
-            <Grid container spacing={2}>
+            <Box className="flex flex-col md:flex-row gap-4">
                 {['Compliance', 'System Inventory', 'Access Review'].map(
                     (item) => (
-                        <Grid item xs={3} key={item}>
+                        <Box key={item} className="flex flex-col w-full">
                             <Card variant="outlined">
                                 <CardHeader
                                     title={
@@ -86,10 +86,10 @@ const Home = () => {
                                     </Button>
                                 </CardContent>
                             </Card>
-                        </Grid>
+                        </Box>
                     )
                 )}
-            </Grid>
+            </Box>
         </>
     );
 };

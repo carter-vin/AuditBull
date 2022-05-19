@@ -26,12 +26,13 @@ const ForgetPassword = () => {
 
     return (
         <Grid container className="h-screen w-screen">
-            <Grid item xs={5} className="bg-gray-100">
+            <Grid item xs={12} md={5} className="bg-gray-100">
                 <ForgetPasswordComponent />
             </Grid>
             <Grid
                 item
                 xs={7}
+                className="hidden md:block"
                 sx={{
                     background: `url(${'/svgs/login-bg.svg'})`,
                     backgroundRepeat: 'no-repeat',
