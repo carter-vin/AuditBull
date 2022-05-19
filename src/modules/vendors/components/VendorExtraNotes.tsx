@@ -92,7 +92,7 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
                     <AddIcon />
                 </IconButton>
             </Stack>
-            <div className="flex flex-col gap-4 min-h-[20vh] h-[60vh] overflow-y-auto">
+            <div className="flex flex-col gap-4 max-h-[50vh] overflow-y-auto">
                 {orderBy(
                     filter(selectedVendor?.Notes?.items, (vendorNotes) => {
                         return (
