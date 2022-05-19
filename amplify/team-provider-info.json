@@ -19,10 +19,7 @@
         "userPoolGroups": {}
       },
       "function": {
-        "AdminQueriesaf93a191": {
-          "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
-          "s3Key": "amplify-builds/AdminQueriesaf93a191-6c584c74377653583335-build.zip"
-        }
+        "AdminQueries10de20ac": {}
       }
     }
   },

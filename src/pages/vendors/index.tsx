@@ -10,15 +10,14 @@ import {
     Card,
     CardContent,
     Box,
-    IconButton,
     CircularProgress,
     Modal,
     Badge,
 } from '@mui/material';
 import { GridColDef, GridRowParams } from '@mui/x-data-grid';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { toast } from 'react-toastify';
 import { API, graphqlOperation } from 'aws-amplify';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 import Table from 'components/Table';
 import Tab from 'components/Tab';
@@ -286,20 +285,29 @@ const Vendors = () => {
             field: 'owner',
             headerName: 'Owner',
             flex: 1,
-            filterable: true,
         },
         {
             field: '',
             headerName: '',
+            flex: 1,
+            sortable: false,
+            hideSortIcons: true,
+            filterable: false,
+            disableColumnMenu: true,
             renderCell: (row) => {
                 return (
-                    <Box>
+                    <Box className="flex justify-center items-center w-full ">
                         <Badge
                             badgeContent={row?.row?.Notes?.items?.length || 0}
                             color="primary"
+                            className="cursor-pointer text-md"
                             onClick={() => setNotesModal(true)}
                         >
-                            <ChatBubbleIcon />
+                            <ChatBubbleOutlineIcon
+                                sx={{
+                                    fontSize: '20px',
+                                }}
+                            />
                         </Badge>
                     </Box>
                 );
