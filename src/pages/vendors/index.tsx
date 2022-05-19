@@ -235,7 +235,10 @@ const Vendors = () => {
                             </Grid>
                         </Stack>
                         <Divider />
-                        <VendorExtraNotes selectedVendor={selectedVendor} />
+                        <VendorExtraNotes
+                            selectedVendor={selectedVendor}
+                            refetch={() => getVendorList()}
+                        />
                     </Stack>
                 </CardContent>
             ),
