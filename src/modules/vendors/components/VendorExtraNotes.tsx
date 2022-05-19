@@ -10,7 +10,7 @@ import {
     Box,
     Divider,
 } from '@mui/material';
-import { filter, map } from 'lodash';
+import { filter, map, orderBy } from 'lodash';
 import { API, graphqlOperation } from 'aws-amplify';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -45,7 +45,7 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
             creator: loginUser?.username,
             note: note.replace('{{', '').replace('}}', ''),
             taged: taggedUser,
-            vendor_id: 'b62ecbbb-083e-440a-b396-3587789a4456',
+            vendor_id: selectedVendor.id,
         };
         const mutationQuery = `mutation MyMutation {
                     createNotes(input: {vendorsID: "${payload.vendor_id}", taged: "${payload.taged}", note: "${payload.note}", creator: "${payload.creator}"}) {
@@ -72,7 +72,7 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
     }, []);
 
     if (userLoading) {
-        return <p>loading ...</p>;
+        return <p className="min-h-[50vh]">loading ...</p>;
     }
 
     return (
@@ -92,14 +92,16 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
                     <AddIcon />
                 </IconButton>
             </Stack>
-            <div className="flex flex-col gap-4">
-                {(
+            <div className="flex flex-col gap-4 min-h-[50vh] h-[60vh] overflow-y-auto">
+                {orderBy(
                     filter(selectedVendor?.Notes?.items, (vendorNotes) => {
                         return (
                             vendorNotes.taged.includes(loginUser.username) ||
                             vendorNotes.creator === loginUser.username
                         );
-                    }) || []
+                    }) || [],
+                    ['createdAt'],
+                    ['desc']
                 ).map((item: any, index: number) => (
                     <div key={item.id} className="flex flex-col gap-2">
                         <Typography>Note By: {item.creator}</Typography>
@@ -108,9 +110,10 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
                                 __html: item.note,
                             }}
                             key={index}
+                            className="bg-gray-200 p-2"
                         />
                         <Box>
-                            <Typography>Tagged</Typography>
+                            <Typography>Tagged:</Typography>
                             {item.taged.map((tag: string) => {
                                 return <Typography key={tag}>{tag}</Typography>;
                             })}

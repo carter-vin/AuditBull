@@ -15,6 +15,7 @@ query MyQuery {
           taged
           id
           creator
+          createdAt
         }
       }
     }

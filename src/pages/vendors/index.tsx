@@ -23,7 +23,7 @@ import Table from 'components/Table';
 import Tab from 'components/Tab';
 import { OptionType } from 'modules/vendors/components/VendorTableAction';
 import Fuse from 'fuse.js';
-import { map, pick, uniqWith, isEqual } from 'lodash';
+import { map, pick, uniqWith, isEqual, find } from 'lodash';
 import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
 import VendorExtraNotes from 'modules/vendors/components/VendorExtraNotes';
@@ -113,14 +113,21 @@ const Vendors = () => {
     const [notesModal, setNotesModal] = useState<boolean>(false);
 
     const [vendorList, setVendorList] = useState<VendorItem[]>([]);
-    const [selectedVendor, setSelectedVendor] = useState<VendorItem>(
-        vendorList[0] || {}
-    );
+    const [selectedVendor, setSelectedVendor] = useState<VendorItem>({});
 
     const getVendorList = async () => {
         const res: any = await API.graphql(graphqlOperation(listVendors));
         if (res && res.data) {
             setVendorList(res.data.listVendors.items);
+            if (selectedVendor) {
+                setSelectedVendor(
+                    find(res.data.listVendors.items, {
+                        id: selectedVendor.id || '',
+                    })
+                );
+            } else {
+                setSelectedVendor(res?.data?.listVendors?.items[0] || {});
+            }
         } else {
             toast.error(res.error.message);
         }
@@ -144,13 +151,13 @@ const Vendors = () => {
                             <Typography>Owner</Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography>{selectedVendor.owner}</Typography>
+                            <Typography>{selectedVendor?.owner}</Typography>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography>Vendor Name</Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography>{selectedVendor.name}</Typography>
+                            <Typography>{selectedVendor?.name}</Typography>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography>Vendor Website</Typography>
@@ -164,7 +171,7 @@ const Vendors = () => {
                             <Typography>Product Information</Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography>{selectedVendor.owner}</Typography>
+                            <Typography>{selectedVendor?.owner}</Typography>
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -180,7 +187,9 @@ const Vendors = () => {
                                 <Typography>VRM Stats</Typography>
                             </Grid>
                             <Grid item xs={4}>
-                                <Typography>{selectedVendor.status}</Typography>
+                                <Typography>
+                                    {selectedVendor?.status}
+                                </Typography>
                             </Grid>
                             <Grid item xs={8}>
                                 <Typography>MNDA</Typography>
@@ -210,7 +219,7 @@ const Vendors = () => {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Typography>
-                                        {selectedVendor.status}
+                                        {selectedVendor?.status}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={8}>
