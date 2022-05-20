@@ -75,12 +75,12 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
                     logoText="Audit Bull"
                     menu={sidebar}
                 />
-                <Stack component="main" sx={{ flexGrow: 1 }} className="gap-4">
-                    <Box>{!hideHeader && <Header />}</Box>
+                <Box className="flex flex-col flex-1 gap-y-4">
+                    {!hideHeader && <Header />}
                     <Stack sx={{ flexGrow: 1 }} spacing={4} px={3}>
                         {children}
                     </Stack>
-                </Stack>
+                </Box>
             </Box>
         </>
     );

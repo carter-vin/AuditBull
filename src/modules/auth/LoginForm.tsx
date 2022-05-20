@@ -16,12 +16,9 @@ import {
     Checkbox,
     FormControlLabel,
     Divider,
-    ButtonGroup,
     FormHelperText,
 } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import GroupsIcon from '@mui/icons-material/Groups';
+import Image from 'next/image';
 
 import { useAuth } from 'hooks/useAuth';
 import Password from 'components/Password';
@@ -85,16 +82,9 @@ const LoginForm = () => {
                     Welcome to <strong>AuditBull</strong>, <br /> Enter your
                     credentials to access your account
                 </Typography>
-                <ButtonGroup
-                    fullWidth
-                    disableElevation
-                    size="small"
-                    variant="outlined"
-                    aria-label="outlined primary button group"
-                >
+                <Box className="flex gap-4 mt-4 justify-center items-center">
                     <Button
                         size="small"
-                        startIcon={<GoogleIcon />}
                         onClick={() =>
                             Auth.federatedSignIn({
                                 provider:
@@ -102,23 +92,30 @@ const LoginForm = () => {
                             })
                         }
                     >
-                        Google
+                        <Image
+                            src="/icons/google.png"
+                            alt="Google"
+                            width="32px"
+                            height="32px"
+                        />
                     </Button>
-                    <Button
-                        size="small"
-                        startIcon={<AcUnitIcon />}
-                        onClick={() => loginBySlack()}
-                    >
-                        Slack
+                    <Button size="small" onClick={() => loginBySlack()}>
+                        <Image
+                            src="/icons/slack.png"
+                            alt="Slack"
+                            width="32px"
+                            height="32px"
+                        />
                     </Button>
-                    <Button
-                        size="small"
-                        startIcon={<GroupsIcon />}
-                        onClick={() => loginByAzure()}
-                    >
-                        teams
+                    <Button size="small" onClick={() => loginByAzure()}>
+                        <Image
+                            src="/icons/teams.png"
+                            alt="Teams"
+                            width="32px"
+                            height="32px"
+                        />
                     </Button>
-                </ButtonGroup>
+                </Box>
             </Box>
             <Divider>OR</Divider>
             <Stack width="100%" spacing={2}>

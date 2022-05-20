@@ -8,8 +8,14 @@ import {
     Menu,
     MenuItem,
     IconButton,
+    Button,
+    Collapse,
+    ListItemText,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
@@ -50,6 +56,11 @@ const Header = () => {
     const { name } = (loginUser && loginUser.attributes) || {};
     const [menu, setMenu] = useState<null | HTMLElement>(null);
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [openMyAccount, setOpenMyAccount] = useState<boolean>(false);
+
+    const handleMyAccountClick = () => {
+        setOpenMyAccount(!openMyAccount);
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setMenu(event.currentTarget);
@@ -68,7 +79,7 @@ const Header = () => {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, marginTop: 1 }}>
+        <Box sx={{ marginTop: 1 }}>
             <AppBar
                 position="static"
                 color="transparent"
@@ -77,7 +88,7 @@ const Header = () => {
                     boxShadow: 'none',
                 }}
             >
-                <Toolbar className=" flex justify-end  md:justify-between md:items-center ">
+                <Toolbar className=" flex justify-end  md:justify-between md:items-center p-0 ">
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -93,67 +104,32 @@ const Header = () => {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            <MenuIcon />
+                            {anchorElNav ? <CloseIcon /> : <MenuIcon />}
                         </IconButton>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'left',
+                                horizontal: 'right',
                             }}
                             keepMounted
                             transformOrigin={{
                                 vertical: 'top',
-                                horizontal: 'left',
+                                horizontal: 'right',
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
                                 display: { xs: 'block', md: 'none' },
                             }}
+                            PaperProps={{
+                                style: {
+                                    width: 300,
+                                    padding: '1rem',
+                                },
+                            }}
                         >
-                            <Box className="flex justify-center items-center mb-3">
-                                <Avatar
-                                    id="menu-positioned-button"
-                                    aria-controls={
-                                        menu
-                                            ? 'menu-positioned-button'
-                                            : undefined
-                                    }
-                                    aria-haspopup="true"
-                                    aria-expanded={menu ? 'true' : undefined}
-                                    onClick={handleClick}
-                                    {...stringAvatar(name || 'Unknown User')}
-                                    sx={{
-                                        cursor: 'pointer',
-                                        textTransform: 'uppercase',
-                                        justifyContent: 'center',
-                                        bgcolor: stringToColor(
-                                            name || 'Unknown User'
-                                        ),
-                                    }}
-                                />
-                                <Menu
-                                    id="menu-positioned-button"
-                                    aria-labelledby="menu-positioned-button"
-                                    anchorEl={menu}
-                                    open={Boolean(menu)}
-                                    onClose={handleClose}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                >
-                                    <MenuItem onClick={handleClose}>
-                                        Profile
-                                    </MenuItem>
-                                    <MenuItem onClick={() => logOutUser()}>
-                                        Logout
-                                    </MenuItem>
-                                </Menu>
-                            </Box>
-
                             <ListItemButton
                                 component="a"
                                 color="inherit"
@@ -174,9 +150,53 @@ const Header = () => {
                                     {item.label}
                                 </ListItemButton>
                             ))}
+
+                            <ListItemButton
+                                color="inherit"
+                                onClick={() => handleMyAccountClick()}
+                            >
+                                <ListItemText primary=" My Account" />
+                                {openMyAccount ? (
+                                    <ExpandLess />
+                                ) : (
+                                    <ExpandMore />
+                                )}
+                            </ListItemButton>
+
+                            <Collapse
+                                in={openMyAccount}
+                                timeout="auto"
+                                unmountOnExit
+                            >
+                                <List component="div" disablePadding>
+                                    <ListItemButton
+                                        component="a"
+                                        color="inherit"
+                                        href="/profile"
+                                        key="profile"
+                                        selected={
+                                            router.pathname === '/profile'
+                                        }
+                                    >
+                                        Profile
+                                    </ListItemButton>
+
+                                    <Button
+                                        variant="contained"
+                                        sx={{
+                                            marginLeft: 1.5,
+                                            marginTop: 1,
+                                        }}
+                                        onClick={() => logOutUser()}
+                                    >
+                                        Logout
+                                    </Button>
+                                </List>
+                            </Collapse>
                         </Menu>
                     </Box>
 
+                    {/* for desktop */}
                     <Box className="hidden md:block -ml-4">
                         <ListItemButton
                             component="a"
