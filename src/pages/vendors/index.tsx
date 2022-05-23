@@ -287,21 +287,25 @@ const Vendors = () => {
         {
             field: 'name',
             headerName: 'Vendor Name',
+            minWidth: 100,
             flex: 1,
         },
         {
             field: 'status',
             headerName: 'Status',
+            minWidth: 100,
             flex: 1,
         },
         {
             field: 'compliance',
             headerName: 'Compliance',
+            minWidth: 100,
             flex: 1,
         },
         {
             field: 'owner',
             headerName: 'Owner',
+            minWidth: 100,
             flex: 1,
         },
         {
@@ -311,6 +315,7 @@ const Vendors = () => {
             hideSortIcons: true,
             filterable: false,
             disableColumnMenu: true,
+            minWidth: 100,
             flex: 1,
             renderCell: (row) => {
                 return (
