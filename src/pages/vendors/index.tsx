@@ -13,6 +13,8 @@ import {
     CircularProgress,
     Modal,
     Badge,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material';
 import { GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
@@ -281,31 +283,36 @@ const Vendors = () => {
     const fuse = new Fuse(vendorList, fuseOptions);
     const results = fuse.search(query);
     const vendors = query ? results.map((vendor) => vendor.item) : vendorList;
-
+    const theme = useTheme();
+    const hideTableToolbar = useMediaQuery(theme.breakpoints.down('sm'));
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 90 },
+        {
+            field: 'id',
+            headerName: 'ID',
+            minWidth: hideTableToolbar ? 150 : 100,
+        },
         {
             field: 'name',
             headerName: 'Vendor Name',
-            minWidth: 100,
+            minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
         },
         {
             field: 'status',
             headerName: 'Status',
-            minWidth: 100,
+            minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
         },
         {
             field: 'compliance',
             headerName: 'Compliance',
-            minWidth: 100,
+            minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
         },
         {
             field: 'owner',
             headerName: 'Owner',
-            minWidth: 100,
+            minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
         },
         {
@@ -315,7 +322,7 @@ const Vendors = () => {
             hideSortIcons: true,
             filterable: false,
             disableColumnMenu: true,
-            minWidth: 100,
+            minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
             renderCell: (row) => {
                 return (

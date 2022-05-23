@@ -112,7 +112,7 @@ const VendorExtraNotes = (props: VendorExtraNotesProps) => {
                             key={index}
                             className="bg-gray-400 p-2"
                         />
-                        <Box className="flex flex-column">
+                        <Box className="flex flex-column w-full bg-primary">
                             <Typography>Tagged:</Typography>
                             {item?.taged.map((tag: string) => {
                                 return <Typography key={tag}>{tag}</Typography>;
