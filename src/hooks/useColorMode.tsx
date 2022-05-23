@@ -24,7 +24,7 @@ const { Provider } = ColorModeContext;
 
 const useColorModeProvider = () => {
     const [mode, setMode] = useState('light');
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const colorMode = useMemo(
         () => ({
@@ -61,7 +61,7 @@ const useColorModeProvider = () => {
     return {
         colorMode,
         mode,
-        prefersDarkMode,
+        // prefersDarkMode,
         colorSwitcherIcon,
     };
 };
@@ -74,13 +74,7 @@ export const AppColorModeProvider = ({
     const data = useColorModeProvider();
     return (
         <Provider value={data}>
-            <ThemeProvider
-                theme={
-                    data.mode === 'dark' || data.prefersDarkMode
-                        ? darkTheme
-                        : theme
-                }
-            >
+            <ThemeProvider theme={data.mode === 'dark' ? darkTheme : theme}>
                 <CssBaseline />
                 {children}
             </ThemeProvider>
