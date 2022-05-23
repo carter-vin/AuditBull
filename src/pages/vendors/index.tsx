@@ -375,7 +375,12 @@ const Vendors = () => {
     return (
         <>
             <Grid container spacing={4}>
-                <Grid item xs={12} md={8} className="h-44 md:h-[400px]">
+                <Grid
+                    item
+                    xs={12}
+                    md={8}
+                    className="min-h-[200px] md:h-[400px]"
+                >
                     <Table
                         columns={columns || []}
                         data={vendors || []}

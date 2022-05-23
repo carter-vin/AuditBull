@@ -7,15 +7,18 @@ import {
     Alert,
     AlertTitle,
     ListItemText,
+    useTheme,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Image from 'next/image';
 import { NewPasswordType, useAuth } from 'hooks/useAuth';
 import React from 'react';
 import Password from 'components/Password';
 
 const PasswordUpdateForm = ({ username }: { username: string }) => {
     const { updateNewPassword } = useAuth();
+    const theme = useTheme();
     const formik = useFormik<NewPasswordType>({
         initialValues: {
             password: '',
@@ -47,6 +50,18 @@ const PasswordUpdateForm = ({ username }: { username: string }) => {
             px={[8, 16]}
             spacing={8}
         >
+            <Box>
+                <Image
+                    src={
+                        theme.palette.mode === 'dark'
+                            ? '/logo/ab_no_text_vertical.svg'
+                            : '/logo/ab_vertical.svg'
+                    }
+                    alt="Google"
+                    width="120px"
+                    height="100px"
+                />
+            </Box>
             <Stack width="100%" spacing={2}>
                 <Box
                     display="flex"

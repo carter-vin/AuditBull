@@ -17,6 +17,7 @@ import {
     FormControlLabel,
     Divider,
     FormHelperText,
+    useTheme,
 } from '@mui/material';
 import Image from 'next/image';
 
@@ -34,6 +35,7 @@ type LoginPayload = {
 
 const LoginForm = () => {
     const router = useRouter();
+    const theme = useTheme();
     const { loginBySlack, loginByAzure, loginByUserName, newPasswordButton } =
         useAuth();
 
@@ -72,8 +74,20 @@ const LoginForm = () => {
             height="100vh"
             width="100%"
             px={[8, 16]}
-            spacing={8}
+            spacing={4}
         >
+            <Box>
+                <Image
+                    src={
+                        theme.palette.mode === 'dark'
+                            ? '/logo/ab_no_text_vertical.svg'
+                            : '/logo/ab_vertical.svg'
+                    }
+                    alt="Google"
+                    width="120px"
+                    height="100px"
+                />
+            </Box>
             <Box width="100%" display="flex" flexDirection="column" gap={1}>
                 <Typography variant="h4" className="font-bold">
                     Log in

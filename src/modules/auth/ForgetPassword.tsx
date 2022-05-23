@@ -10,11 +10,15 @@ import {
     FormHelperText,
     Button,
     Typography,
+    useTheme,
 } from '@mui/material';
+import Image from 'next/image';
+
 import Password from 'components/Password';
 
 const ForgetPasswordComponent = () => {
     const { forgetPassword, confirmForgetPassword, codeSent } = useAuth();
+    const theme = useTheme();
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -64,6 +68,18 @@ const ForgetPasswordComponent = () => {
             px={[8, 16]}
             spacing={8}
         >
+            <Box>
+                <Image
+                    src={
+                        theme.palette.mode === 'dark'
+                            ? '/logo/ab_no_text_vertical.svg'
+                            : '/logo/ab_vertical.svg'
+                    }
+                    alt="Google"
+                    width="120px"
+                    height="100px"
+                />
+            </Box>
             <Box width="100%" display="flex" flexDirection="column" gap={1}>
                 <Typography variant="h4" className="font-bold">
                     Forget Password
