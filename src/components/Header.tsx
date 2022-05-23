@@ -145,7 +145,7 @@ const Header = () => {
                             }}
                             PaperProps={{
                                 style: {
-                                    width: '100%',
+                                    width: '250px',
                                     padding: '1rem',
                                 },
                             }}

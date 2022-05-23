@@ -21,15 +21,15 @@ const darkTheme = createTheme({
             paper: '#212839',
         },
     },
-    breakpoints: {
-        values: {
-            xs: 0,
-            sm: 768,
-            md: 900,
-            lg: 1200,
-            xl: 1536,
-        },
-    },
+    // breakpoints: {
+    //     values: {
+    //         xs: 0,
+    //         sm: 768,
+    //         md: 900,
+    //         lg: 1200,
+    //         xl: 1536,
+    //     },
+    // },
 });
 
 export default darkTheme;
