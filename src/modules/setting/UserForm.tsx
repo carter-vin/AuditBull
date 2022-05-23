@@ -56,6 +56,23 @@ const UserForm = (props: UserFormProps) => {
         userReducer: { createUser, editUserRole },
     } = useAppData();
 
+    const customStyles = {
+        control: () => ({
+            display: 'flex',
+            alignItems: 'center',
+            border: 0,
+            height: 'auto',
+            background: 'transparent',
+            '&:hover': {
+                boxShadow: 'none',
+            },
+        }),
+        menu: () => ({
+            backgroundColor:
+                theme.palette.mode === 'dark' ? '#212839' : 'white',
+        }),
+    };
+
     converRoleStringToArray(user?.role || '');
     const formik = useFormik<UserRegisterPayload>({
         initialValues: {
@@ -113,27 +130,6 @@ const UserForm = (props: UserFormProps) => {
             setSubmitting(false);
         },
     });
-
-    const customStyles = {
-        control: () => ({
-            display: 'flex',
-            alignItems: 'center',
-            background: 'transparent',
-        }),
-        menu: () => ({
-            backgroundColor:
-                theme.palette.mode === 'light' ? 'white' : '#212839',
-            position: 'absolute',
-            width: '100%',
-            zIndex: 2,
-        }),
-        menuList: () => ({
-            overflowY: 'auto',
-            '&:hover': {
-                backgroundColor: 'none',
-            },
-        }),
-    };
 
     return (
         <Stack spacing={4}>
@@ -276,6 +272,13 @@ const UserForm = (props: UserFormProps) => {
                             formik.setFieldValue('role', values)
                         }
                     />
+                    {/* <MultiSelect
+                        value={formik.values.role}
+                        handleChange={(values: any) =>
+                            formik.setFieldValue('role', values)
+                        }
+                        options={roleOptions || []}
+                    /> */}
                 </Paper>
             </Box>
             <Box className="flex justify-end gap-4 items-center">
