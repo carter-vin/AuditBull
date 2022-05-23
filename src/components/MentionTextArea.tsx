@@ -1,5 +1,4 @@
-import { Typography, Box } from '@mui/material';
-import { useState } from 'react';
+import { Box } from '@mui/material';
 import { MentionsInput, Mention } from 'react-mentions';
 
 export type MentionInputDataType = {
@@ -29,6 +28,7 @@ const MentionTextArea = (props: MentionTextAreaProps) => {
                         backgroundColor: '#fff',
                         fontSize: 14,
                         fontWeight: 'normal',
+                        color: 'black',
                     },
 
                     '&multiLine': {
@@ -65,6 +65,7 @@ const MentionTextArea = (props: MentionTextAreaProps) => {
                             backgroundColor: 'white',
                             border: '1px solid rgba(0,0,0,0.15)',
                             fontSize: 14,
+                            color: 'black',
                         },
                         item: {
                             padding: '5px 15px',
