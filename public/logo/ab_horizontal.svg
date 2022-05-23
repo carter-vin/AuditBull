@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-2670,-948.809)">
+        <g transform="matrix(1,0,0,1,-0.865268,-316.798)">
+            <g transform="matrix(1,0,-0.263539,1,2687.72,1082.5)">
+                <text x="122.832px" y="243.635px" style="font-family:'AvenirLTStd-Black', 'Avenir LT Std', sans-serif;font-weight:750;font-size:48px;">uditBull</text>
+            </g>
+            <g transform="matrix(1,0,0,1,1900,685.607)">
+                <g transform="matrix(1,0,0,1,794.009,641.191)">
+                    <path d="M0,-61.191L-23.148,0L-3.218,0L6.819,-31.633L1.437,-35.608L1.437,-39.109C7.278,-41.884 13.179,-46.774 13.179,-46.774C13.247,-42.989 9.611,-37.311 9.611,-37.311L37.522,-34.946L27.903,-58.839L0,-61.191Z" style="fill:rgb(17,96,251);fill-rule:nonzero;"/>
+                </g>
+                <g transform="matrix(1,0,0,1,833.276,641.191)">
+                    <path d="M0,-30.616C-0.617,-30.02 -1.078,-29.73 -1.078,-29.73L-10.364,-27.76L-3.504,-15.432L-7.372,-11.058L-11.771,-9.626L-6.243,0L12.326,0L0,-30.616Z" style="fill:rgb(17,96,251);fill-rule:nonzero;"/>
+                </g>
+                <g transform="matrix(-0.582448,0.812868,0.812868,0.582448,837.831,609.796)">
+                    <path d="M-7.426,-7.186L0.78,-7.186L0.782,-7.189L3.286,-3.249C1.177,-2.863 -3.119,-2.811 -7.426,-7.186" style="fill:rgb(17,96,251);fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

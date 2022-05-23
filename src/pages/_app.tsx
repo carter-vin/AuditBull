@@ -5,14 +5,11 @@ import type { AppProps } from 'next/app';
 import type { NextPage } from 'next';
 import { ReactNode } from 'react';
 
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { ToastContainer } from 'react-toastify';
-
+import { AppColorModeProvider } from 'hooks/useColorMode';
 import { Amplify } from 'aws-amplify';
 import createEmotionCache from 'utils/createEmotionCache';
-import theme from 'utils/theme';
 import { AuthProvider } from 'hooks/useAuth';
 import { AppDataProvider } from 'hooks/useAppData';
 import awsmobile from '../aws-exports';
@@ -47,12 +44,12 @@ const MyApp = (props: Props) => {
         <AuthProvider>
             <AppDataProvider>
                 <CacheProvider value={emotionCache}>
-                    <ThemeProvider theme={theme}>
-                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                        <CssBaseline />
-                        <ToastContainer />
-                        {getLayout(<Component {...pageProps} />)}
-                    </ThemeProvider>
+                    <AppColorModeProvider>
+                        <>
+                            <ToastContainer />
+                            {getLayout(<Component {...pageProps} />)}
+                        </>
+                    </AppColorModeProvider>
                 </CacheProvider>
             </AppDataProvider>
         </AuthProvider>

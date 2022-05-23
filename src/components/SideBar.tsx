@@ -24,12 +24,13 @@ export type SideBarType = {
 
 interface SideBarProps {
     logoImg: string;
+    logoImgMobile: string;
     logoText: string;
     menu: SideBarType;
 }
 
 const SideBar = (props: SideBarProps) => {
-    const { logoImg, logoText, menu } = props;
+    const { logoImg, logoText, menu, logoImgMobile } = props;
     const router = useRouter();
     return (
         <MuiDrawer
@@ -54,8 +55,13 @@ const SideBar = (props: SideBarProps) => {
                         height={80}
                     />
                 </div>
-                <div className="items-center justify-center w-full sm:hidden block">
-                    <h5 className="font-extrabold text-center">AuditBull</h5>
+                <div className="items-center justify-center w-full sm:hidden flex">
+                    <Image
+                        src={logoImgMobile}
+                        alt={logoText}
+                        width={80}
+                        height={80}
+                    />
                 </div>
                 <List>
                     {menu.links.map((sideBarMenu: SideBarLink) => (

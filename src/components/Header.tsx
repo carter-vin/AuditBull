@@ -21,6 +21,7 @@ import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { stringAvatar, stringToColor } from 'utils/stringAvatar';
+import { useColorMode } from 'hooks/useColorMode';
 
 export type HeaderMenu = {
     label: string;
@@ -58,6 +59,8 @@ const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [openMyAccount, setOpenMyAccount] = useState<boolean>(false);
 
+    const colorMode = useColorMode();
+
     const handleMyAccountClick = () => {
         setOpenMyAccount(!openMyAccount);
     };
@@ -81,11 +84,12 @@ const Header = () => {
     return (
         <Box sx={{ marginTop: 1 }}>
             <AppBar
-                position="static"
+                position="sticky"
                 color="transparent"
                 className="drop-shadow-none	"
                 sx={{
                     boxShadow: 'none',
+                    top: 0,
                 }}
             >
                 <Toolbar className=" flex justify-end  md:justify-between md:items-center p-0 ">
@@ -93,7 +97,9 @@ const Header = () => {
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'flex', md: 'none' },
-                            justifyContent: 'flex-end',
+                            justifyContent: 'space-between',
+                            justifyItems: 'center',
+                            alignItems: 'center',
                         }}
                     >
                         <IconButton
@@ -104,19 +110,33 @@ const Header = () => {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            {anchorElNav ? <CloseIcon /> : <MenuIcon />}
+                            {!anchorElNav && <MenuIcon />}
                         </IconButton>
+                        {anchorElNav ? (
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        ) : (
+                            <Box>{colorMode.colorSwitcherIcon}</Box>
+                        )}
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'right',
+                                horizontal: 'left',
                             }}
                             keepMounted
                             transformOrigin={{
                                 vertical: 'top',
-                                horizontal: 'right',
+                                horizontal: 'left',
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
@@ -125,7 +145,7 @@ const Header = () => {
                             }}
                             PaperProps={{
                                 style: {
-                                    width: 300,
+                                    width: '100%',
                                     padding: '1rem',
                                 },
                             }}
@@ -220,6 +240,8 @@ const Header = () => {
                                 {item.label}
                             </ListItemButton>
                         ))}
+
+                        <Box>{colorMode.colorSwitcherIcon}</Box>
 
                         <Box>
                             <Avatar
