@@ -2,9 +2,9 @@ import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
 // Create a theme instance.
-const theme = createTheme({
+const darkTheme = createTheme({
     palette: {
-        mode: 'light',
+        mode: 'dark',
         primary: {
             main: '#005AFF',
             light: '#0693e3',
@@ -15,6 +15,10 @@ const theme = createTheme({
         },
         error: {
             main: red.A400,
+        },
+        background: {
+            default: '#212839',
+            paper: '#212839',
         },
     },
     breakpoints: {
@@ -28,4 +32,4 @@ const theme = createTheme({
     },
 });
 
-export default theme;
+export default darkTheme;

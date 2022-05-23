@@ -10,6 +10,8 @@ import { ToastContainer } from 'react-toastify';
 import { AppColorModeProvider } from 'hooks/useColorMode';
 import { Amplify } from 'aws-amplify';
 import createEmotionCache from 'utils/createEmotionCache';
+import { StyledEngineProvider } from '@mui/material/styles';
+
 import { AuthProvider } from 'hooks/useAuth';
 import { AppDataProvider } from 'hooks/useAppData';
 import awsmobile from '../aws-exports';
@@ -42,16 +44,18 @@ const MyApp = (props: Props) => {
 
     return (
         <AuthProvider>
-            <AppDataProvider>
+            <StyledEngineProvider injectFirst>
                 <CacheProvider value={emotionCache}>
                     <AppColorModeProvider>
-                        <>
-                            <ToastContainer />
-                            {getLayout(<Component {...pageProps} />)}
-                        </>
+                        <AppDataProvider>
+                            <>
+                                <ToastContainer />
+                                {getLayout(<Component {...pageProps} />)}
+                            </>
+                        </AppDataProvider>
                     </AppColorModeProvider>
                 </CacheProvider>
-            </AppDataProvider>
+            </StyledEngineProvider>
         </AuthProvider>
     );
 };

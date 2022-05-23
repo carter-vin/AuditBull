@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable import/prefer-default-export */
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
 import {
     createContext,
     ReactElement,
@@ -16,14 +16,15 @@ import {
 } from 'react';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { red } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+import darkTheme from 'utils/darkTheme';
+import theme from 'utils/theme';
 
 const ColorModeContext = createContext<any>({});
 const { Provider } = ColorModeContext;
 
 const useColorModeProvider = () => {
     const [mode, setMode] = useState('light');
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const colorMode = useMemo(
         () => ({
@@ -43,26 +44,6 @@ const useColorModeProvider = () => {
         [mode]
     );
 
-    const getDesignTokens = (mode: any) => ({
-        palette: {
-            mode,
-            ...(mode === 'dark' && {
-                main: '#212839',
-            }),
-            primary: {
-                main: '#005AFF',
-                light: '#0693e3',
-            },
-            secondary: {
-                main: '#1A202C',
-                light: '#2D3748',
-            },
-            error: {
-                main: red.A400,
-            },
-        },
-    });
-
     const colorSwitcherIcon = (
         <div
             onClick={() => colorMode.toggleColorMode()}
@@ -72,8 +53,6 @@ const useColorModeProvider = () => {
         </div>
     );
 
-    const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             setMode(localStorage.getItem('audit_bull_color_mode') || 'light ');
@@ -81,7 +60,8 @@ const useColorModeProvider = () => {
     }, []);
     return {
         colorMode,
-        theme,
+        mode,
+        prefersDarkMode,
         colorSwitcherIcon,
     };
 };
@@ -94,7 +74,13 @@ export const AppColorModeProvider = ({
     const data = useColorModeProvider();
     return (
         <Provider value={data}>
-            <ThemeProvider theme={data.theme}>
+            <ThemeProvider
+                theme={
+                    data.mode === 'dark' || data.prefersDarkMode
+                        ? darkTheme
+                        : theme
+                }
+            >
                 <CssBaseline />
                 {children}
             </ThemeProvider>

@@ -6,6 +6,7 @@ import {
     FormHelperText,
     Button,
     Paper,
+    useTheme,
 } from '@mui/material';
 import Select from 'react-select';
 
@@ -50,7 +51,7 @@ const converRoleStringToArray = (role: string) => {
 
 const UserForm = (props: UserFormProps) => {
     const { callback, user } = props;
-
+    const theme = useTheme();
     const {
         userReducer: { createUser, editUserRole },
     } = useAppData();
@@ -112,6 +113,27 @@ const UserForm = (props: UserFormProps) => {
             setSubmitting(false);
         },
     });
+
+    const customStyles = {
+        control: () => ({
+            display: 'flex',
+            alignItems: 'center',
+            background: 'transparent',
+        }),
+        menu: () => ({
+            backgroundColor:
+                theme.palette.mode === 'light' ? 'white' : '#212839',
+            position: 'absolute',
+            width: '100%',
+            zIndex: 2,
+        }),
+        menuList: () => ({
+            overflowY: 'auto',
+            '&:hover': {
+                backgroundColor: 'none',
+            },
+        }),
+    };
 
     return (
         <Stack spacing={4}>
@@ -248,6 +270,7 @@ const UserForm = (props: UserFormProps) => {
                     <Select
                         options={roleOptions}
                         isMulti
+                        styles={customStyles}
                         value={formik.values.role}
                         onChange={(values) =>
                             formik.setFieldValue('role', values)
