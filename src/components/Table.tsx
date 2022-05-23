@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMediaQuery, useTheme } from '@mui/material';
 import {
     DataGrid,
     GridCallbackDetails,
@@ -20,6 +21,8 @@ interface TabelProps {
 }
 const Table = (props: TabelProps) => {
     const { data, columns, onRowClick, noFilter } = props;
+    const theme = useTheme();
+    const hideTableToolbar = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <DataGrid
             density="standard"
@@ -32,7 +35,9 @@ const Table = (props: TabelProps) => {
             checkboxSelection={false}
             disableSelectionOnClick={false}
             onRowClick={onRowClick}
-            components={{ Toolbar: !noFilter ? GridToolbar : null }}
+            components={{
+                Toolbar: !hideTableToolbar && !noFilter ? GridToolbar : null,
+            }}
             hideFooter
             getRowId={(row) => row.id}
         />

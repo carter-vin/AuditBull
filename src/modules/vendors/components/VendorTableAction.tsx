@@ -65,7 +65,7 @@ const VendorTableAction = (props: VendorTableActionProps) => {
     };
 
     return (
-        <Box className="flex justify-end items-center gap-4">
+        <Box className="flex flex-col md:flex-row md:justify-end items-center gap-4 md:hidden">
             <TextField
                 id="status"
                 variant="outlined"
@@ -73,7 +73,7 @@ const VendorTableAction = (props: VendorTableActionProps) => {
                 size="small"
                 select
                 value={status}
-                className="w-48"
+                className="w-full md:w-48"
                 onChange={(e) => handleStatusChange(e.target.value)}
             >
                 {vendorStatus.map((option) => (
@@ -89,7 +89,7 @@ const VendorTableAction = (props: VendorTableActionProps) => {
                 size="small"
                 select
                 value={compliance}
-                className="w-48"
+                className="w-full md:w-48"
                 onChange={(e) => handleComplianceChange(e.target.value)}
             >
                 {complianceStatus.map((option) => (
@@ -105,7 +105,7 @@ const VendorTableAction = (props: VendorTableActionProps) => {
                 size="small"
                 select
                 value={owner}
-                className="w-48"
+                className="w-full md:w-48"
                 onChange={(e) => handleOwnerChange(e.target.value)}
             >
                 {(ownerOptions || []).map((option) => (
@@ -119,6 +119,7 @@ const VendorTableAction = (props: VendorTableActionProps) => {
                 variant="outlined"
                 placeholder="Search"
                 size="small"
+                className="w-full md:w-48"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 InputProps={{

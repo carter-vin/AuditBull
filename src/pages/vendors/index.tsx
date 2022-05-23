@@ -287,27 +287,22 @@ const Vendors = () => {
         {
             field: 'name',
             headerName: 'Vendor Name',
-            flex: 1,
         },
         {
             field: 'status',
             headerName: 'Status',
-            flex: 1,
         },
         {
             field: 'compliance',
             headerName: 'Compliance',
-            flex: 1,
         },
         {
             field: 'owner',
             headerName: 'Owner',
-            flex: 1,
         },
         {
             field: '',
             headerName: '',
-            flex: 1,
             sortable: false,
             hideSortIcons: true,
             filterable: false,
@@ -373,19 +368,16 @@ const Vendors = () => {
     }
 
     return (
-        <>
+        <Box className="flex flex-col w-full">
             <Grid container spacing={4}>
-                <Grid
-                    item
-                    xs={12}
-                    md={8}
-                    className="min-h-[200px] md:h-[400px]"
-                >
-                    <Table
-                        columns={columns || []}
-                        data={vendors || []}
-                        onRowClick={handleRowClicked}
-                    />
+                <Grid item xs={12} md={8}>
+                    <Box className="min-h-[200px] md:h-[400px]">
+                        <Table
+                            columns={columns || []}
+                            data={vendors || []}
+                            onRowClick={handleRowClicked}
+                        />
+                    </Box>
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Card
@@ -410,7 +402,7 @@ const Vendors = () => {
                     />
                 </Box>
             </Modal>
-        </>
+        </Box>
     );
 };
 
