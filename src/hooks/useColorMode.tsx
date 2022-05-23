@@ -78,7 +78,7 @@ const useColorModeProvider = () => {
         if (typeof window !== 'undefined') {
             setMode(localStorage.getItem('audit_bull_color_mode') || 'light ');
         }
-    });
+    }, []);
     return {
         colorMode,
         theme,

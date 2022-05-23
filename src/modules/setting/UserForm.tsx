@@ -5,6 +5,7 @@ import {
     TextField,
     FormHelperText,
     Button,
+    Paper,
 } from '@mui/material';
 import Select from 'react-select';
 
@@ -243,12 +244,16 @@ const UserForm = (props: UserFormProps) => {
                         <strong className="text-gray-700">User Role </strong>
                     </InputLabel>
                 </Box>
-                <Select
-                    options={roleOptions}
-                    isMulti
-                    value={formik.values.role}
-                    onChange={(values) => formik.setFieldValue('role', values)}
-                />
+                <Paper>
+                    <Select
+                        options={roleOptions}
+                        isMulti
+                        value={formik.values.role}
+                        onChange={(values) =>
+                            formik.setFieldValue('role', values)
+                        }
+                    />
+                </Paper>
             </Box>
             <Box className="flex justify-end gap-4 items-center">
                 <Button
