@@ -287,18 +287,22 @@ const Vendors = () => {
         {
             field: 'name',
             headerName: 'Vendor Name',
+            flex: 1,
         },
         {
             field: 'status',
             headerName: 'Status',
+            flex: 1,
         },
         {
             field: 'compliance',
             headerName: 'Compliance',
+            flex: 1,
         },
         {
             field: 'owner',
             headerName: 'Owner',
+            flex: 1,
         },
         {
             field: '',
@@ -307,6 +311,7 @@ const Vendors = () => {
             hideSortIcons: true,
             filterable: false,
             disableColumnMenu: true,
+            flex: 1,
             renderCell: (row) => {
                 return (
                     <Box className="flex justify-center items-center w-full ">
