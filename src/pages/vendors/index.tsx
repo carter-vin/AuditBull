@@ -195,7 +195,7 @@ const Vendors = () => {
                     <Stack direction="column" spacing={2}>
                         <Grid container spacing={2}>
                             <Grid item xs={8}>
-                                <Typography>VRM Stats</Typography>
+                                <Typography>VRM Status</Typography>
                             </Grid>
                             <Grid item xs={4}>
                                 <Typography>
@@ -226,7 +226,7 @@ const Vendors = () => {
                             <Typography>Risk Management</Typography>
                             <Grid container spacing={2}>
                                 <Grid item xs={8}>
-                                    <Typography>VRM Stats</Typography>
+                                    <Typography>VRM Status</Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Typography>

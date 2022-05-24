@@ -30,8 +30,8 @@ export type HeaderMenu = {
 
 const headerMenu: HeaderMenu[] = [
     {
-        label: 'Systems',
-        href: '/systems',
+        label: 'Home',
+        href: '/',
     },
     {
         label: 'Vendors',
@@ -150,15 +150,6 @@ const Header = () => {
                                 },
                             }}
                         >
-                            <ListItemButton
-                                component="a"
-                                color="inherit"
-                                href="/"
-                                key="home"
-                                selected={router.pathname === '/'}
-                            >
-                                Home
-                            </ListItemButton>
                             {headerMenu.map((item: HeaderMenu) => (
                                 <ListItemButton
                                     selected={router.pathname === item.href}
@@ -170,6 +161,15 @@ const Header = () => {
                                     {item.label}
                                 </ListItemButton>
                             ))}
+                            <ListItemButton
+                                component="a"
+                                color="inherit"
+                                href="/systems"
+                                key="systems"
+                                selected={router.pathname === '/systems'}
+                            >
+                                Systems
+                            </ListItemButton>
 
                             <ListItemButton
                                 color="inherit"
@@ -217,18 +217,7 @@ const Header = () => {
                     </Box>
 
                     {/* for desktop */}
-                    <Box className="hidden md:block -ml-4">
-                        <ListItemButton
-                            component="a"
-                            color="inherit"
-                            href="/"
-                            key="home"
-                            selected={router.pathname === '/'}
-                        >
-                            Home
-                        </ListItemButton>
-                    </Box>
-                    <List className="justify-end items-center gap-8 hidden md:flex">
+                    <Box className="justify-end items-center gap-8 hidden md:flex">
                         {headerMenu.map((item: HeaderMenu) => (
                             <ListItemButton
                                 selected={router.pathname === item.href}
@@ -240,7 +229,17 @@ const Header = () => {
                                 {item.label}
                             </ListItemButton>
                         ))}
-
+                    </Box>
+                    <List className="justify-end items-center gap-8 hidden md:flex">
+                        <ListItemButton
+                            component="a"
+                            color="inherit"
+                            href="/systems"
+                            key="systems"
+                            selected={router.pathname === '/systems'}
+                        >
+                            Systems
+                        </ListItemButton>
                         <Box>{colorMode.colorSwitcherIcon}</Box>
 
                         <Box>
