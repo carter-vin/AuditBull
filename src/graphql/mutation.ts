@@ -7,3 +7,11 @@ mutation MyMutation {
   }
 }
 `;
+
+export const createVendor = `
+  mutation CreateVendor {
+    createVendors(input: {compliance: $compliance, finance: $finance, name: $name, status:$status, service: $service, use_cases: $use_cases}) {
+      id
+    }
+  }
+`;

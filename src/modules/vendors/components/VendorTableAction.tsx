@@ -2,14 +2,10 @@ import { Box, TextField, MenuItem, InputAdornment } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { vendorStatus, complianceStatus } from 'utils/select';
+import { vendorStatus, complianceStatus, OptionType } from 'utils/select';
 import { VendorItem } from 'pages/vendors';
 import { filter } from 'lodash';
 
-export type OptionType = {
-    label: string;
-    value: string;
-};
 interface VendorTableActionProps {
     setVendorList: (items: VendorItem[]) => void;
     setQuery: (query: string) => void;

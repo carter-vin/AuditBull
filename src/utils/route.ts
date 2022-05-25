@@ -2,6 +2,7 @@
 export const AppRoute = {
     Dashboard: '/',
     Vendors: '/vendors',
+    CreateVendor: '/vendors/create',
     Onboarding: '/onboarding',
     Compliance: '/compliance',
     Contracts: '/contracts',

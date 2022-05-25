@@ -4,6 +4,7 @@ import {
     List,
     ListItemButton,
     ListItemIcon,
+    Box,
 } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -47,14 +48,16 @@ const SideBar = (props: SideBarProps) => {
             }}
         >
             <div className="py-4 md:py-0 flex flex-col gap-4 md:gap-0">
-                <div className="items-center justify-center w-full hidden md:flex">
-                    <Image
-                        src={logoImg}
-                        alt={logoText}
-                        width={150}
-                        height={80}
-                    />
-                </div>
+                <Box className="items-center justify-center hidden md:flex w-full">
+                    <div className="p-2">
+                        <Image
+                            src={logoImg}
+                            alt={logoText}
+                            width={220}
+                            height={50}
+                        />
+                    </div>
+                </Box>
                 <div className="items-center justify-center w-full sm:hidden flex">
                     <Image
                         src={logoImgMobile}

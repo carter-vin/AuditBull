@@ -30,6 +30,7 @@ import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
 import VendorExtraNotes from 'modules/vendors/components/VendorExtraNotes';
 import { listVendors } from 'graphql/query';
+import VendorListHeader from 'modules/vendors/components/VendorHeader';
 
 export type VendorItem = {
     id: string;
@@ -385,7 +386,8 @@ const Vendors = () => {
     }
 
     return (
-        <Box className="flex flex-col w-full">
+        <Box className="flex flex-col w-full gap-4">
+            <VendorListHeader />
             <Grid container spacing={4}>
                 <Grid item xs={12} md={8}>
                     <Box className="min-h-[200px] md:h-[400px]">

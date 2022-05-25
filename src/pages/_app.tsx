@@ -4,6 +4,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import type { NextPage } from 'next';
 import { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { ToastContainer } from 'react-toastify';
@@ -41,22 +42,25 @@ const MyApp = (props: Props) => {
     } = props;
 
     const getLayout = Component.getLayout || ((page) => page);
+    const queryClient = new QueryClient();
 
     return (
-        <AuthProvider>
-            <StyledEngineProvider injectFirst>
-                <CacheProvider value={emotionCache}>
-                    <AppColorModeProvider>
-                        <AppDataProvider>
-                            <>
-                                <ToastContainer />
-                                {getLayout(<Component {...pageProps} />)}
-                            </>
-                        </AppDataProvider>
-                    </AppColorModeProvider>
-                </CacheProvider>
-            </StyledEngineProvider>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+                <StyledEngineProvider injectFirst>
+                    <CacheProvider value={emotionCache}>
+                        <AppColorModeProvider>
+                            <AppDataProvider>
+                                <>
+                                    <ToastContainer />
+                                    {getLayout(<Component {...pageProps} />)}
+                                </>
+                            </AppDataProvider>
+                        </AppColorModeProvider>
+                    </CacheProvider>
+                </StyledEngineProvider>
+            </AuthProvider>
+        </QueryClientProvider>
     );
 };
 
