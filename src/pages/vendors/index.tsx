@@ -23,7 +23,6 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 import Table from 'components/Table';
 import Tab from 'components/Tab';
-import { OptionType } from 'modules/vendors/components/VendorTableAction';
 import Fuse from 'fuse.js';
 import { map, pick, uniqWith, isEqual, find, filter } from 'lodash';
 import { useAuth } from 'hooks/useAuth';
@@ -31,6 +30,7 @@ import { useRouter } from 'next/router';
 import VendorExtraNotes from 'modules/vendors/components/VendorExtraNotes';
 import { listVendors } from 'graphql/query';
 import VendorListHeader from 'modules/vendors/components/VendorHeader';
+import { OptionType } from 'utils/select';
 
 export type VendorItem = {
     id: string;
