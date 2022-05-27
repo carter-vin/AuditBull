@@ -143,16 +143,13 @@
     "adminQueryGroup": {
       "Type": "String"
     },
+    "oAuthSecretsPathAmplifyAppId": {
+      "Type": "String"
+    },
     "googleClientId": {
       "Type": "String"
     },
-    "hostedUIProviderCreds": {
-      "Type": "String"
-    },
     "oAuthMetadata": {
-      "Type": "String"
-    },
-    "oAuthSecretsPathAmplifyAppId": {
       "Type": "String"
     }
   },

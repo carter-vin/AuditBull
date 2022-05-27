@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
 import { ReactElement, useEffect, useState } from 'react';
 
 import DashboardLayout from 'layouts/DashboardLayout';
 import {
-    Divider,
     Grid,
-    Stack,
     Typography,
     Card,
     CardContent,
@@ -24,13 +23,15 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import Table from 'components/Table';
 import Tab from 'components/Tab';
 import Fuse from 'fuse.js';
-import { map, pick, uniqWith, isEqual, find, filter } from 'lodash';
+import { filter, find, map } from 'lodash';
 import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
 import VendorExtraNotes from 'modules/vendors/components/VendorExtraNotes';
 import { listVendors } from 'graphql/query';
 import VendorListHeader from 'modules/vendors/components/VendorHeader';
-import { OptionType } from 'utils/select';
+import VendorCompliance from 'modules/vendors/components/VendorCompliance';
+import VendorFinance from 'modules/vendors/components/VendorFinance';
+import VendorUseCase from 'modules/vendors/components/VendorUseCase';
 
 export type VendorItem = {
     id: string;
@@ -41,45 +42,6 @@ export type VendorItem = {
     owner?: string;
     website?: string;
 };
-
-const mockData: VendorItem[] = [
-    {
-        id: '1',
-        name: 'Miro',
-        status: 'seeking-approval',
-        compliance: 'yes',
-        owner: 'John Doe',
-        website: '',
-    },
-    {
-        id: '2',
-        name: 'Jira',
-        status: 'budget-approved',
-        compliance: 'no',
-        owner: 'Jake Blitch',
-    },
-    {
-        id: '3',
-        name: 'Salesforce',
-        status: 'active',
-        compliance: 'no',
-        owner: 'Elon Musk',
-    },
-    {
-        id: '4',
-        name: 'AWS',
-        status: 'evaluation',
-        compliance: 'yes',
-        owner: 'John Doe',
-    },
-    {
-        id: '5',
-        name: 'Microsoft',
-        status: 'evaluation',
-        compliance: 'no',
-        owner: 'Elon Musk',
-    },
-];
 
 const fuseOptions = {
     keys: [
@@ -116,16 +78,11 @@ const Vendors = () => {
     const { loginUser, loading } = useAuth();
 
     const [rowLoading, setRowLoading] = useState<boolean>(false);
-    const [query, setQuery] = useState<string>('');
-    const [ownerOptions, setOwnerOptions] = useState<OptionType[]>([]);
+    const [query] = useState<string>('');
     const [notesModal, setNotesModal] = useState<boolean>(false);
 
     const [vendorList, setVendorList] = useState<VendorItem[]>([]);
-    const [selectedVendor, setSelectedVendor] = useState<VendorItem>({
-        id: '',
-        name: '',
-        status: '',
-    });
+    const [selectedVendor, setSelectedVendor] = useState<any>(null);
 
     const getVendorList = async () => {
         const res: any = await API.graphql(graphqlOperation(listVendors));
@@ -153,134 +110,6 @@ const Vendors = () => {
         }, 500);
     };
 
-    const tabs = [
-        {
-            label: 'Information',
-            component: (
-                <CardContent>
-                    <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                            <Typography>Owner</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography>{selectedVendor?.owner}</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography>Vendor Name</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography>{selectedVendor?.name}</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography>Vendor Website</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography>
-                                {selectedVendor?.website || ''}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography>Product Information</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography>{selectedVendor?.owner}</Typography>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            ),
-        },
-        {
-            label: 'Compliance',
-            component: (
-                <CardContent>
-                    <Stack direction="column" spacing={2}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={8}>
-                                <Typography>VRM Status</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography>
-                                    {selectedVendor?.status}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Typography>MNDA</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography>One Document</Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Typography>VRM Questionairre</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography>One Document</Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Typography>Audit Certification</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography>List of documents</Typography>
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Stack direction="column" spacing={2}>
-                            <Typography>Risk Management</Typography>
-                            <Grid container spacing={2}>
-                                <Grid item xs={8}>
-                                    <Typography>VRM Status</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Typography>
-                                        {selectedVendor?.status}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <Typography>MNDA</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Typography>One Document</Typography>
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <Typography>VRM Questionairre</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Typography>One Document</Typography>
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <Typography>Audit Certification</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Typography>List of documents</Typography>
-                                </Grid>
-                            </Grid>
-                        </Stack>
-                        <Divider />
-                        <VendorExtraNotes
-                            selectedVendor={selectedVendor}
-                            refetch={() => getVendorList()}
-                        />
-                    </Stack>
-                </CardContent>
-            ),
-        },
-    ];
-
-    const getOwnerOptions = () => {
-        const options: OptionType[] = [
-            {
-                label: 'All Users',
-                value: 'all',
-            },
-        ];
-        map(mockData, (item) => {
-            options.push({
-                label: String(pick(item, ['owner']).owner) || '',
-                value: String(pick(item, ['owner']).owner) || '',
-            });
-        });
-        setOwnerOptions(uniqWith(options, isEqual));
-    };
-
     const fuse = new Fuse(vendorList, fuseOptions);
     const results = fuse.search(query);
     const vendors = query ? results.map((vendor) => vendor.item) : vendorList;
@@ -305,14 +134,8 @@ const Vendors = () => {
             flex: 1,
         },
         {
-            field: 'compliance',
-            headerName: 'Compliance',
-            minWidth: hideTableToolbar ? 150 : 100,
-            flex: 1,
-        },
-        {
-            field: 'owner',
-            headerName: 'Owner',
+            field: 'website',
+            headerName: 'website',
             minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
         },
@@ -332,7 +155,7 @@ const Vendors = () => {
                             badgeContent={
                                 filter(
                                     row?.row?.Notes?.items,
-                                    (vendorNotes) => {
+                                    (vendorNotes: any) => {
                                         return (
                                             vendorNotes.taged.includes(
                                                 loginUser.username
@@ -359,10 +182,72 @@ const Vendors = () => {
         },
     ];
 
-    useEffect(() => {
-        getOwnerOptions();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mockData]);
+    const tabs = [
+        {
+            label: 'Information',
+            component: (
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Typography>Vendor Name</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>{selectedVendor?.name}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>Vendor Website</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>
+                                {selectedVendor?.website || ''}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography>Product Information</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            {map(
+                                JSON.parse(selectedVendor?.service || '{}'),
+                                (service) => (
+                                    <Typography>{service.label}</Typography>
+                                )
+                            )}
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            ),
+        },
+        {
+            label: 'Compliance',
+            component: (
+                <VendorCompliance
+                    getVendorList={getVendorList}
+                    vendor={selectedVendor}
+                    vendorCompliance={JSON.parse(
+                        selectedVendor?.compliance || '{}'
+                    )}
+                />
+            ),
+        },
+        {
+            label: 'Finance',
+            component: (
+                <VendorFinance
+                    vendorFinance={JSON.parse(selectedVendor?.finance || '{}')}
+                />
+            ),
+        },
+        {
+            label: 'Use Case',
+            component: (
+                <VendorUseCase
+                    vendorUseCase={JSON.parse(
+                        selectedVendor?.use_cases || '{}'
+                    )}
+                />
+            ),
+        },
+    ];
 
     useEffect(() => {
         if (loginUser === null || !loginUser) {

@@ -1,11 +1,8 @@
-import { Box, InputLabel } from '@mui/material';
-import { FormikProps } from 'formik';
+import { Box, Typography } from '@mui/material';
 
-import { CreateVendorType } from 'pages/vendors/create';
 import Select from 'components/Select';
 
 import Input from 'components/Input';
-import ReactSelect from 'react-select';
 import {
     OptionType,
     riskClassificationOptions,
@@ -13,79 +10,125 @@ import {
 } from 'utils/select';
 
 interface ComplianceStepProps {
-    formik: FormikProps<any>;
+    formik: any;
     users: OptionType[];
 }
 
 const ComplianceStep = (props: ComplianceStepProps) => {
     const { formik, users } = props;
     return (
-        <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-            <Box className="flex flex-col gap-2">
-                <InputLabel htmlFor="assignUser">
-                    <strong className="text-gray-700">Assigned To</strong>
-                </InputLabel>
-                <ReactSelect
+        <Box className="flex flex-col gap-4">
+            {formik.values.compliance?.compliaceTaggedUser && (
+                <Typography color="green">
+                    You can navigate to next step
+                </Typography>
+            )}
+            <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                <Select
+                    label="Assigned To"
+                    name="compliance.compliaceTaggedUser"
                     options={users || []}
-                    value={
-                        formik.values.compliance?.compliaceTaggedUser || null
+                    values={formik.values.compliance?.compliaceTaggedUser || ''}
+                    onChange={formik.handleChange}
+                />
+
+                <Select
+                    label="Risk Classification"
+                    name="compliance.riskClassification"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    options={riskClassificationOptions || []}
+                    values={formik.values.compliance.riskClassification}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(
+                            formik.touched?.compliance?.riskClassification
+                        ) &&
+                            formik.errors?.compliance?.riskClassification) ||
+                        ''
                     }
-                    onChange={(value) =>
-                        formik.setFieldValue(
-                            'compliance.compliaceTaggedUser',
-                            value
-                        )
+                />
+                <Select
+                    label="VRM Status"
+                    name="compliance.vrmStatus"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    options={statusOptions || []}
+                    values={formik.values.compliance.vrmStatus}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(formik.touched?.compliance?.vrmStatus) &&
+                            formik.errors?.compliance?.vrmStatus) ||
+                        ''
+                    }
+                />
+                <Input
+                    label="Risk Statement"
+                    name="compliance.riskStatement"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    value={formik.values.compliance.riskStatement}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(formik.touched?.compliance?.riskStatement) &&
+                            formik.errors?.compliance?.riskStatement) ||
+                        ''
+                    }
+                />
+                <Select
+                    label="VRM Questionnaire"
+                    name="compliance.vrmQuestionnaire"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    options={statusOptions || []}
+                    values={formik.values.compliance.vrmQuestionnaire}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(
+                            formik.touched?.compliance?.vrmQuestionnaire
+                        ) &&
+                            formik.errors?.compliance?.vrmQuestionnaire) ||
+                        ''
+                    }
+                />
+                <Select
+                    label="security Assesment"
+                    name="compliance.securityAssesment"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    options={statusOptions || []}
+                    values={formik.values.compliance.securityAssesment}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(
+                            formik.touched?.compliance?.securityAssesment
+                        ) &&
+                            formik.errors?.compliance?.securityAssesment) ||
+                        ''
+                    }
+                />
+                <Select
+                    label="Privacy Review"
+                    name="compliance.privacyReview"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    options={statusOptions || []}
+                    values={formik.values.compliance.privacyReview}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(formik.touched?.compliance?.privacyReview) &&
+                            formik.errors?.compliance?.privacyReview) ||
+                        ''
+                    }
+                />
+                <Select
+                    label="Legal Review"
+                    name="compliance.legalReview"
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
+                    options={statusOptions || []}
+                    values={formik.values.compliance.legalReview}
+                    onChange={formik.handleChange}
+                    error={
+                        (Boolean(formik.touched?.compliance?.legalReview) &&
+                            formik.errors?.compliance?.legalReview) ||
+                        ''
                     }
                 />
             </Box>
-            <Select
-                label="Risk Classification"
-                name="compliance.riskClassification"
-                options={riskClassificationOptions || []}
-                values={formik.values.compliance.riskClassification}
-                onChange={formik.handleChange}
-            />
-            <Select
-                label="VRM Status"
-                name="compliance.vrmStatus"
-                options={statusOptions || []}
-                values={formik.values.compliance.vrmStatus}
-                onChange={formik.handleChange}
-            />
-            <Input
-                label="Risk Statement"
-                name="compliance.riskStatement"
-                value={formik.values.compliance.riskStatement}
-                onChange={formik.handleChange}
-            />
-            <Select
-                label="VRM Questionnaire"
-                name="compliance.vrmQuestionnaire"
-                options={statusOptions || []}
-                values={formik.values.compliance.vrmQuestionnaire}
-                onChange={formik.handleChange}
-            />
-            <Select
-                label="security Assesment"
-                name="compliance.securityAssesment"
-                options={statusOptions || []}
-                values={formik.values.compliance.securityAssesment}
-                onChange={formik.handleChange}
-            />
-            <Select
-                label="Privacy Review"
-                name="compliance.privacyReview"
-                options={statusOptions || []}
-                values={formik.values.compliance.privacyReview}
-                onChange={formik.handleChange}
-            />
-            <Select
-                label="Legal Review"
-                name="compliance.legalReview"
-                options={statusOptions || []}
-                values={formik.values.compliance.legalReview}
-                onChange={formik.handleChange}
-            />
         </Box>
     );
 };

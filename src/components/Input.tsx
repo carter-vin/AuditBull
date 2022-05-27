@@ -6,6 +6,7 @@ interface InputProps {
     type?: string;
     placeholder?: string;
     value: string;
+    disabled?: boolean;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
     variant?: 'outlined' | 'standard' | 'filled';
@@ -20,6 +21,7 @@ const Input = (props: InputProps) => {
         onChange,
         error = '',
         variant = 'outlined',
+        disabled,
     } = props;
     return (
         <Box display="flex" flexDirection="column" gap={1}>
@@ -38,6 +40,7 @@ const Input = (props: InputProps) => {
                 id={name}
                 placeholder={placeholder}
                 variant={variant}
+                disabled={disabled}
             />
             {Boolean(error) && (
                 <FormHelperText error id="username" color="red">

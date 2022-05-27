@@ -3,12 +3,14 @@ export const listVendors = `
 query MyQuery {
   listVendors {
     items {
-      name
       id
-      email
-      compliance
-      owner
+      name
+      service
       status
+      finance
+      compliance
+      use_cases
+      createdAt
       Notes {
         items {
           note

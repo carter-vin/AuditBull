@@ -11,8 +11,9 @@ type OptionType = {
     value: string;
 };
 interface SelectProps {
-    label: string;
+    label?: string;
     name: string;
+    disabled?: boolean;
     options: OptionType[];
     values: OptionType;
     onChange: any;
@@ -20,15 +21,17 @@ interface SelectProps {
 }
 
 const Select = (props: SelectProps) => {
-    const { label, name, options, values, error, onChange } = props;
+    const { label, name, options, values, error, onChange, disabled } = props;
 
     return (
         <Box display="flex" flexDirection="column" gap={1}>
-            <Box>
-                <InputLabel htmlFor="email">
-                    <strong className="text-gray-700"> {label} </strong>
-                </InputLabel>
-            </Box>
+            {label && (
+                <Box>
+                    <InputLabel htmlFor="email">
+                        <strong className="text-gray-700"> {label} </strong>
+                    </InputLabel>
+                </Box>
+            )}
             <ReactSelect
                 size="small"
                 labelId={name}
@@ -36,10 +39,11 @@ const Select = (props: SelectProps) => {
                 value={values || 'select'}
                 name={name}
                 onChange={onChange}
+                disabled={disabled}
                 placeholder="Select Options"
             >
                 <MenuItem value="select">Choose Options</MenuItem>
-                {options.map((option) => (
+                {options.map((option: OptionType) => (
                     <MenuItem value={option.value} key={option.value}>
                         {option.label}
                     </MenuItem>

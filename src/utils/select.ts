@@ -102,6 +102,10 @@ export const statusOptions: OptionType[] = [
 
 export const dataUsageOption: OptionType[] = [
     {
+        label: 'Select ALL',
+        value: 'all',
+    },
+    {
         label: 'EPHI',
         value: 'EPHI',
     },
@@ -128,6 +132,10 @@ export const dataUsageOption: OptionType[] = [
 ];
 
 export const serviceOption: OptionType[] = [
+    {
+        label: 'Select ALL',
+        value: 'all',
+    },
     {
         label: 'Technology: Software',
         value: 'technology-software',

@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box } from '@mui/material';
-import { FormikProps } from 'formik';
 
-import { CreateVendorType } from 'pages/vendors/create';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import { serviceOption, vendorStatusOptions } from 'utils/select';
+import MultipleSelect from 'components/MultipleSelect';
 
 interface GeneralStepsProps {
-    formik: FormikProps<CreateVendorType>;
+    formik: any;
 }
 
 const GeneralStep = (props: GeneralStepsProps) => {
     const { formik } = props;
+
     return (
         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 ">
             <Input
@@ -29,13 +30,14 @@ const GeneralStep = (props: GeneralStepsProps) => {
                 value={formik.values.website || ''}
                 onChange={formik.handleChange}
             />
-            <Select
-                label="Vendor Service"
+            <MultipleSelect
+                label="breath of service"
                 name="service"
-                options={serviceOption || []}
-                values={formik.values.service || ''}
-                onChange={formik.handleChange}
-                error={(formik.touched.service && formik.errors.service) || ''}
+                options={serviceOption}
+                values={formik.values.service || []}
+                onChange={(values: any) =>
+                    formik.setFieldValue('service', values)
+                }
             />
             <Select
                 label="Vendor Status"

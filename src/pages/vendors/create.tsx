@@ -16,7 +16,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useQuery } from 'react-query';
 import { API, Auth, graphqlOperation } from 'aws-amplify';
-import { filter } from 'lodash';
+import { omit, filter, map } from 'lodash';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
@@ -26,13 +26,8 @@ import GeneralStep from 'modules/vendors/create-steppers/GeneralStep';
 import ComplianceStep from 'modules/vendors/create-steppers/ComplianceStep';
 import FinanceStep from 'modules/vendors/create-steppers/FinanceStep';
 import UseCaseStep from 'modules/vendors/create-steppers/UseCaseStep';
-import {
-    OptionType,
-    // riskClassificationOptions,
-    // serviceOption,
-    // statusOptions,
-    // vendorStatusOptions,
-} from 'utils/select';
+import { OptionType } from 'utils/select';
+import Success from 'components/Success';
 
 export interface CreateVendorType {
     name: string;
@@ -59,36 +54,50 @@ const steps: StepType[] = [
         label: 'General',
     },
     {
-        label: 'Comliance',
+        label: 'Compliance',
+    },
+    {
+        label: 'Use Case',
     },
     {
         label: 'Finance',
-    },
-    {
-        label: 'UseCases',
     },
 ];
 
 const validationSchemas = [
     Yup.object().shape({
         name: Yup.string().required('Vendor Name is required'),
-        service: Yup.string().required('Service is required'),
+        service: Yup.array().required('Service is required'),
         status: Yup.string().required('Status is required'),
     }),
     Yup.object().shape({
-        riskStatement: Yup.string().required('Risk Statement is required'),
-        riskClassification: Yup.string().required(
-            'Risk Classification is required'
-        ),
-        vrmStatus: Yup.string().required('VRM is required'),
-        vrmQuestionnaire: Yup.string().required(
-            'VRM questionnarie is required'
-        ),
-        securityAssesment: Yup.string().required(
-            'Security assesment is required'
-        ),
-        privacyReview: Yup.string().required('Privacy review is required'),
-        legalReview: Yup.string().required('Legal review is required'),
+        compliance: Yup.object().shape({
+            riskStatement: Yup.string().required('Risk Statement is required'),
+            riskClassification: Yup.string().required(
+                'Risk Classification is required'
+            ),
+            vrmStatus: Yup.string().required('VRM is required'),
+            vrmQuestionnaire: Yup.string().required(
+                'VRM questionnarie is required'
+            ),
+            securityAssesment: Yup.string().required(
+                'Security assesment is required'
+            ),
+            privacyReview: Yup.string().required('Privacy review is required'),
+            legalReview: Yup.string().required('Legal review is required'),
+        }),
+    }),
+    Yup.object().shape({
+        useCases: Yup.object().shape({
+            owner: Yup.string().required('Owner is required'),
+            description: Yup.string().required('Description is required'),
+            dataUsage: Yup.string().required('Data usage is required'),
+        }),
+    }),
+    Yup.object().shape({
+        finance: Yup.object().shape({
+            contract: Yup.string().required('Risk Statement is required'),
+        }),
     }),
 ];
 
@@ -98,6 +107,7 @@ const CreateVendor = () => {
     const verticalStepper = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [activeStep, setActiveStep] = useState(0);
+    const [success, setSuccess] = useState<boolean>(false);
     const [userList, setuserList] = useState<OptionType[]>([]);
 
     const handleNextStep = () => {
@@ -168,10 +178,10 @@ const CreateVendor = () => {
         initialValues: {
             name: '',
             website: '',
-            service: '',
+            service: [],
             status: '',
             compliance: {
-                compliaceTaggedUser: null,
+                compliaceTaggedUser: '',
                 riskClassification: '',
                 riskStatement: '',
                 vrmStatus: '',
@@ -181,11 +191,11 @@ const CreateVendor = () => {
                 legalReview: '',
             },
             finance: {
-                contract: '',
-                financeTaggedUser: null,
+                contracts: [],
+                financeTaggedUser: '',
             },
             useCases: {
-                useCaseTaggedUser: null,
+                useCaseTaggedUser: '',
                 owner: '',
                 description: '',
                 dataUsage: '',
@@ -195,26 +205,41 @@ const CreateVendor = () => {
         onSubmit: async (values: any, { setSubmitting }) => {
             if (activeStep === steps.length - 1) {
                 setSubmitting(true);
-                // eslint-disable-next-line no-console
-                console.log('the values', {
-                    values,
-                    compliance: values.compliance,
-                });
 
-                const mutationQuery = `mutation CreateVendor {
-                    createVendors(input: {compliance: "{name: 'hello world'}", finance: "{name: 'hello world'}", name:  "${values.name}", status: "${values.status}", service:  "${values.service}", use_cases: "[{name: 'hello world'}]") {
-                        id
+                if (values.finance.contracts.length > 0) {
+                    map(values.finance.contracts, async (contract: any) => {
+                        omit(contract, ['file']);
+                    });
+                }
+                const createVendorMutation = `
+                    mutation CreateVendor {
+                        createVendors(input: {
+                            compliance: ${JSON.stringify(
+                                JSON.stringify(values.compliance)
+                            )},
+                            finance:${JSON.stringify(
+                                JSON.stringify(values.finance)
+                            )},
+                            name: "${values.name}",
+                            status:"${values.status}",
+                            service: ${JSON.stringify(
+                                JSON.stringify(values.service)
+                            )},
+                            website: "${values.website}",
+                            use_cases: ${JSON.stringify(
+                                JSON.stringify(values.useCases)
+                            )}
+                        }) {
+                            id
+                        }
                     }
-                }`;
-
+                `;
                 // eslint-disable-next-line no-console
-                console.log('the mutation query', mutationQuery);
                 const res: any = await API.graphql(
-                    graphqlOperation(mutationQuery)
+                    graphqlOperation(createVendorMutation)
                 );
                 if (res && res.data) {
-                    toast.success('Vendor created successfully');
-                    router.push('/vendors');
+                    setSuccess(true);
                 } else {
                     toast.error(res.error.message || 'Error adding note');
                 }
@@ -232,16 +257,29 @@ const CreateVendor = () => {
             case 1:
                 return <ComplianceStep formik={formik} users={userList} />;
             case 2:
-                return <FinanceStep formik={formik} users={userList} />;
-            case 3:
                 return <UseCaseStep formik={formik} users={userList} />;
+            case 3:
+                return <FinanceStep formik={formik} users={userList} />;
             default:
                 return <p>No Step selected</p>;
         }
     };
+    const successCallbackFunction = () => {
+        router.push('/vendors');
+    };
 
     if (isLoading) {
         return <p>Loading</p>;
+    }
+
+    if (success) {
+        return (
+            <Success
+                callback={successCallbackFunction}
+                callbackLabel="Back to vendor list"
+                description="Vendor created successfully"
+            />
+        );
     }
 
     return (
@@ -273,7 +311,7 @@ const CreateVendor = () => {
                         </Stepper>
                     </Box>
                     <Box className="flex flex-col gap-8 mb-24 md:mb-0">
-                        <Card className="min-h-[50vh] p-8 flex flex-col gap-4">
+                        <Card className="min-h-[60vh] p-8 flex flex-col gap-4">
                             <Typography variant="h6" className="text-bold">
                                 {steps[activeStep].label}
                             </Typography>

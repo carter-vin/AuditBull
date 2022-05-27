@@ -49,7 +49,9 @@ const awsmobile = {
             "endpoint": "https://u5rr89knu5.execute-api.us-east-1.amazonaws.com/staging",
             "region": "us-east-1"
         }
-    ]
+    ],
+    "aws_user_files_s3_bucket": "auditbull193858-staging",
+    "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
 

@@ -34,6 +34,10 @@ const headerMenu: HeaderMenu[] = [
         href: '/',
     },
     {
+        label: 'System',
+        href: '/system',
+    },
+    {
         label: 'Vendors',
         href: '/vendors',
     },
@@ -44,10 +48,6 @@ const headerMenu: HeaderMenu[] = [
     {
         label: 'Audit',
         href: '/audit',
-    },
-    {
-        label: 'Settings',
-        href: '/settings',
     },
 ];
 
@@ -164,11 +164,11 @@ const Header = () => {
                             <ListItemButton
                                 component="a"
                                 color="inherit"
-                                href="/systems"
-                                key="systems"
-                                selected={router.pathname === '/systems'}
+                                href="/settings"
+                                key="setting"
+                                selected={router.pathname === '/settings'}
                             >
-                                Systems
+                                Setting
                             </ListItemButton>
 
                             <ListItemButton
@@ -234,11 +234,11 @@ const Header = () => {
                         <ListItemButton
                             component="a"
                             color="inherit"
-                            href="/systems"
-                            key="systems"
-                            selected={router.pathname === '/systems'}
+                            href="/settings"
+                            key="settings"
+                            selected={router.pathname === '/setting'}
                         >
-                            Systems
+                            Setting
                         </ListItemButton>
                         <Box>{colorMode.colorSwitcherIcon}</Box>
 

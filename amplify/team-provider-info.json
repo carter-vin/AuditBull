@@ -17,16 +17,15 @@
           "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
           "oAuthSecretsPathAmplifyAppId": "dhrbp3dq0eyju"
         },
-        "userPoolGroups": {}
+        "userPoolGroups": {},
+        "true": {
+          "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com"
+        }
       },
       "function": {
         "AdminQueries10de20ac": {
           "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
-          "s3Key": "amplify-builds/AdminQueries10de20ac-484b7573374731696950-build.zip"
-        },
-        "AdminQueries844f6fb6": {
-          "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
-          "s3Key": "amplify-builds/AdminQueries844f6fb6-47576c69727648535751-build.zip"
+          "s3Key": "amplify-builds/AdminQueries10de20ac-646e7836594177717449-build.zip"
         }
       }
     }
@@ -55,7 +54,7 @@
         "AdminQueries844f6fb6": {},
         "AdminQueries10de20ac": {
           "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-          "s3Key": "amplify-builds/AdminQueries10de20ac-484b7573374731696950-build.zip"
+          "s3Key": "amplify-builds/AdminQueries10de20ac-646e7836594177717449-build.zip"
         }
       }
     }

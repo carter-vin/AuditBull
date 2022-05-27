@@ -137,7 +137,7 @@
           ]
         },
         "Description": "api key description",
-        "Expires": 1655493807
+        "Expires": 1656267714
       }
     },
     "GraphQLAPINONEDS95A13CF0": {
@@ -686,6 +686,5 @@
         }
       }
     }
-  },
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.2.0\",\"stackType\":\"api-AppSync\",\"metadata\":{}}"
+  }
 }

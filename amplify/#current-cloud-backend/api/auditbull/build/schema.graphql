@@ -12,21 +12,16 @@ type Notes @aws_iam @aws_api_key {
   _lastChangedAt: AWSTimestamp!
 }
 
-enum VendorStatusEnum {
-  SEEKINGAPPROVAL
-  BUDGETAPPROVED
-  ACTIVE
-  EVALUATION
-}
-
 type Vendors @aws_iam @aws_cognito_user_pools @aws_api_key {
   id: ID!
   name: String
-  status: VendorStatusEnum
-  compliance: String
-  owner: String
-  email: String
   Notes(filter: ModelNotesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelNotesConnection
+  status: String!
+  service: AWSJSON
+  website: String
+  compliance: AWSJSON
+  finance: AWSJSON
+  use_cases: AWSJSON
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   _version: Int!
@@ -208,18 +203,15 @@ type ModelVendorsConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   startedAt: AWSTimestamp
 }
 
-input ModelVendorStatusEnumInput {
-  eq: VendorStatusEnum
-  ne: VendorStatusEnum
-}
-
 input ModelVendorsFilterInput {
   id: ModelIDInput
   name: ModelStringInput
-  status: ModelVendorStatusEnumInput
+  status: ModelStringInput
+  service: ModelStringInput
+  website: ModelStringInput
   compliance: ModelStringInput
-  owner: ModelStringInput
-  email: ModelStringInput
+  finance: ModelStringInput
+  use_cases: ModelStringInput
   and: [ModelVendorsFilterInput]
   or: [ModelVendorsFilterInput]
   not: ModelVendorsFilterInput
@@ -227,10 +219,12 @@ input ModelVendorsFilterInput {
 
 input ModelVendorsConditionInput {
   name: ModelStringInput
-  status: ModelVendorStatusEnumInput
+  status: ModelStringInput
+  service: ModelStringInput
+  website: ModelStringInput
   compliance: ModelStringInput
-  owner: ModelStringInput
-  email: ModelStringInput
+  finance: ModelStringInput
+  use_cases: ModelStringInput
   and: [ModelVendorsConditionInput]
   or: [ModelVendorsConditionInput]
   not: ModelVendorsConditionInput
@@ -239,20 +233,24 @@ input ModelVendorsConditionInput {
 input CreateVendorsInput {
   id: ID
   name: String
-  status: VendorStatusEnum
-  compliance: String
-  owner: String
-  email: String
+  status: String!
+  service: AWSJSON
+  website: String
+  compliance: AWSJSON
+  finance: AWSJSON
+  use_cases: AWSJSON
   _version: Int
 }
 
 input UpdateVendorsInput {
   id: ID!
   name: String
-  status: VendorStatusEnum
-  compliance: String
-  owner: String
-  email: String
+  status: String
+  service: AWSJSON
+  website: String
+  compliance: AWSJSON
+  finance: AWSJSON
+  use_cases: AWSJSON
   _version: Int
 }
 

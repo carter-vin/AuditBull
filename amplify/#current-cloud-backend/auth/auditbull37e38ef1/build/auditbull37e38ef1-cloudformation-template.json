@@ -143,10 +143,10 @@
     "adminQueryGroup": {
       "Type": "String"
     },
-    "googleClientId": {
+    "oAuthSecretsPathAmplifyAppId": {
       "Type": "String"
     },
-    "hostedUIProviderCreds": {
+    "googleClientId": {
       "Type": "String"
     },
     "oAuthMetadata": {
@@ -603,13 +603,34 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "ZipFile": "const response = require('cfn-response');\nconst aws = require('aws-sdk');\nconst identity = new aws.CognitoIdentityServiceProvider();\nexports.handler = (event, context, callback) => {\n  try {\n    const userPoolId = event.ResourceProperties.userPoolId;\n    let hostedUIProviderMeta = JSON.parse(event.ResourceProperties.hostedUIProviderMeta);\n    let hostedUIProviderCreds = JSON.parse(event.ResourceProperties.hostedUIProviderCreds);\n    if (hostedUIProviderCreds.length === 0) {\n      response.send(event, context, response.SUCCESS, {});\n    }\n    if (event.RequestType == 'Delete') {\n      response.send(event, context, response.SUCCESS, {});\n    }\n    if (event.RequestType == 'Update' || event.RequestType == 'Create') {\n      let getRequestParams = providerName => {\n        let providerMetaIndex = hostedUIProviderMeta.findIndex(provider => provider.ProviderName === providerName);\n        let providerMeta = hostedUIProviderMeta[providerMetaIndex];\n        let providerCredsIndex = hostedUIProviderCreds.findIndex(provider => provider.ProviderName === providerName);\n        let providerCreds = hostedUIProviderCreds[providerCredsIndex];\n        let requestParams = {\n          ProviderName: providerMeta.ProviderName,\n          UserPoolId: userPoolId,\n          AttributeMapping: providerMeta.AttributeMapping,\n        };\n        if (providerMeta.ProviderName === 'SignInWithApple') {\n          if (providerCreds.client_id && providerCreds.team_id && providerCreds.key_id && providerCreds.private_key) {\n            requestParams.ProviderDetails = {\n              client_id: providerCreds.client_id,\n              team_id: providerCreds.team_id,\n              key_id: providerCreds.key_id,\n              private_key: providerCreds.private_key,\n              authorize_scopes: providerMeta.authorize_scopes,\n            };\n          } else {\n            requestParams = null;\n          }\n        } else {\n          if (providerCreds.client_id && providerCreds.client_secret) {\n            requestParams.ProviderDetails = {\n              client_id: providerCreds.client_id,\n              client_secret: providerCreds.client_secret,\n              authorize_scopes: providerMeta.authorize_scopes,\n            };\n          } else {\n            requestParams = null;\n          }\n        }\n        return requestParams;\n      };\n      let createIdentityProvider = providerName => {\n        let requestParams = getRequestParams(providerName);\n        if (!requestParams) {\n          return Promise.resolve();\n        }\n        requestParams.ProviderType = requestParams.ProviderName;\n        return identity.createIdentityProvider(requestParams).promise();\n      };\n      let updateIdentityProvider = providerName => {\n        let requestParams = getRequestParams(providerName);\n        if (!requestParams) {\n          return Promise.resolve();\n        }\n        return identity.updateIdentityProvider(requestParams).promise();\n      };\n      let deleteIdentityProvider = providerName => {\n        let params = { ProviderName: providerName, UserPoolId: userPoolId };\n        return identity.deleteIdentityProvider(params).promise();\n      };\n      let providerPromises = [];\n      identity\n        .listIdentityProviders({ UserPoolId: userPoolId, MaxResults: 60 })\n        .promise()\n        .then(result => {\n          console.log(result);\n          let providerList = result.Providers.map(provider => provider.ProviderName);\n          let providerListInParameters = hostedUIProviderMeta.map(provider => provider.ProviderName);\n          hostedUIProviderMeta.forEach(providerMetadata => {\n            if (providerList.indexOf(providerMetadata.ProviderName) > -1) {\n              providerPromises.push(updateIdentityProvider(providerMetadata.ProviderName));\n            } else {\n              providerPromises.push(createIdentityProvider(providerMetadata.ProviderName));\n            }\n          });\n          providerList.forEach(provider => {\n            if (providerListInParameters.indexOf(provider) < 0) {\n              providerPromises.push(deleteIdentityProvider(provider));\n            }\n          });\n          return Promise.all(providerPromises);\n        })\n        .then(() => {\n          response.send(event, context, response.SUCCESS, {});\n        })\n        .catch(err => {\n          console.log(err.stack);\n          response.send(event, context, response.FAILED, { err });\n        });\n    }\n  } catch (err) {\n    console.log(err.stack);\n    response.send(event, context, response.FAILED, { err });\n  }\n};\n"
+          "ZipFile": "const response = require('cfn-response');\nconst aws = require('aws-sdk');\nconst identity = new aws.CognitoIdentityServiceProvider();\nconst ssm = new aws.SSM();\n\nexports.handler = async(event, context) => {\n  try {\n    const userPoolId = event.ResourceProperties.userPoolId;\n    let responseData;\n    const parameter = await ssm.getParameter({\n    Name: process.env['hostedUIProviderCreds'],\n    WithDecryption: true,\n  }).promise();\n    let hostedUIProviderMeta = JSON.parse(event.ResourceProperties.hostedUIProviderMeta);\n    let hostedUIProviderCreds = JSON.parse(parameter.Parameter.Value);\n    if (event.RequestType == 'Delete') {\n      await response.send(event, context, response.SUCCESS, {});\n    }\n    if (event.RequestType == 'Update' || event.RequestType == 'Create') {\n      const result = await identity.listIdentityProviders({ UserPoolId: userPoolId, MaxResults: 60 }).promise();\n      let providerList = result.Providers.map(provider => provider.ProviderName);\n      let providerListInParameters = hostedUIProviderMeta.map(provider => provider.ProviderName);\n      for (const providerMetadata of hostedUIProviderMeta){\n        if (providerList.includes(providerMetadata.ProviderName)) {\n          responseData = await updateIdentityProvider(providerMetadata.ProviderName,userPoolId, hostedUIProviderMeta, hostedUIProviderCreds);\n        } else {\n          responseData = await createIdentityProvider(providerMetadata.ProviderName,userPoolId, hostedUIProviderMeta, hostedUIProviderCreds);\n        }\n      };\n      for (const provider of providerList){\n        if (!providerListInParameters.includes(provider)) {\n          responseData = await deleteIdentityProvider(provider,userPoolId);\n        }\n      };\n      console.log(responseData);\n      await response.send(event, context, response.SUCCESS, {});\n    }\n  } catch (err) {\n    console.log(err.stack);\n    await response.send(event, context, response.FAILED, { err });\n  }\n};\n\nconst getRequestParams = (providerName,userPoolId, hostedUIProviderMeta, hostedUIProviderCreds) => {\n  const providerMetaIndex = hostedUIProviderMeta.findIndex(provider => provider.ProviderName === providerName);\n  const providerMeta = hostedUIProviderMeta[providerMetaIndex];\n  const providerCredsIndex = hostedUIProviderCreds.findIndex(provider => provider.ProviderName === providerName);\n  const providerCreds = hostedUIProviderCreds[providerCredsIndex];\n  let  requestParams = {\n    ProviderName: providerMeta.ProviderName,\n    UserPoolId: userPoolId,\n    AttributeMapping: providerMeta.AttributeMapping,\n  };\n  if (providerMeta.ProviderName === 'SignInWithApple') {\n    if (providerCreds.client_id && providerCreds.team_id && providerCreds.key_id && providerCreds.private_key) {\n      requestParams.ProviderDetails = {\n        client_id: providerCreds.client_id,\n        team_id: providerCreds.team_id,\n        key_id: providerCreds.key_id,\n        private_key: providerCreds.private_key,\n        authorize_scopes: providerMeta.authorize_scopes,\n      };\n    } else {\n      requestParams = null;\n    }\n  } else {\n    if (providerCreds.client_id && providerCreds.client_secret) {\n      requestParams.ProviderDetails = {\n        client_id: providerCreds.client_id,\n        client_secret: providerCreds.client_secret,\n        authorize_scopes: providerMeta.authorize_scopes,\n      };\n    } else {\n      requestParams = null;\n    }\n  }\n  return requestParams;\n};\n\nconst deleteIdentityProvider = async (providerName, userPoolId) => {\n  let params = { ProviderName: providerName, UserPoolId: userPoolId };\n  return identity.deleteIdentityProvider(params).promise();\n};\n\n\nconst createIdentityProvider = async (providerName, userPoolId, hostedUIProviderMeta, hostedUIProviderCreds) => {\n  let requestParams = getRequestParams(providerName, userPoolId, hostedUIProviderMeta, hostedUIProviderCreds);\n  if (!requestParams) {\n    return;\n  }\n  requestParams.ProviderType = requestParams.ProviderName;\n  return identity.createIdentityProvider(requestParams).promise();\n};\n\nconst updateIdentityProvider = async (providerName, userPoolId, hostedUIProviderMeta, hostedUIProviderCreds) => {\n  let requestParams = getRequestParams(providerName, userPoolId, hostedUIProviderMeta, hostedUIProviderCreds);\n  if (!requestParams) {\n    return;\n  }\n  return identity.updateIdentityProvider(requestParams).promise();\n};\n"
         },
         "Role": {
           "Fn::GetAtt": [
             "UserPoolClientRole",
             "Arn"
           ]
+        },
+        "Environment": {
+          "Variables": {
+            "hostedUIProviderCreds": {
+              "Fn::Sub": [
+                "/amplify/${appId}/${env}/AMPLIFY_${resourceName}_${oauthObjSecretKey}",
+                {
+                  "appId": {
+                    "Ref": "oAuthSecretsPathAmplifyAppId"
+                  },
+                  "env": {
+                    "Ref": "env"
+                  },
+                  "resourceName": {
+                    "Ref": "resourceName"
+                  },
+                  "oauthObjSecretKey": "hostedUIProviderCreds"
+                }
+              ]
+            }
+          }
         },
         "Handler": "index.handler",
         "Runtime": "nodejs14.x",
@@ -723,6 +744,58 @@
         "HostedUIProvidersCustomResourcePolicy"
       ]
     },
+    "hostedUIProvidersCustomResourceSecretPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "ssm:GetParameter"
+              ],
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/amplify/${appId}/${env}/AMPLIFY_${resourceName}_${oauthObjSecretKey}",
+                  {
+                    "appId": {
+                      "Ref": "oAuthSecretsPathAmplifyAppId"
+                    },
+                    "env": {
+                      "Ref": "env"
+                    },
+                    "resourceName": {
+                      "Ref": "resourceName"
+                    },
+                    "oauthObjSecretKey": "hostedUIProviderCreds"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "PolicyName": {
+          "Fn::Join": [
+            "-",
+            [
+              {
+                "Ref": "UserPool"
+              },
+              "hostedUIProvidersCustomResourceSecretPolicy"
+            ]
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "UserPoolClientRole"
+          }
+        ]
+      },
+      "DependsOn": [
+        "HostedUIProvidersCustomResourcePolicy"
+      ]
+    },
     "HostedUIProvidersCustomResourceInputs": {
       "Type": "Custom::LambdaCallout",
       "Properties": {
@@ -735,15 +808,12 @@
         "hostedUIProviderMeta": {
           "Ref": "hostedUIProviderMeta"
         },
-        "hostedUIProviderCreds": {
-          "Ref": "hostedUIProviderCreds"
-        },
         "userPoolId": {
           "Ref": "UserPool"
         }
       },
       "DependsOn": [
-        "HostedUIProvidersCustomResourceLogPolicy"
+        "hostedUIProvidersCustomResourceSecretPolicy"
       ],
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete"

@@ -50,12 +50,12 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-19T02:01:22.574Z",
+      "lastPushTimeStamp": "2022-05-27T18:37:49.753Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"
       },
-      "lastPushDirHash": "lnE3UxO9RGLv7tDMu98hKjGfjYU="
+      "lastPushDirHash": "BBm/QnC8i/p6aeElzhyBA41FzdU="
     },
     "userPoolGroups": {
       "service": "Cognito-UserPool-Groups",
@@ -76,7 +76,7 @@
         "adminGroupRole": "arn:aws:iam::554093311945:role/us-east-1_GNePfVnuf-adminGroupRole",
         "usersGroupRole": "arn:aws:iam::554093311945:role/us-east-1_GNePfVnuf-usersGroupRole"
       },
-      "lastPushTimeStamp": "2022-05-19T02:01:21.317Z",
+      "lastPushTimeStamp": "2022-05-27T18:37:46.035Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
         "logicalId": "authuserPoolGroups"
@@ -113,26 +113,26 @@
           ]
         }
       ],
-      "lastBuildTimeStamp": "2022-05-19T01:58:46.292Z",
-      "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2022-05-19T01:58:46.909Z",
-      "distZipFilename": "AdminQueries10de20ac-484b7573374731696950-build.zip",
-      "s3Bucket": {
-        "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-        "s3Key": "amplify-builds/AdminQueries10de20ac-484b7573374731696950-build.zip"
-      },
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries10de20ac-cloudformation-template.json",
-        "logicalId": "functionAdminQueries10de20ac"
-      },
-      "lastPushTimeStamp": "2022-05-19T02:01:22.574Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:554093311945:function:AdminQueries10de20ac-staging",
         "Name": "AdminQueries10de20ac-staging",
         "LambdaExecutionRole": "AdminQueries10de20acLambdaRole-staging"
       },
-      "lastPushDirHash": "J5Rv1kOAe4e8XZ2m4UOtI/ZNd3o="
+      "lastPushTimeStamp": "2022-05-27T18:37:49.753Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries10de20ac-cloudformation-template.json",
+        "logicalId": "functionAdminQueries10de20ac"
+      },
+      "lastBuildTimeStamp": "2022-05-27T18:35:29.233Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2022-05-27T18:35:29.815Z",
+      "distZipFilename": "AdminQueries10de20ac-646e7836594177717449-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+        "s3Key": "amplify-builds/AdminQueries10de20ac-646e7836594177717449-build.zip"
+      },
+      "lastPushDirHash": "TykDzWc1xpjfCOMw+4Q7OsOV2yk="
     }
   },
   "api": {
@@ -173,11 +173,12 @@
         "GraphQLAPIEndpointOutput": "https://nj44iovewfgslcapdi2yydiyha.appsync-api.us-east-1.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-keewapng5bg2babngn2ieycoqa"
       },
-      "lastPushTimeStamp": "2022-05-19T02:01:21.320Z",
+      "lastPushTimeStamp": "2022-05-27T18:37:46.040Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiauditbull"
-      }
+      },
+      "lastPushDirHash": "ABNW+/VejDeHtQ3pmwUiD+sVDmI="
     },
     "AdminQueries": {
       "service": "API Gateway",
@@ -205,12 +206,50 @@
         "RootUrl": "https://u5rr89knu5.execute-api.us-east-1.amazonaws.com/staging",
         "ApiId": "u5rr89knu5"
       },
-      "lastPushTimeStamp": "2022-05-19T02:01:21.321Z",
+      "lastPushTimeStamp": "2022-05-27T18:37:46.041Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
         "logicalId": "apiAdminQueries"
+      }
+    }
+  },
+  "storage": {
+    "auditbullstorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "userPoolGroups",
+          "attributes": [
+            "adminGroupRole"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "userPoolGroups",
+          "attributes": [
+            "usersGroupRole"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2022-05-27T18:37:46.042Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storageauditbullstorage"
       },
-      "lastPushDirHash": "dbLMBjPFzCSFa6D0/tZjmB2YyrI="
+      "output": {
+        "BucketName": "auditbull193858-staging",
+        "Region": "us-east-1"
+      },
+      "lastPushDirHash": "7+CZm+JgY95LA5VDkrQDEchAQic="
     }
   }
 }

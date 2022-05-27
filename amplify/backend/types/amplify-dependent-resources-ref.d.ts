@@ -36,5 +36,11 @@ export type AmplifyDependentResourcesAttributes = {
             "ApiName": "string",
             "ApiId": "string"
         }
+    },
+    "storage": {
+        "auditbullstorage": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }
