@@ -107,36 +107,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "status": {
-                    "name": "status",
-                    "isArray": false,
-                    "type": {
-                        "enum": "VendorStatusEnum"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "compliance": {
-                    "name": "compliance",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "owner": {
-                    "name": "owner",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "Notes": {
                     "name": "Notes",
                     "isArray": true,
@@ -150,6 +120,48 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "vendorsID"
                     }
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "service": {
+                    "name": "service",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "website": {
+                    "name": "website",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "compliance": {
+                    "name": "compliance",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "finance": {
+                    "name": "finance",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "use_cases": {
+                    "name": "use_cases",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -203,17 +215,7 @@ export const schema = {
             ]
         }
     },
-    "enums": {
-        "VendorStatusEnum": {
-            "name": "VendorStatusEnum",
-            "values": [
-                "SEEKINGAPPROVAL",
-                "BUDGETAPPROVED",
-                "ACTIVE",
-                "EVALUATION"
-            ]
-        }
-    },
+    "enums": {},
     "nonModels": {},
-    "version": "d1ca4518f269ad53c71f310a8d758ee7"
+    "version": "00eaf590eb952642d8c25106469bbc7d"
 };

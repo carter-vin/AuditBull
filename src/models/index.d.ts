@@ -1,11 +1,6 @@
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 
-export enum VendorStatusEnum {
-  SEEKINGAPPROVAL = "SEEKINGAPPROVAL",
-  BUDGETAPPROVED = "BUDGETAPPROVED",
-  ACTIVE = "ACTIVE",
-  EVALUATION = "EVALUATION"
-}
+
 
 
 
@@ -32,11 +27,13 @@ export declare class Notes {
 export declare class Vendors {
   readonly id: string;
   readonly name?: string | null;
-  readonly status?: VendorStatusEnum | keyof typeof VendorStatusEnum | null;
-  readonly compliance?: string | null;
-  readonly owner?: string | null;
-  readonly email?: string | null;
   readonly Notes?: (Notes | null)[] | null;
+  readonly status: string;
+  readonly service?: string | null;
+  readonly website?: string | null;
+  readonly compliance?: string | null;
+  readonly finance?: string | null;
+  readonly use_cases?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Vendors, VendorsMetaData>);

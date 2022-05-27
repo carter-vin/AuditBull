@@ -10,6 +10,7 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1113.0"
+    "aws-sdk": "^2.1113.0",
+    "secure-random-password": "^0.2.3"
   }
 }

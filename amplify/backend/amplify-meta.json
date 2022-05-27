@@ -50,7 +50,7 @@
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}",
         "UserPoolName": "auditbull37e38ef1_userpool_37e38ef1"
       },
-      "lastPushTimeStamp": "2022-05-27T18:37:49.753Z",
+      "lastPushTimeStamp": "2022-05-27T19:07:46.913Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "logicalId": "authauditbull37e38ef1"
@@ -76,7 +76,7 @@
         "adminGroupRole": "arn:aws:iam::554093311945:role/us-east-1_GNePfVnuf-adminGroupRole",
         "usersGroupRole": "arn:aws:iam::554093311945:role/us-east-1_GNePfVnuf-usersGroupRole"
       },
-      "lastPushTimeStamp": "2022-05-27T18:37:46.035Z",
+      "lastPushTimeStamp": "2022-05-27T19:07:48.183Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
         "logicalId": "authuserPoolGroups"
@@ -119,20 +119,20 @@
         "Name": "AdminQueries10de20ac-staging",
         "LambdaExecutionRole": "AdminQueries10de20acLambdaRole-staging"
       },
-      "lastPushTimeStamp": "2022-05-27T18:37:49.753Z",
+      "lastPushTimeStamp": "2022-05-27T19:07:46.923Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries10de20ac-cloudformation-template.json",
         "logicalId": "functionAdminQueries10de20ac"
       },
-      "lastBuildTimeStamp": "2022-05-27T18:35:29.233Z",
+      "lastBuildTimeStamp": "2022-05-27T18:52:19.337Z",
       "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2022-05-27T18:35:29.815Z",
-      "distZipFilename": "AdminQueries10de20ac-646e7836594177717449-build.zip",
+      "lastPackageTimeStamp": "2022-05-27T18:52:19.972Z",
+      "distZipFilename": "AdminQueries10de20ac-52553244534358614b4d-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-        "s3Key": "amplify-builds/AdminQueries10de20ac-646e7836594177717449-build.zip"
+        "s3Key": "amplify-builds/AdminQueries10de20ac-52553244534358614b4d-build.zip"
       },
-      "lastPushDirHash": "TykDzWc1xpjfCOMw+4Q7OsOV2yk="
+      "lastPushDirHash": "1pafTJLf7teH85QJ0S3ftamh7vs="
     }
   },
   "api": {
@@ -173,7 +173,7 @@
         "GraphQLAPIEndpointOutput": "https://nj44iovewfgslcapdi2yydiyha.appsync-api.us-east-1.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-keewapng5bg2babngn2ieycoqa"
       },
-      "lastPushTimeStamp": "2022-05-27T18:37:46.040Z",
+      "lastPushTimeStamp": "2022-05-27T19:07:46.925Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiauditbull"
@@ -206,7 +206,7 @@
         "RootUrl": "https://u5rr89knu5.execute-api.us-east-1.amazonaws.com/staging",
         "ApiId": "u5rr89knu5"
       },
-      "lastPushTimeStamp": "2022-05-27T18:37:46.041Z",
+      "lastPushTimeStamp": "2022-05-27T19:07:46.928Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
         "logicalId": "apiAdminQueries"
@@ -240,7 +240,7 @@
           ]
         }
       ],
-      "lastPushTimeStamp": "2022-05-27T18:37:46.042Z",
+      "lastPushTimeStamp": "2022-05-27T19:07:49.447Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
         "logicalId": "storageauditbullstorage"
