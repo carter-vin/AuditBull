@@ -1,0 +1,245 @@
+
+type Notes {
+  id: ID!
+  creator: String!
+  note: String!
+  taged: [String!]!
+  vendorsID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Vendors @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  name: String
+  Notes(filter: ModelNotesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelNotesConnection
+  status: String!
+  service: AWSJSON
+  website: String
+  compliance: AWSJSON
+  finance: AWSJSON
+  use_cases: AWSJSON
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelNotesConnection @aws_cognito_user_pools @aws_api_key {
+  items: [Notes]!
+  nextToken: String
+}
+
+input ModelNotesFilterInput {
+  id: ModelIDInput
+  creator: ModelStringInput
+  note: ModelStringInput
+  taged: ModelStringInput
+  vendorsID: ModelIDInput
+  and: [ModelNotesFilterInput]
+  or: [ModelNotesFilterInput]
+  not: ModelNotesFilterInput
+}
+
+type Query {
+  getNotes(id: ID!): Notes
+  listNotes(filter: ModelNotesFilterInput, limit: Int, nextToken: String): ModelNotesConnection
+  getVendors(id: ID!): Vendors @aws_api_key @aws_cognito_user_pools
+  listVendors(filter: ModelVendorsFilterInput, limit: Int, nextToken: String): ModelVendorsConnection @aws_api_key @aws_cognito_user_pools
+}
+
+input ModelNotesConditionInput {
+  creator: ModelStringInput
+  note: ModelStringInput
+  taged: ModelStringInput
+  vendorsID: ModelIDInput
+  and: [ModelNotesConditionInput]
+  or: [ModelNotesConditionInput]
+  not: ModelNotesConditionInput
+}
+
+input CreateNotesInput {
+  id: ID
+  creator: String!
+  note: String!
+  taged: [String!]!
+  vendorsID: ID!
+}
+
+input UpdateNotesInput {
+  id: ID!
+  creator: String
+  note: String
+  taged: [String!]
+  vendorsID: ID
+}
+
+input DeleteNotesInput {
+  id: ID!
+}
+
+type Mutation {
+  createNotes(input: CreateNotesInput!, condition: ModelNotesConditionInput): Notes
+  updateNotes(input: UpdateNotesInput!, condition: ModelNotesConditionInput): Notes
+  deleteNotes(input: DeleteNotesInput!, condition: ModelNotesConditionInput): Notes
+  createVendors(input: CreateVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_cognito_user_pools
+  updateVendors(input: UpdateVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_cognito_user_pools
+  deleteVendors(input: DeleteVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_cognito_user_pools
+}
+
+type Subscription {
+  onCreateNotes: Notes @aws_subscribe(mutations: ["createNotes"])
+  onUpdateNotes: Notes @aws_subscribe(mutations: ["updateNotes"])
+  onDeleteNotes: Notes @aws_subscribe(mutations: ["deleteNotes"])
+  onCreateVendors: Vendors @aws_subscribe(mutations: ["createVendors"]) @aws_api_key @aws_cognito_user_pools
+  onUpdateVendors: Vendors @aws_subscribe(mutations: ["updateVendors"]) @aws_api_key @aws_cognito_user_pools
+  onDeleteVendors: Vendors @aws_subscribe(mutations: ["deleteVendors"]) @aws_api_key @aws_cognito_user_pools
+}
+
+type ModelVendorsConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Vendors]!
+  nextToken: String
+}
+
+input ModelVendorsFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  status: ModelStringInput
+  service: ModelStringInput
+  website: ModelStringInput
+  compliance: ModelStringInput
+  finance: ModelStringInput
+  use_cases: ModelStringInput
+  and: [ModelVendorsFilterInput]
+  or: [ModelVendorsFilterInput]
+  not: ModelVendorsFilterInput
+}
+
+input ModelVendorsConditionInput {
+  name: ModelStringInput
+  status: ModelStringInput
+  service: ModelStringInput
+  website: ModelStringInput
+  compliance: ModelStringInput
+  finance: ModelStringInput
+  use_cases: ModelStringInput
+  and: [ModelVendorsConditionInput]
+  or: [ModelVendorsConditionInput]
+  not: ModelVendorsConditionInput
+}
+
+input CreateVendorsInput {
+  id: ID
+  name: String
+  status: String!
+  service: AWSJSON
+  website: String
+  compliance: AWSJSON
+  finance: AWSJSON
+  use_cases: AWSJSON
+}
+
+input UpdateVendorsInput {
+  id: ID!
+  name: String
+  status: String
+  service: AWSJSON
+  website: String
+  compliance: AWSJSON
+  finance: AWSJSON
+  use_cases: AWSJSON
+}
+
+input DeleteVendorsInput {
+  id: ID!
+}
+

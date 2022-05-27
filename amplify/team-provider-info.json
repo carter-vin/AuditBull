@@ -51,7 +51,11 @@
         "userPoolGroups": {}
       },
       "function": {
-        "AdminQueries844f6fb6": {}
+        "AdminQueries844f6fb6": {},
+        "AdminQueries8b7a0055": {
+          "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+          "s3Key": "amplify-builds/AdminQueries8b7a0055-4b734259313048544144-build.zip"
+        }
       }
     }
   }

@@ -267,6 +267,70 @@
         }
       }
     },
+    "functionAdminQueries8b7a0055": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries8b7a0055-cloudformation-template.json",
+        "Parameters": {
+          "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
+          "s3Key": "amplify-builds/AdminQueries8b7a0055-4b734259313048544144-build.zip",
+          "authauditbull37e38ef1UserPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "env": "staging"
+        }
+      }
+    },
+    "apiAdminQueries": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/AdminQueries-cloudformation-template.json",
+        "Parameters": {
+          "authauditbull37e38ef1UserPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "functionAdminQueries8b7a0055Arn": {
+            "Fn::GetAtt": [
+              "functionAdminQueries8b7a0055",
+              "Outputs.Arn"
+            ]
+          },
+          "functionAdminQueries8b7a0055Name": {
+            "Fn::GetAtt": [
+              "functionAdminQueries8b7a0055",
+              "Outputs.Name"
+            ]
+          },
+          "env": "staging"
+        }
+      }
+    },
+    "apiauditbull": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "Parameters": {
+          "AppSyncApiName": "auditbull",
+          "DynamoDBBillingMode": "PAY_PER_REQUEST",
+          "DynamoDBEnableServerSideEncryption": false,
+          "AuthCognitoUserPoolId": {
+            "Fn::GetAtt": [
+              "authauditbull37e38ef1",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "S3DeploymentBucket": "amplify-auditbull-staging-193858-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/6af7d721f08565ac461f8e2441649333b8c6ef18",
+          "env": "staging"
+        }
+      }
+    },
     "storageauditbullstorage": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {

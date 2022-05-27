@@ -1,18 +1,18 @@
 {
-  "Description": "API Gateway Resource for AWS Amplify CLI",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.3.0\",\"stackType\":\"api-API Gateway\",\"metadata\":{}}",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "authauditbull37e38ef1UserPoolId": {
       "Type": "String",
       "Default": "authauditbull37e38ef1UserPoolId"
     },
-    "functionAdminQueries10de20acName": {
+    "functionAdminQueries8b7a0055Name": {
       "Type": "String",
-      "Default": "functionAdminQueries10de20acName"
+      "Default": "functionAdminQueries8b7a0055Name"
     },
-    "functionAdminQueries10de20acArn": {
+    "functionAdminQueries8b7a0055Arn": {
       "Type": "String",
-      "Default": "functionAdminQueries10de20acArn"
+      "Default": "functionAdminQueries8b7a0055Arn"
     },
     "env": {
       "Type": "String"
@@ -74,7 +74,7 @@
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
-          "Ref": "functionAdminQueries10de20acName"
+          "Ref": "functionAdminQueries8b7a0055Name"
         },
         "Principal": "apigateway.amazonaws.com",
         "SourceArn": {
@@ -224,7 +224,7 @@
                         },
                         ":lambda:path/2015-03-31/functions/",
                         {
-                          "Ref": "functionAdminQueries10de20acArn"
+                          "Ref": "functionAdminQueries8b7a0055Arn"
                         },
                         "/invocations"
                       ]
@@ -291,7 +291,7 @@
         "Name": "AdminQueries"
       }
     },
-    "DeploymentAPIGWAdminQueriese45c2bda": {
+    "DeploymentAPIGWAdminQueriesfb6810fe": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {

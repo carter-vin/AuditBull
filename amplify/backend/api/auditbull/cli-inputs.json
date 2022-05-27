@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "auditbull",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/rajeevrajchal/Development/webstore/audit-bull/amplify/backend/api/auditbull/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authauditbull37e38ef1"
+      }
+    ]
+  }
+}

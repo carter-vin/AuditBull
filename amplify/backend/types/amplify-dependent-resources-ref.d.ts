@@ -17,6 +17,26 @@ export type AmplifyDependentResourcesAttributes = {
             "usersGroupRole": "string"
         }
     },
+    "function": {
+        "AdminQueries8b7a0055": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        }
+    },
+    "api": {
+        "AdminQueries": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
+        "auditbull": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
     "storage": {
         "auditbullstorage": {
             "BucketName": "string",
