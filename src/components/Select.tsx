@@ -15,13 +15,23 @@ interface SelectProps {
     name: string;
     disabled?: boolean;
     options: OptionType[];
-    values: OptionType;
+    values: any;
     onChange: any;
     error?: any;
+    placeholder?: string;
 }
 
 const Select = (props: SelectProps) => {
-    const { label, name, options, values, error, onChange, disabled } = props;
+    const {
+        label,
+        name,
+        options,
+        values,
+        placeholder,
+        error,
+        onChange,
+        disabled,
+    } = props;
 
     return (
         <Box display="flex" flexDirection="column" gap={1}>
@@ -40,9 +50,19 @@ const Select = (props: SelectProps) => {
                 name={name}
                 onChange={onChange}
                 disabled={disabled}
-                placeholder="Select Options"
+                renderValue={(selected: any) => {
+                    if (!selected) {
+                        return <em>{placeholder}</em>;
+                    }
+
+                    return selected;
+                }}
             >
-                <MenuItem value="select">Choose Options</MenuItem>
+                {placeholder && (
+                    <MenuItem disabled value="">
+                        <em>{placeholder}</em>
+                    </MenuItem>
+                )}
                 {options.map((option: OptionType) => (
                     <MenuItem value={option.value} key={option.value}>
                         {option.label}

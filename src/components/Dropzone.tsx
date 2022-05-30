@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/alt-text */
 import { Box, Button, IconButton, InputLabel, Typography } from '@mui/material';
-import { concat, values } from 'lodash';
+import { concat } from 'lodash';
 import { useDropzone } from 'react-dropzone';
 import CloseIcon from '@mui/icons-material/Close';
+import { ReactElement } from 'react';
 
 interface DropzoneProps {
     max: number;
@@ -11,9 +13,10 @@ interface DropzoneProps {
     setFiles: any;
     label: string;
     onDelete?: any;
+    progressBar?: ReactElement | null;
 }
 const Dropzone = (props: DropzoneProps) => {
-    const { max, files, setFiles, label, onDelete } = props;
+    const { max, files, setFiles, label, onDelete, progressBar } = props;
     const { getRootProps, getInputProps } = useDropzone({
         onDrop: (acceptedFiles) => {
             setFiles(
@@ -86,6 +89,7 @@ const Dropzone = (props: DropzoneProps) => {
                     <strong className="text-gray-700">{label}</strong>
                 </InputLabel>
             </Box>
+            <Box>{progressBar}</Box>
             {files.length > 0 ? (
                 <Box className="grid grid-cols-1 gap-4">
                     {files.map((file: any, index: number) =>

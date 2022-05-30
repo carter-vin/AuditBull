@@ -12,8 +12,7 @@ import { map } from 'lodash';
 import { Storage } from 'aws-amplify';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-export function downloadBlob(blob: Blob | MediaSource, filename: string) {
-    const url = URL.createObjectURL(blob);
+export function downloadBlob(url: string, filename: string) {
     const a = document.createElement('a');
     a.href = url;
     a.download = filename || 'download';
@@ -33,13 +32,9 @@ const VendorFinance = (props: { vendorFinance: any }) => {
     const { vendorFinance } = props;
     const getFinanceDocumentUrl = async (contract: any) => {
         const res: any = await Storage.get(
-            contract?.key || contract?.files[0]?.name,
-            {
-                level: 'protected',
-                download: true,
-            }
+            contract?.key || contract?.files[0]?.name
         );
-        downloadBlob(res.Body, contract?.key || contract?.files[0]?.name);
+        downloadBlob(res || '', contract?.key || contract?.files[0]?.name);
     };
     return (
         <CardContent>

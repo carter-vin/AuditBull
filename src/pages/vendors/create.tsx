@@ -149,12 +149,24 @@ const CreateVendor = () => {
                     }) => {
                         const attributes = user.Attributes;
                         return {
-                            value: user.Username || '',
+                            value:
+                                `${user.Username}` ||
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'name'
+                                ) ||
+                                '',
                             label:
                                 attributes?.find(
                                     (attr: { Name: string }) =>
                                         attr.Name === 'name'
-                                )?.Value || '',
+                                )?.Value ||
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'email'
+                                )?.Value ||
+                                user.Username ||
+                                '',
                         };
                     }
                 );

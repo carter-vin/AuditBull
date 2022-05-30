@@ -28,11 +28,17 @@ const MultipleSelect = (props: MultipleSelectProps) => {
                     ? '1px solid #fff'
                     : '1px solid #1A202C',
             boxShadow: 'none',
+            color: 'red',
         }),
 
         valueContainer: (provided: any) => ({
             ...provided,
             padding: '0 6px',
+        }),
+
+        input: (provided: any) => ({
+            ...provided,
+            color: theme.palette.mode === 'dark' ? 'white' : 'black',
         }),
 
         indicatorSeparator: () => ({

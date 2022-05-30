@@ -29,23 +29,19 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                     label="Assigned To"
                     name="compliance.compliaceTaggedUser"
                     options={users || []}
-                    values={
-                        formik.values.compliance?.compliaceTaggedUser ||
-                        'select'
-                    }
+                    values={formik.values.compliance?.compliaceTaggedUser || ''}
                     onChange={formik.handleChange}
+                    placeholder="Select User"
                 />
 
                 <Select
                     label="Risk Classification"
                     name="compliance.riskClassification"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     options={riskClassificationOptions || []}
-                    values={formik.values.compliance.riskClassification}
+                    values={formik.values.compliance?.riskClassification || ''}
                     onChange={formik.handleChange}
+                    placeholder="Select Risk Value"
                     error={
                         (Boolean(
                             formik.touched?.compliance?.riskClassification
@@ -57,10 +53,7 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                 <Select
                     label="VRM Status"
                     name="compliance.vrmStatus"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     options={statusOptions || []}
                     values={formik.values.compliance.vrmStatus}
                     onChange={formik.handleChange}
@@ -73,10 +66,7 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                 <Input
                     label="Risk Statement"
                     name="compliance.riskStatement"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     value={formik.values.compliance.riskStatement}
                     onChange={formik.handleChange}
                     error={
@@ -88,10 +78,7 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                 <Select
                     label="VRM Questionnaire"
                     name="compliance.vrmQuestionnaire"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     options={statusOptions || []}
                     values={formik.values.compliance.vrmQuestionnaire}
                     onChange={formik.handleChange}
@@ -106,10 +93,7 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                 <Select
                     label="security Assesment"
                     name="compliance.securityAssesment"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     options={statusOptions || []}
                     values={formik.values.compliance.securityAssesment}
                     onChange={formik.handleChange}
@@ -124,10 +108,7 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                 <Select
                     label="Privacy Review"
                     name="compliance.privacyReview"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     options={statusOptions || []}
                     values={formik.values.compliance.privacyReview}
                     onChange={formik.handleChange}
@@ -140,10 +121,7 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                 <Select
                     label="Legal Review"
                     name="compliance.legalReview"
-                    disabled={
-                        formik.values.compliance?.compliaceTaggedUser !==
-                        'select'
-                    }
+                    disabled={formik.values.compliance?.compliaceTaggedUser}
                     options={statusOptions || []}
                     values={formik.values.compliance.legalReview}
                     onChange={formik.handleChange}

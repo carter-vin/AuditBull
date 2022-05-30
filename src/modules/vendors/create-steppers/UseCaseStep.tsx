@@ -26,9 +26,7 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                         label="Assigned To"
                         name="useCases.useCaseTaggedUser"
                         options={users || []}
-                        values={
-                            formik.values.useCases.useCaseTaggedUser || 'select'
-                        }
+                        values={formik.values.useCases.useCaseTaggedUser || ''}
                         onChange={formik.handleChange}
                     />
                 </Box>
@@ -39,10 +37,7 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                     name="useCases.owner"
                     value={formik.values.useCases?.owner || ''}
                     onChange={formik.handleChange}
-                    disabled={
-                        formik.values.useCases?.useCaseTaggedUser !== 'select'
-                    }
-                    placeholder="Enter Owner Name"
+                    disabled={formik.values.useCases?.useCaseTaggedUser}
                     error={
                         (Boolean(formik.touched?.useCases?.owner) &&
                             formik.errors?.useCases?.owner) ||
@@ -54,10 +49,7 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                     name="useCases.description"
                     value={formik.values.useCases?.description || ''}
                     onChange={formik.handleChange}
-                    disabled={
-                        formik.values.useCases?.useCaseTaggedUser !== 'select'
-                    }
-                    placeholder="Enter Description"
+                    disabled={formik.values.useCases?.useCaseTaggedUser}
                     error={
                         (Boolean(formik.touched?.useCases?.description) &&
                             formik.errors?.useCases?.description) ||
@@ -66,9 +58,7 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                 />
                 <MultipleSelect
                     name="useCases.dataUsage"
-                    disabled={
-                        formik.values.useCases?.useCaseTaggedUser !== 'select'
-                    }
+                    disabled={formik.values.useCases?.useCaseTaggedUser}
                     options={dataUsageOption}
                     values={formik.values.useCases?.dataUsage || []}
                     onChange={(values: any) =>

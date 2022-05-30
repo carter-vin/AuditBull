@@ -18,7 +18,6 @@ const GeneralStep = (props: GeneralStepsProps) => {
             <Input
                 label="Vendor Name"
                 name="name"
-                placeholder="Vendor Name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={(formik.touched.name && formik.errors.name) || ''}
@@ -26,7 +25,6 @@ const GeneralStep = (props: GeneralStepsProps) => {
             <Input
                 label="Vendor Website"
                 name="website"
-                placeholder="Vendor Website"
                 value={formik.values.website || ''}
                 onChange={formik.handleChange}
             />

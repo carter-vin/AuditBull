@@ -38,7 +38,6 @@ const Table = (props: TabelProps) => {
             components={{
                 Toolbar: !hideTableToolbar && !noFilter ? GridToolbar : null,
             }}
-            hideFooter
             getRowId={(row) => row.id}
         />
     );

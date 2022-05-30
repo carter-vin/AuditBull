@@ -1,6 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Card, IconButton, Typography } from '@mui/material';
+import {
+    Box,
+    Card,
+    IconButton,
+    LinearProgress,
+    Typography,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Select from 'components/Select';
 import { contractOptions, OptionType } from 'utils/select';
@@ -23,12 +29,17 @@ const FinanceStep = (props: FinanceStepProps) => {
             file: '',
         },
     ]);
+    const [progress, setProgress] = useState({
+        id: 0,
+        value: 0,
+        show: false,
+    });
 
     const removeStorage = async (value: any, index: number) => {
         const path = formik.values.finance?.contracts[index]?.type
             ? `${formik.values.finance?.contracts[index]?.type}/${value.name}-${index}`
             : `${value.name}-${index}`;
-        await Storage.remove(path, { level: 'protected' });
+        await Storage.remove(path);
     };
 
     const onCardDeleteHandler = (index: number, item: any) => {
@@ -55,13 +66,32 @@ const FinanceStep = (props: FinanceStepProps) => {
         value: any,
         index: number
     ) => {
+        setProgress({
+            id: index,
+            value: 0,
+            show: true,
+        });
         if (value.length > 0) {
             const path = contractType
-                ? `${contractType}/${value[0].name}-${index}`
-                : `${value[0].name}-${index}`;
-            const result = await Storage.put(path, value, {
-                level: 'protected',
-                contentType: value.type,
+                ? `${contractType}/${value[0].name}`
+                : `${value[0].name}`;
+            const result = await Storage.put(path, value[0], {
+                progressCallback(runningProgress) {
+                    const percentage =
+                        (runningProgress.loaded / runningProgress.total) * 100;
+                    setProgress({
+                        id: index,
+                        value: Math.round(percentage),
+                        show: true,
+                    });
+                },
+                completeCallback: () => {
+                    setProgress({
+                        id: 0,
+                        value: 0,
+                        show: false,
+                    });
+                },
             });
             formik.setFieldValue(`finance.contracts.${index}.file`, value);
             formik.setFieldValue(`finance.contracts.${index}.key`, result.key);
@@ -69,6 +99,11 @@ const FinanceStep = (props: FinanceStepProps) => {
             formik.setFieldValue(`finance.contracts.${index}.file`, []);
             formik.setFieldValue(`finance.contracts.${index}.key`, '');
         }
+        setProgress({
+            id: index,
+            value: 0,
+            show: false,
+        });
     };
 
     return (
@@ -83,9 +118,7 @@ const FinanceStep = (props: FinanceStepProps) => {
                     label="Assigned To"
                     name="finance.financeTaggedUser"
                     options={users || []}
-                    values={
-                        formik.values.finance?.financeTaggedUser || 'select'
-                    }
+                    values={formik.values.finance?.financeTaggedUser}
                     onChange={formik.handleChange}
                 />
             </Box>
@@ -137,6 +170,14 @@ const FinanceStep = (props: FinanceStepProps) => {
                                 }
                                 onDelete={(value: any) =>
                                     removeStorage(value, index)
+                                }
+                                progressBar={
+                                    index === progress.id && progress.show ? (
+                                        <LinearProgress
+                                            variant="determinate"
+                                            value={progress.value}
+                                        />
+                                    ) : null
                                 }
                                 setFiles={(value: any) =>
                                     setContractFile(
