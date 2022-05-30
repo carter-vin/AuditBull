@@ -150,12 +150,10 @@ const CreateVendor = () => {
                         const attributes = user.Attributes;
                         return {
                             value:
-                                `${user.Username}` ||
                                 attributes?.find(
                                     (attr: { Name: string }) =>
-                                        attr.Name === 'name'
-                                ) ||
-                                '',
+                                        attr.Name === 'email'
+                                )?.Value || '',
                             label:
                                 attributes?.find(
                                     (attr: { Name: string }) =>

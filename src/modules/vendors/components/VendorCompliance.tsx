@@ -34,7 +34,8 @@ const VendorCompliance = (props: {
                     </Grid>
                 )}
                 <Divider />
-                {!vendorCompliance?.compliaceTaggedUser && (
+                {
+                    // !vendorCompliance?.compliaceTaggedUser &&
                     <>
                         <Box className="flex flex-col gap-2">
                             <Grid container spacing={2}>
@@ -132,7 +133,7 @@ const VendorCompliance = (props: {
                         </Stack>
                         <Divider />
                     </>
-                )}
+                }
                 <VendorExtraNotes
                     selectedVendor={vendor}
                     refetch={() => getVendorList()}

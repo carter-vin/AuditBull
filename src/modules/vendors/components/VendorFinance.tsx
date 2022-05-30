@@ -56,7 +56,8 @@ const VendorFinance = (props: { vendorFinance: any }) => {
                         </Grid>
                     )}
                     <Divider />
-                    {!vendorFinance.financeTaggedUser &&
+                    {
+                        // !vendorFinance.financeTaggedUser &&
                         map(vendorFinance?.contracts, (contract, index) => {
                             return (
                                 <Grid
@@ -99,7 +100,8 @@ const VendorFinance = (props: { vendorFinance: any }) => {
                                     </Grid>
                                 </Grid>
                             );
-                        })}
+                        })
+                    }
                 </Box>
             </Stack>
         </CardContent>

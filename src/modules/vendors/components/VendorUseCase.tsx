@@ -31,7 +31,8 @@ const VendorUseCase = (props: { vendorUseCase: any }) => {
                     </Grid>
                 )}
                 <Divider />
-                {!vendorUseCase.useCaseTaggedUser && (
+                {
+                    // !vendorUseCase.useCaseTaggedUser &&
                     <Box className="flex flex-col gap-2">
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
@@ -77,7 +78,7 @@ const VendorUseCase = (props: { vendorUseCase: any }) => {
                             </Grid>
                         </Grid>
                     </Box>
-                )}
+                }
             </Stack>
         </CardContent>
     );
