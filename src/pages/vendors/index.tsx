@@ -274,7 +274,7 @@ const Vendors = () => {
         <Box className="flex flex-col w-full gap-4">
             <VendorListHeader />
             <Grid container spacing={4}>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={7}>
                     <Box className="min-h-[200px] md:h-[400px]">
                         <Table
                             columns={columns || []}
@@ -283,7 +283,7 @@ const Vendors = () => {
                         />
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={5}>
                     <Card
                         sx={{
                             minHeight: 440,

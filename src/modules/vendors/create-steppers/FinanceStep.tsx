@@ -83,7 +83,9 @@ const FinanceStep = (props: FinanceStepProps) => {
                     label="Assigned To"
                     name="finance.financeTaggedUser"
                     options={users || []}
-                    values={formik.values.finance?.financeTaggedUser || ''}
+                    values={
+                        formik.values.finance?.financeTaggedUser || 'select'
+                    }
                     onChange={formik.handleChange}
                 />
             </Box>

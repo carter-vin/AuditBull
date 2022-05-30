@@ -29,7 +29,10 @@ const ComplianceStep = (props: ComplianceStepProps) => {
                     label="Assigned To"
                     name="compliance.compliaceTaggedUser"
                     options={users || []}
-                    values={formik.values.compliance?.compliaceTaggedUser || ''}
+                    values={
+                        formik.values.compliance?.compliaceTaggedUser ||
+                        'select'
+                    }
                     onChange={formik.handleChange}
                 />
 

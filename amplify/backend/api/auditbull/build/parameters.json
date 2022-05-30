@@ -8,6 +8,6 @@
             "Outputs.UserPoolId"
         ]
     },
-    "S3DeploymentBucket": "amplify-auditbull-staging-193858-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/6af7d721f08565ac461f8e2441649333b8c6ef18"
+    "S3DeploymentBucket": "amplify-auditbull-dev-230241-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/8c3d259ae7b2b8695282ae955e9188bb365a4b22"
 }

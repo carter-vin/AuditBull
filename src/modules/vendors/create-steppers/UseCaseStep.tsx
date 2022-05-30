@@ -26,7 +26,9 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                         label="Assigned To"
                         name="useCases.useCaseTaggedUser"
                         options={users || []}
-                        values={formik.values.useCases.useCaseTaggedUser || ''}
+                        values={
+                            formik.values.useCases.useCaseTaggedUser || 'select'
+                        }
                         onChange={formik.handleChange}
                     />
                 </Box>
