@@ -37,7 +37,9 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                     name="useCases.owner"
                     value={formik.values.useCases?.owner || ''}
                     onChange={formik.handleChange}
-                    disabled={formik.values.useCases?.useCaseTaggedUser}
+                    disabled={
+                        formik.values.useCases?.useCaseTaggedUser !== 'select'
+                    }
                     placeholder="Enter Owner Name"
                     error={
                         (Boolean(formik.touched?.useCases?.owner) &&
@@ -50,7 +52,9 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                     name="useCases.description"
                     value={formik.values.useCases?.description || ''}
                     onChange={formik.handleChange}
-                    disabled={formik.values.useCases?.useCaseTaggedUser}
+                    disabled={
+                        formik.values.useCases?.useCaseTaggedUser !== 'select'
+                    }
                     placeholder="Enter Description"
                     error={
                         (Boolean(formik.touched?.useCases?.description) &&
@@ -60,6 +64,9 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                 />
                 <MultipleSelect
                     name="useCases.dataUsage"
+                    disabled={
+                        formik.values.useCases?.useCaseTaggedUser !== 'select'
+                    }
                     options={dataUsageOption}
                     values={formik.values.useCases?.dataUsage || []}
                     onChange={(values: any) =>

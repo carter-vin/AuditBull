@@ -34,8 +34,8 @@ const Dropzone = (props: DropzoneProps) => {
         const filtred = files.filter(
             (value: any, i: number) => file !== value && i !== index
         );
-        onDelete(values);
-        setFiles(filtred);
+        onDelete(file);
+        setFiles(filtred || []);
     };
 
     const getFilePreview = (file: any, index: number) => {

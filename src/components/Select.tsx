@@ -36,7 +36,7 @@ const Select = (props: SelectProps) => {
                 size="small"
                 labelId={name}
                 id={name}
-                value={values || 'select'}
+                value={values || ''}
                 name={name}
                 onChange={onChange}
                 disabled={disabled}

@@ -24,14 +24,29 @@ const FinanceStep = (props: FinanceStepProps) => {
         },
     ]);
 
-    const onDeleteHandler = (index: number, item: any) => {
-        // const filtred = formik.values?.finance?.contracts.filter(
-        //     (value: any, i: number) => item?.type !== value && i !== index
-        // );
+    const removeStorage = async (value: any, index: number) => {
+        const path = formik.values.finance?.contracts[index]?.type
+            ? `${formik.values.finance?.contracts[index]?.type}/${value.name}-${index}`
+            : `${value.name}-${index}`;
+        await Storage.remove(path, { level: 'protected' });
+    };
+
+    const onCardDeleteHandler = (index: number, item: any) => {
+        const filtred = formik.values?.finance?.contracts.filter(
+            (value: any, i: number) => {
+                if (formik.values.finance.contracts[index].file) {
+                    removeStorage(
+                        formik.values.finance.contracts[index]?.file[0],
+                        index
+                    );
+                }
+                return item?.type !== value && i !== index;
+            }
+        );
         const filtredInput = inputForm.filter(
             (value: any, i: number) => i !== index
         );
-        // formik.setFieldValue('finance.contracts', filtred);
+        formik.setFieldValue('finance.contracts', filtred);
         setInputForms(filtredInput);
     };
 
@@ -40,22 +55,20 @@ const FinanceStep = (props: FinanceStepProps) => {
         value: any,
         index: number
     ) => {
-        const path = contractType
-            ? `${contractType}/${value[0].name}-${index}`
-            : `${value[0].name}-${index}`;
-        const result = await Storage.put(path, value, {
-            level: 'protected',
-            contentType: value.type,
-        });
-        formik.setFieldValue(`finance.contracts.${index}.file`, value);
-        formik.setFieldValue(`finance.contracts.${index}.key`, result.key);
-    };
-
-    const removeStorage = async (value: any, index: number) => {
-        const path = formik.values.finance?.contracts[index]?.type
-            ? `${formik.values.finance?.contracts[index]?.type}/${value[0].name}-${index}`
-            : `${value[0].name}-${index}`;
-        await Storage.remove(path, { level: 'protected' });
+        if (value.length > 0) {
+            const path = contractType
+                ? `${contractType}/${value[0].name}-${index}`
+                : `${value[0].name}-${index}`;
+            const result = await Storage.put(path, value, {
+                level: 'protected',
+                contentType: value.type,
+            });
+            formik.setFieldValue(`finance.contracts.${index}.file`, value);
+            formik.setFieldValue(`finance.contracts.${index}.key`, result.key);
+        } else {
+            formik.setFieldValue(`finance.contracts.${index}.file`, []);
+            formik.setFieldValue(`finance.contracts.${index}.key`, '');
+        }
     };
 
     return (
@@ -120,14 +133,14 @@ const FinanceStep = (props: FinanceStepProps) => {
                                     formik.values.finance?.contracts[index]
                                         ?.file || []
                                 }
-                                onDelete={(values: any) =>
-                                    removeStorage(values, index)
+                                onDelete={(value: any) =>
+                                    removeStorage(value, index)
                                 }
-                                setFiles={(values: any) =>
+                                setFiles={(value: any) =>
                                     setContractFile(
                                         formik.values.finance?.contracts[index]
                                             ?.type,
-                                        values,
+                                        value,
                                         index
                                     )
                                 }
@@ -135,7 +148,7 @@ const FinanceStep = (props: FinanceStepProps) => {
                             <Box className="absolute top-1 right-1">
                                 <IconButton
                                     onClick={() =>
-                                        onDeleteHandler(
+                                        onCardDeleteHandler(
                                             index,
                                             formik.values?.finance?.contracts[
                                                 index
