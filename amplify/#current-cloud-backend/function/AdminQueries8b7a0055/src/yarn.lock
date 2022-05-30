@@ -24,9 +24,9 @@ array-flatten@1.1.1:
   integrity sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==
 
 aws-sdk@^2.1113.0:
-  version "2.1138.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1138.0.tgz#5975e028807a327e0900075de6a054fdd939a1f0"
-  integrity sha512-81Bs7qVf1/NrZBDCVIPpynODNN8fvXLdbsK024VITKFjts6DpvWjWPCsRYvEtaksF6uypMx5D02nTYJ8RiXq9w==
+  version "2.1145.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1145.0.tgz#9da2e0abb5aed130b0fb33d0452cc468b22d2465"
+  integrity sha512-bjZJGFxHJadnp2kbg1etKw7ID1QmmKk1ivML0Xtt6S6GnGSfX8zVuLMkJZaxPMjlyZ6xeilGwzk2F9igxBCPCQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -112,7 +112,7 @@ content-type@~1.0.4:
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
-  integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
+  integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
 
 cookie@0.5.0:
   version "0.5.0"
@@ -343,9 +343,9 @@ negotiator@0.6.3:
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
 object-inspect@^1.9.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.12.0.tgz#6e2c120e868fd1fd18cb4f18c31741d0d6e776f0"
-  integrity sha512-Ho2z80bVIvJloH+YzRmpZVQe87+qASmBUKZDWgx9cu+KDrX2ZDH/3tMy+gXbZETVGs2M8YdxObOh7XAtim9Y0g==
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.12.2.tgz#c0641f26394532f28ab8d796ab954e43c009a8ea"
+  integrity sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==
 
 on-finished@2.4.1:
   version "2.4.1"
@@ -423,6 +423,18 @@ sax@>=0.6.0:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+
+secure-random-password@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/secure-random-password/-/secure-random-password-0.2.3.tgz#cc99714a824328f251b11b35b557b685c09717db"
+  integrity sha512-2zpmr6pK3CZGIS9fgApFw00/tKEBVbJTqe4AZLrLNgahCK6ueIR5uMzvbERNibr8hkWneMcOqDcm4wpHWUxrYw==
+  dependencies:
+    secure-random "^1.1.2"
+
+secure-random@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/secure-random/-/secure-random-1.1.2.tgz#ed103b460a851632d420d46448b2a900a41e7f7c"
+  integrity sha512-H2bdSKERKdBV1SwoqYm6C0y+9EA94v6SUBOWO8kDndc4NoUih7Dv6Tsgma7zO1lv27wIvjlD0ZpMQk7um5dheQ==
 
 send@0.18.0:
   version "0.18.0"

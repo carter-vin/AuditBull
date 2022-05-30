@@ -44,7 +44,7 @@
     }
   },
   "function": {
-    "AdminQueries10de20ac": {
+    "AdminQueries8b7a0055": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true,
@@ -60,6 +60,28 @@
     }
   },
   "api": {
+    "AdminQueries": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "auditbull37e38ef1",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueries8b7a0055",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ]
+    },
     "auditbull": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
@@ -77,14 +99,10 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "api key description"
+              "apiKeyExpirationDays": 7
             }
           },
           "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            },
             {
               "authenticationType": "AMAZON_COGNITO_USER_POOLS",
               "userPoolConfig": {
@@ -94,28 +112,6 @@
           ]
         }
       }
-    },
-    "AdminQueries": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "auditbull37e38ef1",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "AdminQueries10de20ac",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ]
     }
   },
   "storage": {

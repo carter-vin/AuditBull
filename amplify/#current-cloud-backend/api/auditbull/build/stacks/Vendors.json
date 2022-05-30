@@ -55,12 +55,6 @@
     "referencetotransformerrootstackNotesNestedStackNotesNestedStackResource331514CBOutputstransformerrootstackNotesQuerygetNotespostAuth0FunctionQuerygetNotespostAuth0FunctionAppSyncFunction629DCAE7FunctionId": {
       "Type": "String"
     },
-    "referencetotransformerrootstackauthRoleNameFB872D50Ref": {
-      "Type": "String"
-    },
-    "referencetotransformerrootstackunauthRoleName49F3C1FERef": {
-      "Type": "String"
-    },
     "referencetotransformerrootstackNotesNestedStackNotesNestedStackResource331514CBOutputstransformerrootstackNotesMutationcreateNotesinit0FunctionMutationcreateNotesinit0FunctionAppSyncFunction14C12293FunctionId": {
       "Type": "String"
     },
@@ -187,10 +181,6 @@
               }
             ]
           ]
-        },
-        "TimeToLiveSpecification": {
-          "AttributeName": "_ttl",
-          "Enabled": true
         }
       },
       "UpdateReplacePolicy": "Delete",
@@ -332,50 +322,6 @@
                       }
                     }
                   ]
-                },
-                {
-                  "Fn::Sub": [
-                    "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
-                    {
-                      "tablename": {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "AmplifyDataStore-",
-                            {
-                              "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-                            },
-                            "-",
-                            {
-                              "Ref": "referencetotransformerrootstackenv10C5A902Ref"
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  ]
-                },
-                {
-                  "Fn::Sub": [
-                    "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
-                    {
-                      "tablename": {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "AmplifyDataStore-",
-                            {
-                              "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-                            },
-                            "-",
-                            {
-                              "Ref": "referencetotransformerrootstackenv10C5A902Ref"
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  ]
                 }
               ]
             }
@@ -402,29 +348,9 @@
           "AwsRegion": {
             "Ref": "AWS::Region"
           },
-          "DeltaSyncConfig": {
-            "BaseTableTTL": "43200",
-            "DeltaSyncTableName": {
-              "Fn::Join": [
-                "",
-                [
-                  "AmplifyDataStore-",
-                  {
-                    "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-                  },
-                  "-",
-                  {
-                    "Ref": "referencetotransformerrootstackenv10C5A902Ref"
-                  }
-                ]
-              ]
-            },
-            "DeltaSyncTableTTL": "30"
-          },
           "TableName": {
             "Ref": "VendorsTable"
-          },
-          "Versioned": true
+          }
         },
         "ServiceRoleArn": {
           "Fn::GetAtt": [
@@ -512,10 +438,6 @@
               "/resolvers/Query.getVendors.res.vtl"
             ]
           ]
-        },
-        "SyncConfig": {
-          "ConflictDetection": "VERSION",
-          "ConflictHandler": "AUTOMERGE"
         }
       },
       "DependsOn": [
@@ -562,23 +484,7 @@
               {
                 "Ref": "VendorsTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n$util.toJson({})"
             ]
           ]
         },
@@ -630,10 +536,6 @@
               "/resolvers/Query.listVendors.res.vtl"
             ]
           ]
-        },
-        "SyncConfig": {
-          "ConflictDetection": "VERSION",
-          "ConflictHandler": "AUTOMERGE"
         }
       },
       "DependsOn": [
@@ -680,141 +582,7 @@
               {
                 "Ref": "VendorsTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
-            ]
-          ]
-        },
-        "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
-      }
-    },
-    "QuerySyncVendorsDataResolverFnQuerySyncVendorsDataResolverFnAppSyncFunctionA3B68D58": {
-      "Type": "AWS::AppSync::FunctionConfiguration",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "DataSourceName": {
-          "Fn::GetAtt": [
-            "VendorsDataSource",
-            "Name"
-          ]
-        },
-        "FunctionVersion": "2018-05-29",
-        "Name": "QuerySyncVendorsDataResolverFn",
-        "RequestMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Query.syncVendors.req.vtl"
-            ]
-          ]
-        },
-        "ResponseMappingTemplateS3Location": {
-          "Fn::Join": [
-            "",
-            [
-              "s3://",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
-              },
-              "/",
-              {
-                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
-              },
-              "/resolvers/Query.syncVendors.res.vtl"
-            ]
-          ]
-        },
-        "SyncConfig": {
-          "ConflictDetection": "VERSION",
-          "ConflictHandler": "AUTOMERGE"
-        }
-      },
-      "DependsOn": [
-        "VendorsDataSource"
-      ]
-    },
-    "SyncVendorsResolver": {
-      "Type": "AWS::AppSync::Resolver",
-      "Properties": {
-        "ApiId": {
-          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-        },
-        "FieldName": "syncVendors",
-        "TypeName": "Query",
-        "Kind": "PIPELINE",
-        "PipelineConfig": {
-          "Functions": [
-            {
-              "Fn::GetAtt": [
-                "QuerygetVendorsauth0FunctionQuerygetVendorsauth0FunctionAppSyncFunctionB2E86762",
-                "FunctionId"
-              ]
-            },
-            {
-              "Ref": "referencetotransformerrootstackNotesNestedStackNotesNestedStackResource331514CBOutputstransformerrootstackNotesQuerygetNotespostAuth0FunctionQuerygetNotespostAuth0FunctionAppSyncFunction629DCAE7FunctionId"
-            },
-            {
-              "Fn::GetAtt": [
-                "QuerySyncVendorsDataResolverFnQuerySyncVendorsDataResolverFnAppSyncFunctionA3B68D58",
-                "FunctionId"
-              ]
-            }
-          ]
-        },
-        "RequestMappingTemplate": {
-          "Fn::Join": [
-            "",
-            [
-              "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"syncVendors\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
-              {
-                "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
-              },
-              "\"))\n$util.qr($ctx.stash.put(\"tableName\", \"",
-              {
-                "Ref": "VendorsTable"
-              },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n$util.toJson({})"
             ]
           ]
         },
@@ -896,10 +664,6 @@
               "/resolvers/Mutation.createVendors.res.vtl"
             ]
           ]
-        },
-        "SyncConfig": {
-          "ConflictDetection": "VERSION",
-          "ConflictHandler": "AUTOMERGE"
         }
       },
       "DependsOn": [
@@ -949,23 +713,7 @@
               {
                 "Ref": "VendorsTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n$util.toJson({})"
             ]
           ]
         },
@@ -1068,10 +816,6 @@
               "/resolvers/Mutation.updateVendors.res.vtl"
             ]
           ]
-        },
-        "SyncConfig": {
-          "ConflictDetection": "VERSION",
-          "ConflictHandler": "AUTOMERGE"
         }
       },
       "DependsOn": [
@@ -1121,23 +865,7 @@
               {
                 "Ref": "VendorsTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n$util.toJson({})"
             ]
           ]
         },
@@ -1240,10 +968,6 @@
               "/resolvers/Mutation.deleteVendors.res.vtl"
             ]
           ]
-        },
-        "SyncConfig": {
-          "ConflictDetection": "VERSION",
-          "ConflictHandler": "AUTOMERGE"
         }
       },
       "DependsOn": [
@@ -1290,23 +1014,7 @@
               {
                 "Ref": "VendorsTable"
               },
-              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n$util.toJson({})"
             ]
           ]
         },
@@ -1376,23 +1084,7 @@
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },
-              "\"))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n\n$util.toJson({})"
             ]
           ]
         },
@@ -1432,23 +1124,7 @@
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },
-              "\"))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n\n$util.toJson({})"
             ]
           ]
         },
@@ -1488,23 +1164,7 @@
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },
-              "\"))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":assumed-role/",
-              {
-                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
-              },
-              "/CognitoIdentityCredentials\"))\n$util.toJson({})"
+              "\"))\n\n$util.toJson({})"
             ]
           ]
         },

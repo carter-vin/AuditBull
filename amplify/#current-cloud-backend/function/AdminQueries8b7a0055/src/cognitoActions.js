@@ -13,6 +13,7 @@
  */
 
 const { CognitoIdentityServiceProvider } = require('aws-sdk');
+const securePassword = require("secure-random-password");
 
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 const userPoolId = process.env.USERPOOL;
@@ -244,6 +245,113 @@ async function signUserOut(username) {
   }
 }
 
+async function createUserByAdmin( email, role, name) {
+  const tempPassword = securePassword.randomPassword({ characters: [securePassword.lower, securePassword.upper, securePassword.digits, securePassword.symbols] })
+  console.log('the temp password is: ', tempPassword)
+  const params = {
+    UserPoolId: userPoolId /* required */,
+    Username: email /* required */,
+    DesiredDeliveryMediums: [  'EMAIL' ],
+    // (optional) ForceAliasCreation: true || false,
+    // MessageAction: 'SUPPRESS',
+    TemporaryPassword: tempPassword,
+    UserAttributes: [
+      {
+        Name: "name",
+        Value: name
+      },
+      {
+        Name: "email",
+        Value: email,
+      },
+      {
+        Name: "custom:role",
+        Value: role,
+      },
+    ],
+  };
+  console.log(`Attempting to create user ${email}`);
+  try {
+    const result = await cognitoIdentityServiceProvider
+      .adminCreateUser(params)
+      .promise();
+    if (result) {
+      addUserToGroup(email, "admin")
+    }
+    console.log(`${email} successfully created`); // successful response
+    return {
+      message: `${email} successfully created`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+async function deleteUser(username) {
+  const params = {
+    UserPoolId: userPoolId,
+    Username: username,
+  };
+
+  try {
+    const result = await cognitoIdentityServiceProvider.adminDeleteUser(params).promise();
+    console.log(`Delete ${username}`);
+    return {
+      message: `Delete ${username}`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+async function updateUserAttributesByAdmin(username, role) {
+  const params = {
+      UserPoolId: userPoolId,
+      Username: username,
+      UserAttributes: [ 
+      { 
+         Name: "custom:role",
+         Value: role
+      }
+   ],
+  };
+  try {
+    const result = await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`User Attribute ${role}`);
+    return {
+      message: `User attribute updated`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+async function verifiedUserByAdmin(username) {
+  const params = {
+      UserPoolId: userPoolId,
+      Username: username,
+      UserAttributes: [ 
+      { 
+         Name: "email_verified",
+         Value: 'true'
+      }
+   ],
+  };
+  try {
+    const result = await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`User verified`);
+    return {
+      message: `User verified`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 module.exports = {
   addUserToGroup,
   removeUserFromGroup,
@@ -256,4 +364,9 @@ module.exports = {
   listGroupsForUser,
   listUsersInGroup,
   signUserOut,
+  createUserByAdmin,
+  deleteUser,
+  updateUserAttributesByAdmin,
+  verifiedUserByAdmin,
+  
 };

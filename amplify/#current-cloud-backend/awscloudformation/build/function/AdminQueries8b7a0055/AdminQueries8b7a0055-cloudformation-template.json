@@ -38,12 +38,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueries844f6fb6",
+            "AdminQueries8b7a0055",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueries844f6fb6",
+                  "AdminQueries8b7a0055",
                   "-",
                   {
                     "Ref": "env"
@@ -88,12 +88,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AdminQueries844f6fb6LambdaRole",
+            "AdminQueries8b7a0055LambdaRole",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AdminQueries844f6fb6LambdaRole",
+                  "AdminQueries8b7a0055LambdaRole",
                   "-",
                   {
                     "Ref": "env"
@@ -173,7 +173,10 @@
                 "cognito-idp:AdminGetUser",
                 "cognito-idp:AdminConfirmSignUp",
                 "cognito-idp:ListUsers",
-                "cognito-idp:ListGroups"
+                "cognito-idp:ListGroups",
+                "cognito-idp:AdminCreateUser",
+                "cognito-idp:AdminDeleteUser",
+                "cognito-idp:AdminUpdateUserAttributes"
               ],
               "Resource": {
                 "Fn::Join": [

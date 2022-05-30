@@ -48,12 +48,6 @@
       "Type": "String",
       "Default": "AppSyncSimpleTransform"
     },
-    "authRoleName": {
-      "Type": "String"
-    },
-    "unauthRoleName": {
-      "Type": "String"
-    },
     "S3DeploymentBucket": {
       "Type": "String",
       "Description": "An S3 Bucket name where assets are deployed"
@@ -83,9 +77,6 @@
           ]
         },
         "AdditionalAuthenticationProviders": [
-          {
-            "AuthenticationType": "AWS_IAM"
-          },
           {
             "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
             "UserPoolConfig": {
@@ -136,8 +127,7 @@
             "ApiId"
           ]
         },
-        "Description": "api key description",
-        "Expires": 1656261097
+        "Expires": 1654285008
       }
     },
     "GraphQLAPINONEDS95A13CF0": {
@@ -152,175 +142,6 @@
         "Name": "NONE_DS",
         "Type": "NONE",
         "Description": "None Data Source for Pipeline functions"
-      }
-    },
-    "DataStore": {
-      "Type": "AWS::DynamoDB::Table",
-      "Properties": {
-        "KeySchema": [
-          {
-            "AttributeName": "ds_pk",
-            "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "ds_sk",
-            "KeyType": "RANGE"
-          }
-        ],
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "ds_pk",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "ds_sk",
-            "AttributeType": "S"
-          }
-        ],
-        "BillingMode": "PAY_PER_REQUEST",
-        "StreamSpecification": {
-          "StreamViewType": "NEW_AND_OLD_IMAGES"
-        },
-        "TableName": {
-          "Fn::Join": [
-            "",
-            [
-              "AmplifyDataStore-",
-              {
-                "Fn::GetAtt": [
-                  "GraphQLAPI",
-                  "ApiId"
-                ]
-              },
-              "-",
-              {
-                "Ref": "env"
-              }
-            ]
-          ]
-        },
-        "TimeToLiveSpecification": {
-          "AttributeName": "_ttl",
-          "Enabled": true
-        }
-      },
-      "UpdateReplacePolicy": "Delete",
-      "DeletionPolicy": "Delete"
-    },
-    "AmplifyDataStoreIAMRole8DE05A49": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "appsync.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "RoleName": {
-          "Fn::Join": [
-            "",
-            [
-              "AmplifyDataStoreIAMRb752cd-",
-              {
-                "Fn::GetAtt": [
-                  "GraphQLAPI",
-                  "ApiId"
-                ]
-              },
-              "-",
-              {
-                "Ref": "env"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    "DynamoDBAccess71ABE5AE": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "dynamodb:BatchGetItem",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:DeleteItem",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:UpdateItem"
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Sub": [
-                    "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
-                    {
-                      "tablename": {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "AmplifyDataStore-",
-                            {
-                              "Fn::GetAtt": [
-                                "GraphQLAPI",
-                                "ApiId"
-                              ]
-                            },
-                            "-",
-                            {
-                              "Ref": "env"
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  ]
-                },
-                {
-                  "Fn::Sub": [
-                    "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
-                    {
-                      "tablename": {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "AmplifyDataStore-",
-                            {
-                              "Fn::GetAtt": [
-                                "GraphQLAPI",
-                                "ApiId"
-                              ]
-                            },
-                            "-",
-                            {
-                              "Ref": "env"
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "DynamoDBAccess71ABE5AE",
-        "Roles": [
-          {
-            "Ref": "AmplifyDataStoreIAMRole8DE05A49"
-          }
-        ]
       }
     },
     "Notes": {
@@ -386,12 +207,6 @@
           },
           "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref": {
             "Ref": "S3DeploymentRootKey"
-          },
-          "referencetotransformerrootstackauthRoleNameFB872D50Ref": {
-            "Ref": "authRoleName"
-          },
-          "referencetotransformerrootstackunauthRoleName49F3C1FERef": {
-            "Ref": "unauthRoleName"
           }
         }
       },
@@ -468,12 +283,6 @@
               "Notes",
               "Outputs.transformerrootstackNotesQuerygetNotespostAuth0FunctionQuerygetNotespostAuth0FunctionAppSyncFunction629DCAE7FunctionId"
             ]
-          },
-          "referencetotransformerrootstackauthRoleNameFB872D50Ref": {
-            "Ref": "authRoleName"
-          },
-          "referencetotransformerrootstackunauthRoleName49F3C1FERef": {
-            "Ref": "unauthRoleName"
           },
           "referencetotransformerrootstackNotesNestedStackNotesNestedStackResource331514CBOutputstransformerrootstackNotesMutationcreateNotesinit0FunctionMutationcreateNotesinit0FunctionAppSyncFunction14C12293FunctionId": {
             "Fn::GetAtt": [
@@ -556,12 +365,6 @@
               "Notes",
               "Outputs.transformerrootstackNotesNotesTable2F9AE580Ref"
             ]
-          },
-          "referencetotransformerrootstackauthRoleNameFB872D50Ref": {
-            "Ref": "authRoleName"
-          },
-          "referencetotransformerrootstackunauthRoleName49F3C1FERef": {
-            "Ref": "unauthRoleName"
           }
         }
       },
@@ -686,5 +489,6 @@
         }
       }
     }
-  }
+  },
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.3.0\",\"stackType\":\"api-AppSync\",\"metadata\":{}}"
 }
