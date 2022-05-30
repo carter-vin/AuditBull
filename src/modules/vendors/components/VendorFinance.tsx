@@ -12,16 +12,34 @@ import { map } from 'lodash';
 import { Storage } from 'aws-amplify';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
+export function downloadBlob(blob: Blob | MediaSource, filename: string) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'download';
+    a.target = '_blank';
+    const clickHandler = () => {
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+            a.removeEventListener('click', clickHandler);
+        }, 150);
+    };
+    a.addEventListener('click', clickHandler, false);
+    a.click();
+    return a;
+}
+
 const VendorFinance = (props: { vendorFinance: any }) => {
     const { vendorFinance } = props;
     const getFinanceDocumentUrl = async (contract: any) => {
-        const res = await Storage.get(
+        const res: any = await Storage.get(
             contract?.key || contract?.files[0]?.name,
             {
                 level: 'protected',
+                download: true,
             }
         );
-        return res;
+        downloadBlob(res.Body, contract?.key || contract?.files[0]?.name);
     };
     return (
         <CardContent>
@@ -68,10 +86,10 @@ const VendorFinance = (props: { vendorFinance: any }) => {
                                                         startIcon={
                                                             <AttachFileIcon />
                                                         }
-                                                        href={
+                                                        onClick={() =>
                                                             getFinanceDocumentUrl(
                                                                 contract
-                                                            ) || ''
+                                                            )
                                                         }
                                                     >
                                                         <Typography>
