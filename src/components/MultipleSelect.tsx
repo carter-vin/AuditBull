@@ -89,7 +89,7 @@ const MultipleSelect = (props: MultipleSelectProps) => {
                 styles={reactSelectStyles}
             />
             {Boolean(error) && (
-                <FormHelperText error id="username" color="red">
+                <FormHelperText error id={name} color="red">
                     {error}
                 </FormHelperText>
             )}

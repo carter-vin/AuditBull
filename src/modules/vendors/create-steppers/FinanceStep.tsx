@@ -66,44 +66,55 @@ const FinanceStep = (props: FinanceStepProps) => {
         value: any,
         index: number
     ) => {
-        setProgress({
-            id: index,
-            value: 0,
-            show: true,
-        });
-        if (value.length > 0) {
-            const path = contractType
-                ? `${contractType}/${value[0].name}`
-                : `${value[0].name}`;
-            const result = await Storage.put(path, value[0], {
-                progressCallback(runningProgress) {
-                    const percentage =
-                        (runningProgress.loaded / runningProgress.total) * 100;
-                    setProgress({
-                        id: index,
-                        value: Math.round(percentage),
-                        show: true,
-                    });
-                },
-                completeCallback: () => {
-                    setProgress({
-                        id: 0,
-                        value: 0,
-                        show: false,
-                    });
-                },
-            });
-            formik.setFieldValue(`finance.contracts.${index}.file`, value);
-            formik.setFieldValue(`finance.contracts.${index}.key`, result.key);
+        if (!contractType) {
+            formik.setFieldError(
+                `finance.contracts.${index}.type`,
+                'Contract type is required, before adding contract file'
+            );
         } else {
-            formik.setFieldValue(`finance.contracts.${index}.file`, []);
-            formik.setFieldValue(`finance.contracts.${index}.key`, '');
+            setProgress({
+                id: index,
+                value: 0,
+                show: true,
+            });
+            if (value.length > 0) {
+                const path = contractType
+                    ? `${contractType}/${value[0].name}`
+                    : `${value[0].name}`;
+                const result = await Storage.put(path, value[0], {
+                    progressCallback(runningProgress) {
+                        const percentage =
+                            (runningProgress.loaded / runningProgress.total) *
+                            100;
+                        setProgress({
+                            id: index,
+                            value: Math.round(percentage),
+                            show: true,
+                        });
+                    },
+                    completeCallback: () => {
+                        setProgress({
+                            id: 0,
+                            value: 0,
+                            show: false,
+                        });
+                    },
+                });
+                formik.setFieldValue(`finance.contracts.${index}.file`, value);
+                formik.setFieldValue(
+                    `finance.contracts.${index}.key`,
+                    result.key
+                );
+            } else {
+                formik.setFieldValue(`finance.contracts.${index}.file`, []);
+                formik.setFieldValue(`finance.contracts.${index}.key`, '');
+            }
+            setProgress({
+                id: index,
+                value: 0,
+                show: false,
+            });
         }
-        setProgress({
-            id: index,
-            value: 0,
-            show: false,
-        });
     };
 
     return (
@@ -130,12 +141,16 @@ const FinanceStep = (props: FinanceStepProps) => {
                     <IconButton
                         color="primary"
                         component="div"
-                        onClick={() =>
+                        onClick={() => {
                             setInputForms([
                                 ...inputForm,
                                 { type: '', file: '' },
-                            ])
-                        }
+                            ]);
+                            formik.values.finance.contracts.push({
+                                type: '',
+                                file: '',
+                            });
+                        }}
                     >
                         <AddIcon />
                     </IconButton>
@@ -160,6 +175,13 @@ const FinanceStep = (props: FinanceStepProps) => {
                                         e.target.value
                                     );
                                 }}
+                                error={
+                                    (formik.touched.finance?.contracts[index]
+                                        ?.type &&
+                                        formik.errors.finance?.contracts[index]
+                                            ?.type) ||
+                                    ''
+                                }
                             />
                             <Dropzone
                                 label="Upload Contract Files"
@@ -179,6 +201,13 @@ const FinanceStep = (props: FinanceStepProps) => {
                                         />
                                     ) : null
                                 }
+                                error={
+                                    (formik.touched.finance?.contracts[index]
+                                        ?.file &&
+                                        formik.errors.finance?.contracts[index]
+                                            ?.file) ||
+                                    ''
+                                }
                                 setFiles={(value: any) =>
                                     setContractFile(
                                         formik.values.finance?.contracts[index]
@@ -187,6 +216,7 @@ const FinanceStep = (props: FinanceStepProps) => {
                                         index
                                     )
                                 }
+                                name="file-upload"
                             />
                             <Box className="absolute top-1 right-1">
                                 <IconButton

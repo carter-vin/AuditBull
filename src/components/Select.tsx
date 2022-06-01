@@ -70,7 +70,7 @@ const Select = (props: SelectProps) => {
                 ))}
             </ReactSelect>
             {Boolean(error) && (
-                <FormHelperText error id="username" color="red">
+                <FormHelperText error id={name} color="red">
                     {error}
                 </FormHelperText>
             )}

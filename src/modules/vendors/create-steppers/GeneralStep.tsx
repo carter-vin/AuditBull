@@ -32,10 +32,11 @@ const GeneralStep = (props: GeneralStepsProps) => {
                 label="breath of service"
                 name="service"
                 options={serviceOption}
-                values={formik.values.service || []}
-                onChange={(values: any) =>
-                    formik.setFieldValue('service', values)
-                }
+                values={formik.values.service || {}}
+                onChange={(values: any) => {
+                    formik.setFieldValue('service', values);
+                }}
+                error={(formik.touched.service && formik.errors.service) || ''}
             />
             <Select
                 label="Vendor Status"

@@ -67,36 +67,71 @@ const steps: StepType[] = [
 const validationSchemas = [
     Yup.object().shape({
         name: Yup.string().required('Vendor Name is required'),
-        service: Yup.array().required('Service is required'),
         status: Yup.string().required('Status is required'),
+        service: Yup.array().min(1, 'Service is required'),
     }),
     Yup.object().shape({
         compliance: Yup.object().shape({
-            riskStatement: Yup.string().required('Risk Statement is required'),
-            riskClassification: Yup.string().required(
-                'Risk Classification is required'
-            ),
-            vrmStatus: Yup.string().required('VRM is required'),
-            vrmQuestionnaire: Yup.string().required(
-                'VRM questionnarie is required'
-            ),
-            securityAssesment: Yup.string().required(
-                'Security assesment is required'
-            ),
-            privacyReview: Yup.string().required('Privacy review is required'),
-            legalReview: Yup.string().required('Legal review is required'),
+            compliaceTaggedUser: Yup.string().nullable(),
+            riskStatement: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('Risk Statement is required'),
+            }),
+            riskClassification: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('Risk Classification is required'),
+            }),
+            vrmStatus: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('VRM is required'),
+            }),
+            vrmQuestionnaire: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('VRM questionnarie is required'),
+            }),
+            securityAssesment: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('Security assesment is required'),
+            }),
+            privacyReview: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('Privacy review is required'),
+            }),
+            legalReview: Yup.string().when('compliaceTaggedUser', {
+                is: (compliaceTaggedUser: any) => !compliaceTaggedUser,
+                then: Yup.string().required('Legal review is required'),
+            }),
         }),
     }),
     Yup.object().shape({
         useCases: Yup.object().shape({
-            owner: Yup.string().required('Owner is required'),
-            description: Yup.string().required('Description is required'),
-            dataUsage: Yup.string().required('Data usage is required'),
+            useCaseTaggedUser: Yup.string().nullable(),
+            owner: Yup.string().when('useCaseTaggedUser', {
+                is: (useCaseTaggedUser: any) => !useCaseTaggedUser,
+                then: Yup.string().required('Owner is required'),
+            }),
+            description: Yup.string().when('useCaseTaggedUser', {
+                is: (useCaseTaggedUser: any) => !useCaseTaggedUser,
+                then: Yup.string().required('Description is required'),
+            }),
+            dataUsage: Yup.array().when('useCaseTaggedUser', {
+                is: (useCaseTaggedUser: any) => !useCaseTaggedUser,
+                then: Yup.array().min(1, 'Data Usage is required'),
+            }),
         }),
     }),
     Yup.object().shape({
         finance: Yup.object().shape({
-            contract: Yup.string().required('Risk Statement is required'),
+            financeTaggedUser: Yup.string().nullable(),
+            contracts: Yup.array().when('financeTaggedUser', {
+                is: (financeTaggedUser: any) => !financeTaggedUser,
+                then: Yup.array().of(
+                    Yup.object().shape({
+                        file: Yup.array().min(1, 'File is required'),
+                        type: Yup.string().required('Type is required'),
+                    })
+                ),
+            }),
         }),
     }),
 ];
@@ -106,7 +141,7 @@ const CreateVendor = () => {
     const router = useRouter();
     const verticalStepper = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(3);
     const [success, setSuccess] = useState<boolean>(false);
     const [userList, setuserList] = useState<OptionType[]>([]);
 
@@ -200,22 +235,26 @@ const CreateVendor = () => {
                 privacyReview: '',
                 legalReview: '',
             },
-            finance: {
-                contracts: [],
-                financeTaggedUser: '',
-            },
             useCases: {
                 useCaseTaggedUser: '',
                 owner: '',
                 description: '',
-                dataUsage: '',
+                dataUsage: [],
+            },
+            finance: {
+                contracts: [
+                    {
+                        type: '',
+                        file: [],
+                    },
+                ],
+                financeTaggedUser: '',
             },
         },
-        // validationSchema: validationSchemas[activeStep],
+        validationSchema: validationSchemas[activeStep],
         onSubmit: async (values: any, { setSubmitting }) => {
             if (activeStep === steps.length - 1) {
                 setSubmitting(true);
-
                 if (values.finance.contracts.length > 0) {
                     map(values.finance.contracts, async (contract: any) => {
                         omit(contract, ['file']);
@@ -259,7 +298,6 @@ const CreateVendor = () => {
             setSubmitting(false);
         },
     });
-
     const getScreen = () => {
         switch (activeStep) {
             case 0:

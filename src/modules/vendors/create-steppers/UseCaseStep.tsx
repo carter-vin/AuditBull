@@ -57,12 +57,18 @@ const UseCaseStep = (props: UseCaseStepProps) => {
                     }
                 />
                 <MultipleSelect
+                    label="Data Usage"
                     name="useCases.dataUsage"
                     // disabled={formik.values.useCases?.useCaseTaggedUser}
                     options={dataUsageOption}
                     values={formik.values.useCases?.dataUsage || []}
                     onChange={(values: any) =>
                         formik.setFieldValue('useCases.dataUsage', values)
+                    }
+                    error={
+                        (formik.touched?.useCases?.dataUsage &&
+                            formik.errors?.useCases?.dataUsage) ||
+                        ''
                     }
                 />
             </Box>

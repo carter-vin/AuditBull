@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/alt-text */
-import { Box, Button, IconButton, InputLabel, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    FormHelperText,
+    IconButton,
+    InputLabel,
+    Typography,
+} from '@mui/material';
 import { concat } from 'lodash';
 import { useDropzone } from 'react-dropzone';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,9 +21,12 @@ interface DropzoneProps {
     label: string;
     onDelete?: any;
     progressBar?: ReactElement | null;
+    error: string;
+    name: string;
 }
 const Dropzone = (props: DropzoneProps) => {
-    const { max, files, setFiles, label, onDelete, progressBar } = props;
+    const { max, files, setFiles, label, onDelete, progressBar, error, name } =
+        props;
     const { getRootProps, getInputProps } = useDropzone({
         onDrop: (acceptedFiles) => {
             setFiles(
@@ -110,6 +120,11 @@ const Dropzone = (props: DropzoneProps) => {
                         </Typography>
                     </Box>
                 </Box>
+            )}
+            {Boolean(error) && (
+                <FormHelperText error id={name} color="red">
+                    {error}
+                </FormHelperText>
             )}
         </Box>
     );
