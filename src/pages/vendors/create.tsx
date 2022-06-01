@@ -141,7 +141,7 @@ const CreateVendor = () => {
     const router = useRouter();
     const verticalStepper = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [activeStep, setActiveStep] = useState(3);
+    const [activeStep, setActiveStep] = useState(0);
     const [success, setSuccess] = useState<boolean>(false);
     const [userList, setuserList] = useState<OptionType[]>([]);
 

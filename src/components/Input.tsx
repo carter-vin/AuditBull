@@ -41,6 +41,8 @@ const Input = (props: InputProps) => {
                 placeholder={placeholder}
                 variant={variant}
                 disabled={disabled}
+                multiline={type === 'textarea'}
+                minRows={type === 'textarea' ? 3 : 1}
             />
             {Boolean(error) && (
                 <FormHelperText error id="username" color="red">

@@ -180,3 +180,75 @@ export const vendorStatusOptions: OptionType[] = [
         value: 'awaiting-vrm',
     },
 ];
+
+export const compilantOptions: OptionType[] = [
+    {
+        label: 'Compliant',
+        value: 'compliant',
+    },
+    {
+        label: 'Non-Compliant',
+        value: 'non-compliant',
+    },
+    {
+        label: 'Not Determined',
+        value: 'not-determined',
+    },
+];
+
+export const locationOptions: OptionType[] = [
+    {
+        label: 'Cloud',
+        value: 'cloud',
+    },
+    {
+        label: 'On Premise',
+        value: 'on-premise',
+    },
+    {
+        label: 'Other',
+        value: 'other',
+    },
+];
+
+export const perodicOptions: OptionType[] = [
+    {
+        label: 'Monthly',
+        value: 'monthly',
+    },
+    {
+        label: 'Quarterly',
+        value: 'quarterly',
+    },
+    {
+        label: 'Semi-Annual',
+        value: 'semi-annual',
+    },
+    {
+        label: 'Annual',
+        value: 'annual',
+    },
+];
+
+export const rolesBasedAccess: OptionType[] = [
+    {
+        label: 'Administrator',
+        value: 'administrator',
+    },
+    {
+        label: 'Power User',
+        value: 'power-user',
+    },
+    {
+        label: 'Standard',
+        value: 'standard',
+    },
+    {
+        label: 'Read Only',
+        value: 'read-only',
+    },
+    {
+        label: 'Audit',
+        value: 'audit',
+    },
+];
