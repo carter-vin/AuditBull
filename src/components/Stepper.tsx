@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     Card,
+    CircularProgress,
     Step,
     StepLabel,
     Stepper as MUIStepper,
@@ -16,6 +17,7 @@ interface StepperProps {
     activeStep: number;
     steps: StepperStepsType[];
     isDisabled?: boolean;
+    isLoading?: boolean;
     stepperComponent?: ReactElement;
     handleBack: () => void;
     handleSubmit: () => void;
@@ -27,6 +29,7 @@ const Stepper = (props: StepperProps) => {
         activeStep,
         steps,
         isDisabled,
+        isLoading,
         handleBack,
         handleSubmit,
         stepperComponent,
@@ -81,6 +84,7 @@ const Stepper = (props: StepperProps) => {
                     onClick={() => handleSubmit()}
                     disabled={isDisabled}
                 >
+                    {isLoading && <CircularProgress disableShrink />}
                     {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
             </Box>

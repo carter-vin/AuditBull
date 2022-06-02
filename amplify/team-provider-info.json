@@ -23,7 +23,10 @@
         }
       },
       "function": {
-        "AdminQueries8b7a0055": {}
+        "AdminQueries8b7a0055": {
+          "deploymentBucketName": "amplify-auditbull-dev-230241-deployment",
+          "s3Key": "amplify-builds/AdminQueries8b7a0055-424f75325a394e584a71-build.zip"
+        }
       }
     }
   },

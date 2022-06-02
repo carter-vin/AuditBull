@@ -6,11 +6,11 @@ import {
 } from '@mui/material';
 
 interface TextAreaProps {
-    label: string;
+    label?: string;
     name: string;
     checked: boolean;
     disabled?: boolean;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
 }
 const Switch = (props: TextAreaProps) => {
@@ -32,16 +32,18 @@ const Switch = (props: TextAreaProps) => {
                 justifyContent="space-between"
                 gap={1}
             >
-                <Box className="3/4">
-                    <InputLabel htmlFor={name}>
-                        <strong className="text-gray-700">{label}</strong>
-                    </InputLabel>
-                </Box>
+                {label && (
+                    <Box className="3/4">
+                        <InputLabel htmlFor={name}>
+                            <strong className="text-gray-700">{label}</strong>
+                        </InputLabel>
+                    </Box>
+                )}
                 <MUISwitch
                     name={name}
                     checked={checked}
                     disabled={disabled}
-                    onChange={onChange}
+                    onChange={onChange && onChange}
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
             </Box>

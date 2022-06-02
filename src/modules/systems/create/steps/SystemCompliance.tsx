@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box } from '@mui/material';
 import Input from 'components/Input';
+import MultipleSelect from 'components/MultipleSelect';
 import Select from 'components/Select';
 import { perodicOptions, rolesBasedAccess } from 'utils/select';
 
@@ -61,12 +63,17 @@ const SystemCompliance = (props: SystemComplianceProps) => {
                     ''
                 }
             />
-            <Select
+            <MultipleSelect
                 label="Roles Based Access Control Information"
                 name="compliance.role_based_access"
                 options={rolesBasedAccess || []}
-                values={formik.values.compliance.role_based_access || ''}
-                onChange={formik.handleChange}
+                values={formik.values.compliance.role_based_access || {}}
+                onChange={(values: any) => {
+                    formik.setFieldValue(
+                        'compliance.role_based_access',
+                        values
+                    );
+                }}
                 error={
                     (formik.touched.compliance?.role_based_access &&
                         formik.errors.compliance?.role_based_access) ||

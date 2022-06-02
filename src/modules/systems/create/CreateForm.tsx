@@ -1,18 +1,32 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 import Stepper, { StepperStepsType } from 'components/Stepper';
+import Success from 'components/Success';
+import { AppRoute } from 'utils/route';
+
+import { OptionType } from 'utils/select';
+import { filter } from 'lodash';
+import { API, Auth } from 'aws-amplify';
 import SystemCompliance from './steps/SystemCompliance';
 import SystemInformation from './steps/SystemInformation';
 import SystemRisk from './steps/SystemRisk';
 import SystemDataClassification from './steps/SystemDataClassification';
 
+import { createSystem } from '../service';
+
 const validationSchema = [
     Yup.object().shape({
         name: Yup.string().required('Vendor Name is required'),
         status: Yup.string().required('Status is required'),
-        owner: Yup.string().required('Owner is required'),
+        owner: Yup.object().shape({
+            value: Yup.string().required('Owner is required'),
+            label: Yup.string().required('Owner is required'),
+        }),
         type: Yup.string().required('Type is required'),
         description: Yup.string().required('Description is required'),
         vendor: Yup.object().shape({
@@ -66,7 +80,8 @@ const validationSchema = [
             periodic_review: Yup.string().required(
                 'Periodic Access Review is required'
             ),
-            role_based_access: Yup.string().required(
+            role_based_access: Yup.array().min(
+                1,
                 'Roles Based Access Control Information is required'
             ),
         }),
@@ -75,8 +90,91 @@ const validationSchema = [
 
 const CreateForm = () => {
     const totalSteps = 4;
-    const [activeStep, setActiveStep] = useState(0);
+    const router = useRouter();
+    const [activeStep, setActiveStep] = useState<number>(0);
+    const [success, setSuccess] = useState<boolean>(false);
+    const [userList, setuserList] = useState<OptionType[]>([]);
 
+    useQuery(
+        'getUserList',
+        async () => {
+            const requestInfo = {
+                response: true,
+                queryStringParameters: {
+                    limit: '60',
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                },
+            };
+            return API.get('AdminQueries', '/listUsers', requestInfo);
+        },
+        {
+            onSuccess: async (data: any) => {
+                const currentUser = await Auth.currentAuthenticatedUser();
+                const roles = data?.data?.Users.map(
+                    (user: {
+                        Username: string;
+                        Attributes: {
+                            Name: string;
+                            Value: string;
+                        }[];
+                        UserStatus: string;
+                    }) => {
+                        const attributes = user.Attributes;
+                        return {
+                            value:
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'email'
+                                )?.Value || '',
+                            label:
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'name'
+                                )?.Value ||
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'email'
+                                )?.Value ||
+                                user.Username ||
+                                '',
+                        };
+                    }
+                );
+                setuserList(
+                    filter(
+                        roles,
+                        (user: { username: string }) =>
+                            user.username !== currentUser?.username
+                    )
+                );
+            },
+            onError: (err: any) => {
+                toast.error(
+                    err.response?.data?.message || 'Failed to fetch users'
+                );
+            },
+        }
+    );
+
+    const { isLoading, mutate } = useMutation(createSystem, {
+        mutationKey: 'createSystem',
+        onSuccess: () => {
+            setSuccess(true);
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onError: (error: any) => {
+            const message =
+                error?.errors[0].message ||
+                error.message ||
+                'Failed to add system';
+            toast.error(message);
+        },
+    });
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
@@ -87,7 +185,10 @@ const CreateForm = () => {
         initialValues: {
             name: '',
             status: '',
-            owner: '',
+            owner: {
+                value: '',
+                label: '',
+            },
             type: '',
             description: '',
             vendor: {
@@ -113,15 +214,14 @@ const CreateForm = () => {
                 last_access_review_result: '',
                 next_access_review_date: '',
                 periodic_review: '',
-                role_based_access: '',
+                role_based_access: [],
             },
         },
         validationSchema: validationSchema[activeStep],
         onSubmit: (values, { setSubmitting }) => {
             if (activeStep === totalSteps - 1) {
                 setSubmitting(true);
-                // eslint-disable-next-line no-console
-                console.log('submit', values);
+                mutate(values);
                 setSubmitting(false);
             } else {
                 handleNextStep();
@@ -131,7 +231,9 @@ const CreateForm = () => {
     const steps: StepperStepsType[] = [
         {
             label: 'System Information',
-            component: <SystemInformation formik={formik} />,
+            component: (
+                <SystemInformation formik={formik} userList={userList} />
+            ),
         },
         {
             label: 'System Risk',
@@ -147,12 +249,23 @@ const CreateForm = () => {
         },
     ];
 
+    if (success) {
+        return (
+            <Success
+                callback={() => router.push(AppRoute.SystemList)}
+                callbackLabel="Back to system list"
+                description="System created successfully"
+            />
+        );
+    }
+
     return (
         <Stepper
             activeStep={activeStep}
             steps={steps || []}
-            isDisabled={false}
+            isDisabled={isLoading}
             handleBack={handleBack}
+            isLoading={isLoading}
             handleSubmit={() => formik.handleSubmit()}
         />
     );

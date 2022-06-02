@@ -14,6 +14,7 @@ export type IUsers = {
     email: string;
     role: string;
 };
+
 const useUser = () => {
     // states
     const [users, setUsers] = useState<IUsers[]>([]);

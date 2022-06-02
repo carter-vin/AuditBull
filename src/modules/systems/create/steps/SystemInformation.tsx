@@ -1,15 +1,64 @@
-import { Box } from '@mui/material';
+import { Box, InputLabel, FormHelperText, useTheme } from '@mui/material';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import Switch from 'components/Switch';
-import { compilantOptions, locationOptions } from 'utils/select';
+import ReactSelect from 'react-select';
+import { compilantOptions, locationOptions, OptionType } from 'utils/select';
 
 interface SystemInformationProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik: any;
+    userList: OptionType[];
 }
 const SystemInformation = (props: SystemInformationProps) => {
-    const { formik } = props;
+    const { formik, userList } = props;
+    const theme = useTheme();
+    const reactSelectStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            backgroundColor: 'transparent',
+            minHeight: '38px',
+            border:
+                theme.palette.mode === 'dark'
+                    ? '1px solid #fff'
+                    : '1px solid #1A202C',
+            boxShadow: 'none',
+            color: 'red',
+        }),
+
+        valueContainer: (provided: any) => ({
+            ...provided,
+            padding: '0 6px',
+        }),
+
+        input: (provided: any) => ({
+            ...provided,
+            color: theme.palette.mode === 'dark' ? 'white' : 'black',
+        }),
+
+        indicatorSeparator: () => ({
+            display: 'none',
+        }),
+        indicatorsContainer: (provided: any) => ({
+            ...provided,
+            height: '32px',
+            marginTop: -2,
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            zIndex: 9999,
+            backgroundColor:
+                theme.palette.mode === 'dark' ? '#212839' : 'white',
+        }),
+        option: (provided: any, state: any) => ({
+            ...provided,
+            '&:hover': {
+                borderColor: 'red',
+                color: state.isFocused ? 'black' : 'white',
+            },
+        }),
+        menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
+    };
     return (
         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 ">
             <Input
@@ -27,13 +76,26 @@ const SystemInformation = (props: SystemInformationProps) => {
                 onChange={formik.handleChange}
                 error={(formik.touched.status && formik.errors.status) || ''}
             />
-            <Input
-                label="System Owner"
-                name="owner"
-                value={formik.values.owner}
-                onChange={formik.handleChange}
-                error={(formik.touched.owner && formik.errors.owner) || ''}
-            />
+            <Box display="flex" flexDirection="column" gap={1}>
+                <Box>
+                    <InputLabel htmlFor="owner">
+                        <strong className="text-gray-700"> System Owner</strong>
+                    </InputLabel>
+                </Box>
+                <ReactSelect
+                    value={formik.values.owner}
+                    options={userList}
+                    styles={reactSelectStyles}
+                    onChange={(value) => formik.setFieldValue('owner', value)}
+                />
+                {Boolean(
+                    formik.touched?.owner?.value && formik.errors?.owner?.value
+                ) && (
+                    <FormHelperText error id="owner" color="red">
+                        {formik.errors.owner.value}
+                    </FormHelperText>
+                )}
+            </Box>
             <Select
                 label="Type"
                 name="type"
