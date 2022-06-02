@@ -84,7 +84,9 @@ const Stepper = (props: StepperProps) => {
                     onClick={() => handleSubmit()}
                     disabled={isDisabled}
                 >
-                    {isLoading && <CircularProgress disableShrink />}
+                    {isLoading && (
+                        <CircularProgress disableShrink size="small" />
+                    )}
                     {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
             </Box>

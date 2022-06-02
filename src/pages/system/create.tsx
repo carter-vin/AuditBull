@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React, { ReactElement } from 'react';
 import DashboardLayout from 'layouts/DashboardLayout';
-import CreateForm from 'modules/systems/create/CreateForm';
+import CreateForm from 'modules/systems/views/create/CreateForm';
 import ComponentHeaderProps from 'components/ComponentHeader';
 
 const CreateSystems = () => {

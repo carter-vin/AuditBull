@@ -2,7 +2,7 @@ import { ReactElement, useEffect } from 'react';
 import { CircularProgress, Box } from '@mui/material';
 import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
-import SettingLayout from 'modules/setting/SettingLayout';
+import SettingLayout from 'modules/setting/layout/SettingLayout';
 
 const Settings = () => {
     const { loginUser, loading } = useAuth();

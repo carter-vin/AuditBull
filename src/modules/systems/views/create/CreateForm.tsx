@@ -14,7 +14,7 @@ import SystemInformation from './steps/SystemInformation';
 import SystemRisk from './steps/SystemRisk';
 import SystemDataClassification from './steps/SystemDataClassification';
 
-import { createSystem } from '../service';
+import { createSystem } from '../../service';
 
 const validationSchema = [
     Yup.object().shape({

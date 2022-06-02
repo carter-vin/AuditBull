@@ -3,14 +3,14 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { CircularProgress, Box, Typography, Button } from '@mui/material';
 import { useAuth } from 'hooks/useAuth';
-import SettingLayout from 'modules/setting/SettingLayout';
+import SettingLayout from 'modules/setting/layout/SettingLayout';
 
 // icons
 import AddIcon from '@mui/icons-material/Add';
 import Modal from 'components/Modal';
-import UserList from 'modules/setting/UserList';
-import UserForm from 'modules/setting/UserForm';
 import { useRouter } from 'next/router';
+import UserList from 'modules/setting/components/UserList';
+import UserForm from 'modules/setting/components/UserForm';
 
 const UserSetting = () => {
     const router = useRouter();

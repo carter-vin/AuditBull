@@ -3,6 +3,7 @@ import { API, Auth } from 'aws-amplify';
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { OptionType } from 'utils/select';
 
 export type IUsers = {
     id?: string;
@@ -94,6 +95,7 @@ const useUser = () => {
             });
     };
 
+    // function
     const addUserToGroup = async (username: string, userRole?: string) => {
         const requestInfo = {
             body: {

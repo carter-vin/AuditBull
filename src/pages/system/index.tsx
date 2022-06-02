@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { Box } from '@mui/material';
 
 import DashboardLayout from 'layouts/DashboardLayout';
-import SystemList from 'modules/systems/SystemList';
+import SystemList from 'modules/systems/views/SystemList';
 import ComponentHeaderProps from 'components/ComponentHeader';
 import { AppRoute } from 'utils/route';
 

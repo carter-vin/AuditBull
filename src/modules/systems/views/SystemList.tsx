@@ -17,7 +17,7 @@ import { GraphQLResult } from '@aws-amplify/api-graphql';
 
 import Table from 'components/Table';
 import Switch from 'components/Switch';
-import { ISytemPayload, listSystem } from './service';
+import { ISytemPayload, listSystem } from '../service';
 
 const getStatusColor = (status: string) => {
     switch (status) {
