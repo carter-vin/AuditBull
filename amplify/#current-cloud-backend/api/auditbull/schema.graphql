@@ -17,3 +17,19 @@ type Vendors @model @auth(rules: [{ allow: public }, { allow: private }]) {
     finance: AWSJSON
     use_cases: AWSJSON
 }
+
+type System @model @auth(rules: [{ allow: public }]) {
+    id: ID!
+    name: String
+    status: String
+    owner: AWSJSON
+    type: String
+    description: String
+    vendor_provided: Boolean
+    customer_facing_info_system: Boolean
+    location: AWSJSON
+    risk: AWSJSON
+    data_classification: AWSJSON
+    compliance: AWSJSON
+    Vendors: Vendors @hasOne
+}

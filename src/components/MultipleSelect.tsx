@@ -87,6 +87,7 @@ const MultipleSelect = (props: MultipleSelectProps) => {
                 }}
                 menuPortalTarget={document.body}
                 styles={reactSelectStyles}
+                menuPlacement="auto"
             />
             {Boolean(error) && (
                 <FormHelperText error id={name} color="red">

@@ -104,10 +104,14 @@ const SystemList = () => {
             minWidth: hideTableToolbar ? 150 : 100,
             flex: 1,
             renderCell: (row) => {
+                const { vendor_provided, Vendors } = row.row;
+                if (vendor_provided && Vendors && Vendors?.name) {
+                    return <Typography>{Vendors?.name}</Typography>;
+                }
                 return (
                     <Switch
                         name="vendor_provided"
-                        checked={row.row.vendor_provided}
+                        checked={vendor_provided}
                         disabled
                     />
                 );

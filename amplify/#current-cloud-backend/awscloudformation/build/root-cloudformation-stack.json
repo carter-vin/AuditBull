@@ -273,7 +273,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries8b7a0055-cloudformation-template.json",
         "Parameters": {
           "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-          "s3Key": "amplify-builds/AdminQueries8b7a0055-4b734259313048544144-build.zip",
+          "s3Key": "amplify-builds/AdminQueries8b7a0055-424f75325a394e584a71-build.zip",
           "authauditbull37e38ef1UserPoolId": {
             "Fn::GetAtt": [
               "authauditbull37e38ef1",
@@ -326,7 +326,7 @@
             ]
           },
           "S3DeploymentBucket": "amplify-auditbull-staging-193858-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/6af7d721f08565ac461f8e2441649333b8c6ef18",
+          "S3DeploymentRootKey": "amplify-appsync-files/3c6a257829cbf5189d5ce5937c59836cc7290ad5",
           "env": "staging"
         }
       }

@@ -1475,6 +1475,30 @@
         ]
       }
     },
+    "transformerrootstackNotesQuerygetNotesauth0FunctionQuerygetNotesauth0FunctionAppSyncFunction46DDCCEFFunctionId": {
+      "Value": {
+        "Fn::GetAtt": [
+          "QuerygetNotesauth0FunctionQuerygetNotesauth0FunctionAppSyncFunction1863742A",
+          "FunctionId"
+        ]
+      }
+    },
+    "transformerrootstackNotesMutationcreateNotesauth0FunctionMutationcreateNotesauth0FunctionAppSyncFunctionC3592807FunctionId": {
+      "Value": {
+        "Fn::GetAtt": [
+          "MutationcreateNotesauth0FunctionMutationcreateNotesauth0FunctionAppSyncFunction49FFB1E7",
+          "FunctionId"
+        ]
+      }
+    },
+    "transformerrootstackNotesSubscriptiononCreateNotesauth0FunctionSubscriptiononCreateNotesauth0FunctionAppSyncFunctionBCEBF00DFunctionId": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SubscriptiononCreateNotesauth0FunctionSubscriptiononCreateNotesauth0FunctionAppSyncFunctionCD25EED1",
+          "FunctionId"
+        ]
+      }
+    },
     "transformerrootstackNotesNotesDataSource98D11C17Name": {
       "Value": {
         "Fn::GetAtt": [

@@ -9,13 +9,14 @@ import {
     useTheme,
     useMediaQuery,
     Typography,
+    CircularProgress,
 } from '@mui/material';
 import type { ReactElement } from 'react';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useQuery } from 'react-query';
-import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { useMutation, useQuery } from 'react-query';
+import { API, Auth } from 'aws-amplify';
 import { omit, filter, map } from 'lodash';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -28,6 +29,7 @@ import FinanceStep from 'modules/vendors/create-steppers/FinanceStep';
 import UseCaseStep from 'modules/vendors/create-steppers/UseCaseStep';
 import { OptionType } from 'utils/select';
 import Success from 'components/Success';
+import { createVendor } from 'modules/vendors/service';
 
 export interface CreateVendorType {
     name: string;
@@ -219,6 +221,21 @@ const CreateVendor = () => {
         }
     );
 
+    const { isLoading: btnLoading, mutate } = useMutation(createVendor, {
+        mutationKey: 'createVendor',
+        onSuccess: () => {
+            setSuccess(true);
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onError: (error: any) => {
+            const message =
+                error?.errors[0].message ||
+                error.message ||
+                'Failed to add vendor';
+            toast.error(message);
+        },
+    });
+
     const formik = useFormik<any>({
         initialValues: {
             name: '',
@@ -260,44 +277,14 @@ const CreateVendor = () => {
                         omit(contract, ['file']);
                     });
                 }
-                const createVendorMutation = `
-                    mutation CreateVendor {
-                        createVendors(input: {
-                            compliance: ${JSON.stringify(
-                                JSON.stringify(values.compliance)
-                            )},
-                            finance:${JSON.stringify(
-                                JSON.stringify(values.finance)
-                            )},
-                            name: "${values.name}",
-                            status:"${values.status}",
-                            service: ${JSON.stringify(
-                                JSON.stringify(values.service)
-                            )},
-                            website: "${values.website}",
-                            use_cases: ${JSON.stringify(
-                                JSON.stringify(values.useCases)
-                            )}
-                        }) {
-                            id
-                        }
-                    }
-                `;
-                // eslint-disable-next-line no-console
-                const res: any = await API.graphql(
-                    graphqlOperation(createVendorMutation)
-                );
-                if (res && res.data) {
-                    setSuccess(true);
-                } else {
-                    toast.error(res.error.message || 'Error adding note');
-                }
+                mutate(values);
             } else {
                 handleNextStep();
             }
             setSubmitting(false);
         },
     });
+
     const getScreen = () => {
         switch (activeStep) {
             case 0:
@@ -378,8 +365,11 @@ const CreateVendor = () => {
                                 variant="contained"
                                 type="button"
                                 onClick={() => formik.handleSubmit()}
-                                disabled={formik.isSubmitting}
+                                disabled={formik.isSubmitting || btnLoading}
                             >
+                                {btnLoading && (
+                                    <CircularProgress disableShrink />
+                                )}
                                 {activeStep === steps.length - 1
                                     ? 'Submit'
                                     : 'Next'}

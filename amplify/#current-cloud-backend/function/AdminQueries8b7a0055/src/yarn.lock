@@ -424,18 +424,6 @@ sax@>=0.6.0:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-secure-random-password@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/secure-random-password/-/secure-random-password-0.2.3.tgz#cc99714a824328f251b11b35b557b685c09717db"
-  integrity sha512-2zpmr6pK3CZGIS9fgApFw00/tKEBVbJTqe4AZLrLNgahCK6ueIR5uMzvbERNibr8hkWneMcOqDcm4wpHWUxrYw==
-  dependencies:
-    secure-random "^1.1.2"
-
-secure-random@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/secure-random/-/secure-random-1.1.2.tgz#ed103b460a851632d420d46448b2a900a41e7f7c"
-  integrity sha512-H2bdSKERKdBV1SwoqYm6C0y+9EA94v6SUBOWO8kDndc4NoUih7Dv6Tsgma7zO1lv27wIvjlD0ZpMQk7um5dheQ==
-
 send@0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/send/-/send-0.18.0.tgz#670167cc654b05f5aa4a767f9113bb371bc706be"

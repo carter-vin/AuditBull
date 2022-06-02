@@ -1235,6 +1235,19 @@
           ]
         }
       }
+    },
+    "transformerrootstackVendorsVendorsDataSource03B04CD0Name": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VendorsDataSource",
+          "Name"
+        ]
+      }
+    },
+    "transformerrootstackVendorsVendorsTable374E1E4CRef": {
+      "Value": {
+        "Ref": "VendorsTable"
+      }
     }
   }
 }

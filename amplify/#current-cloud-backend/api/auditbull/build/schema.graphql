@@ -23,6 +23,25 @@ type Vendors @aws_cognito_user_pools @aws_api_key {
   updatedAt: AWSDateTime!
 }
 
+type System {
+  id: ID!
+  name: String
+  status: String
+  owner: AWSJSON
+  type: String
+  description: String
+  vendor_provided: Boolean
+  customer_facing_info_system: Boolean
+  location: AWSJSON
+  risk: AWSJSON
+  data_classification: AWSJSON
+  compliance: AWSJSON
+  Vendors: Vendors
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  systemVendorsId: ID
+}
+
 input ModelStringInput {
   ne: String
   eq: String
@@ -133,6 +152,8 @@ input ModelNotesFilterInput {
 type Query {
   getNotes(id: ID!): Notes
   listNotes(filter: ModelNotesFilterInput, limit: Int, nextToken: String): ModelNotesConnection
+  getSystem(id: ID!): System
+  listSystems(filter: ModelSystemFilterInput, limit: Int, nextToken: String): ModelSystemConnection
   getVendors(id: ID!): Vendors @aws_api_key @aws_cognito_user_pools
   listVendors(filter: ModelVendorsFilterInput, limit: Int, nextToken: String): ModelVendorsConnection @aws_api_key @aws_cognito_user_pools
 }
@@ -171,6 +192,9 @@ type Mutation {
   createNotes(input: CreateNotesInput!, condition: ModelNotesConditionInput): Notes
   updateNotes(input: UpdateNotesInput!, condition: ModelNotesConditionInput): Notes
   deleteNotes(input: DeleteNotesInput!, condition: ModelNotesConditionInput): Notes
+  createSystem(input: CreateSystemInput!, condition: ModelSystemConditionInput): System
+  updateSystem(input: UpdateSystemInput!, condition: ModelSystemConditionInput): System
+  deleteSystem(input: DeleteSystemInput!, condition: ModelSystemConditionInput): System
   createVendors(input: CreateVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_cognito_user_pools
   updateVendors(input: UpdateVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_cognito_user_pools
   deleteVendors(input: DeleteVendorsInput!, condition: ModelVendorsConditionInput): Vendors @aws_api_key @aws_cognito_user_pools
@@ -180,6 +204,9 @@ type Subscription {
   onCreateNotes: Notes @aws_subscribe(mutations: ["createNotes"])
   onUpdateNotes: Notes @aws_subscribe(mutations: ["updateNotes"])
   onDeleteNotes: Notes @aws_subscribe(mutations: ["deleteNotes"])
+  onCreateSystem: System @aws_subscribe(mutations: ["createSystem"])
+  onUpdateSystem: System @aws_subscribe(mutations: ["updateSystem"])
+  onDeleteSystem: System @aws_subscribe(mutations: ["deleteSystem"])
   onCreateVendors: Vendors @aws_subscribe(mutations: ["createVendors"]) @aws_api_key @aws_cognito_user_pools
   onUpdateVendors: Vendors @aws_subscribe(mutations: ["updateVendors"]) @aws_api_key @aws_cognito_user_pools
   onDeleteVendors: Vendors @aws_subscribe(mutations: ["deleteVendors"]) @aws_api_key @aws_cognito_user_pools
@@ -240,6 +267,84 @@ input UpdateVendorsInput {
 }
 
 input DeleteVendorsInput {
+  id: ID!
+}
+
+type ModelSystemConnection {
+  items: [System]!
+  nextToken: String
+}
+
+input ModelSystemFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  status: ModelStringInput
+  owner: ModelStringInput
+  type: ModelStringInput
+  description: ModelStringInput
+  vendor_provided: ModelBooleanInput
+  customer_facing_info_system: ModelBooleanInput
+  location: ModelStringInput
+  risk: ModelStringInput
+  data_classification: ModelStringInput
+  compliance: ModelStringInput
+  and: [ModelSystemFilterInput]
+  or: [ModelSystemFilterInput]
+  not: ModelSystemFilterInput
+  systemVendorsId: ModelIDInput
+}
+
+input ModelSystemConditionInput {
+  name: ModelStringInput
+  status: ModelStringInput
+  owner: ModelStringInput
+  type: ModelStringInput
+  description: ModelStringInput
+  vendor_provided: ModelBooleanInput
+  customer_facing_info_system: ModelBooleanInput
+  location: ModelStringInput
+  risk: ModelStringInput
+  data_classification: ModelStringInput
+  compliance: ModelStringInput
+  and: [ModelSystemConditionInput]
+  or: [ModelSystemConditionInput]
+  not: ModelSystemConditionInput
+  systemVendorsId: ModelIDInput
+}
+
+input CreateSystemInput {
+  id: ID
+  name: String
+  status: String
+  owner: AWSJSON
+  type: String
+  description: String
+  vendor_provided: Boolean
+  customer_facing_info_system: Boolean
+  location: AWSJSON
+  risk: AWSJSON
+  data_classification: AWSJSON
+  compliance: AWSJSON
+  systemVendorsId: ID
+}
+
+input UpdateSystemInput {
+  id: ID!
+  name: String
+  status: String
+  owner: AWSJSON
+  type: String
+  description: String
+  vendor_provided: Boolean
+  customer_facing_info_system: Boolean
+  location: AWSJSON
+  risk: AWSJSON
+  data_classification: AWSJSON
+  compliance: AWSJSON
+  systemVendorsId: ID
+}
+
+input DeleteSystemInput {
   id: ID!
 }
 

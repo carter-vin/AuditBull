@@ -232,6 +232,10 @@ export const perodicOptions: OptionType[] = [
 
 export const rolesBasedAccess: OptionType[] = [
     {
+        label: 'Select ALL',
+        value: 'all',
+    },
+    {
         label: 'Administrator',
         value: 'administrator',
     },

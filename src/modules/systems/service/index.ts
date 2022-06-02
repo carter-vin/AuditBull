@@ -36,7 +36,7 @@ export interface ISytemPayload {
     description: string;
     vendor: {
         vendor_provided: boolean;
-        vendor: string;
+        vendor: OptionType;
     };
     customer_facing_info_system: boolean;
     location: SystemLocation | string;
@@ -53,7 +53,7 @@ const createSystem = async (payload: ISytemPayload) => {
                     type: "${payload.type}", 
                     description: "${payload.description}", 
                     vendor_provided: ${payload.vendor.vendor_provided},
-                    systemVendorsId: "${payload.vendor.vendor}", 
+                    systemVendorsId: "${payload.vendor.vendor?.value}", 
                     customer_facing_info_system: ${
                         payload.customer_facing_info_system
                     },
@@ -105,4 +105,18 @@ const listSystem = async () => {
     return API.graphql(graphqlOperation(listSystemQuery));
 };
 
-export { createSystem, listSystem };
+const listVendorOptions = async () => {
+    const listVendorQuery = `
+        query ListVendor {
+            listVendors {
+                items {
+                    id
+                    name
+                }
+            }
+        }
+        `;
+    return API.graphql(graphqlOperation(listVendorQuery));
+};
+
+export { createSystem, listSystem, listVendorOptions };

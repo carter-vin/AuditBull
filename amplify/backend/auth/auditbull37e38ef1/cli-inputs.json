@@ -72,6 +72,6 @@
     "adminQueryGroup": "admin",
     "oAuthSecretsPathAmplifyAppId": "dhrbp3dq0eyju",
     "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://ab-app-five.vercel.app/\"],\"LogoutURLs\":[\"https://ab-app-five.vercel.app/\"]}"
   }
 }

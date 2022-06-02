@@ -1,17 +1,114 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, InputLabel, FormHelperText, useTheme } from '@mui/material';
+import { filter } from 'lodash';
+import { API, Auth } from 'aws-amplify';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import ReactSelect from 'react-select';
+import { useQueries } from 'react-query';
+
 import Input from 'components/Input';
 import Select from 'components/Select';
 import Switch from 'components/Switch';
-import ReactSelect from 'react-select';
+
 import { compilantOptions, locationOptions, OptionType } from 'utils/select';
 
+import { listVendorOptions } from 'modules/systems/service';
+
 interface SystemInformationProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik: any;
-    userList: OptionType[];
 }
 const SystemInformation = (props: SystemInformationProps) => {
-    const { formik, userList } = props;
+    const { formik } = props;
+    const [userList, setuserList] = useState<OptionType[]>([]);
+    const [vendorList, setVendorList] = useState<OptionType[]>([]);
+
+    const result = useQueries([
+        {
+            queryKey: 'vendorList',
+            queryFn: listVendorOptions,
+            onSuccess: (data: any) => {
+                const vendors: OptionType[] = (
+                    data?.data?.listVendors?.items || []
+                ).map((vendor: { id: string; name: string }) => {
+                    return {
+                        value: vendor.id,
+                        label: vendor.name,
+                    };
+                });
+                setVendorList(vendors);
+            },
+            onError: (err: any) => {
+                toast.error(
+                    err.response?.data?.message || 'Failed to fetch vendors'
+                );
+            },
+        },
+        {
+            queryKey: 'getUserList',
+            queryFn: async () => {
+                const requestInfo = {
+                    response: true,
+                    queryStringParameters: {
+                        limit: '60',
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `${(await Auth.currentSession())
+                            .getAccessToken()
+                            .getJwtToken()}`,
+                    },
+                };
+                return API.get('AdminQueries', '/listUsers', requestInfo);
+            },
+            onSuccess: async (data: any) => {
+                const currentUser = await Auth.currentAuthenticatedUser();
+                const roles = data?.data?.Users.map(
+                    (user: {
+                        Username: string;
+                        Attributes: {
+                            Name: string;
+                            Value: string;
+                        }[];
+                        UserStatus: string;
+                    }) => {
+                        const attributes = user.Attributes;
+                        return {
+                            value:
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'email'
+                                )?.Value || '',
+                            label:
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'name'
+                                )?.Value ||
+                                attributes?.find(
+                                    (attr: { Name: string }) =>
+                                        attr.Name === 'email'
+                                )?.Value ||
+                                user.Username ||
+                                '',
+                        };
+                    }
+                );
+                setuserList(
+                    filter(
+                        roles,
+                        (user: { username: string }) =>
+                            user.username !== currentUser?.username
+                    )
+                );
+            },
+            onError: (err: any) => {
+                toast.error(
+                    err.response?.data?.message || 'Failed to fetch users'
+                );
+            },
+        },
+    ]);
+
     const theme = useTheme();
     const reactSelectStyles = {
         control: (provided: any) => ({
@@ -35,7 +132,10 @@ const SystemInformation = (props: SystemInformationProps) => {
             ...provided,
             color: theme.palette.mode === 'dark' ? 'white' : 'black',
         }),
-
+        singleValue: (provided: any) => ({
+            ...provided,
+            color: theme.palette.mode === 'dark' ? 'white' : 'black',
+        }),
         indicatorSeparator: () => ({
             display: 'none',
         }),
@@ -86,7 +186,9 @@ const SystemInformation = (props: SystemInformationProps) => {
                     value={formik.values.owner}
                     options={userList}
                     styles={reactSelectStyles}
+                    isLoading={(result && result[1]?.isLoading) || false}
                     onChange={(value) => formik.setFieldValue('owner', value)}
+                    menuPlacement="auto"
                 />
                 {Boolean(
                     formik.touched?.owner?.value && formik.errors?.owner?.value
@@ -156,18 +258,39 @@ const SystemInformation = (props: SystemInformationProps) => {
                     }
                 />
                 {formik.values?.vendor?.vendor_provided && (
-                    <Select
-                        label="Vendor"
-                        name="vendor.vendor"
-                        options={compilantOptions || []}
-                        values={formik.values?.vendor?.vendor || ''}
-                        onChange={formik.handleChange}
-                        error={
-                            (formik.touched.vendor?.vendor &&
-                                formik.errors.vendor?.vendor) ||
-                            ''
-                        }
-                    />
+                    <Box display="flex" flexDirection="column" gap={1}>
+                        <Box>
+                            <InputLabel htmlFor="owner">
+                                <strong className="text-gray-700">
+                                    Vendor Name
+                                </strong>
+                            </InputLabel>
+                        </Box>
+                        <ReactSelect
+                            value={formik.values?.vendor?.vendor}
+                            options={vendorList}
+                            styles={reactSelectStyles}
+                            isLoading={
+                                (result && result[0]?.isLoading) || false
+                            }
+                            onChange={(value) =>
+                                formik.setFieldValue(
+                                    'vendor.vendor',
+                                    value,
+                                    true
+                                )
+                            }
+                            menuPlacement="auto"
+                        />
+                        {Boolean(
+                            formik.touched.vendor?.vendor.value &&
+                                formik.touched.vendor?.vendor.value
+                        ) && (
+                            <FormHelperText error id="owner" color="red">
+                                {formik.touched.vendor?.vendor.value}
+                            </FormHelperText>
+                        )}
+                    </Box>
                 )}
             </Box>
             <Switch

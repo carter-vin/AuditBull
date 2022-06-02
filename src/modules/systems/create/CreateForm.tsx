@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
@@ -9,9 +9,6 @@ import Stepper, { StepperStepsType } from 'components/Stepper';
 import Success from 'components/Success';
 import { AppRoute } from 'utils/route';
 
-import { OptionType } from 'utils/select';
-import { filter } from 'lodash';
-import { API, Auth } from 'aws-amplify';
 import SystemCompliance from './steps/SystemCompliance';
 import SystemInformation from './steps/SystemInformation';
 import SystemRisk from './steps/SystemRisk';
@@ -31,9 +28,12 @@ const validationSchema = [
         description: Yup.string().required('Description is required'),
         vendor: Yup.object().shape({
             vendor_provided: Yup.boolean().required('Is vendor is provided ?'),
-            vendor: Yup.string().when('vendor_provided', {
+            vendor: Yup.object().when('vendor_provided', {
                 is: (vendorProvied: boolean) => vendorProvied,
-                then: Yup.string().required('Vendor is required'),
+                then: Yup.object().shape({
+                    value: Yup.string().required('Vendor is required'),
+                    label: Yup.string().required('Vendor is required'),
+                }),
             }),
         }),
         location: Yup.object().shape({
@@ -93,73 +93,6 @@ const CreateForm = () => {
     const router = useRouter();
     const [activeStep, setActiveStep] = useState<number>(0);
     const [success, setSuccess] = useState<boolean>(false);
-    const [userList, setuserList] = useState<OptionType[]>([]);
-
-    useQuery(
-        'getUserList',
-        async () => {
-            const requestInfo = {
-                response: true,
-                queryStringParameters: {
-                    limit: '60',
-                },
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                },
-            };
-            return API.get('AdminQueries', '/listUsers', requestInfo);
-        },
-        {
-            onSuccess: async (data: any) => {
-                const currentUser = await Auth.currentAuthenticatedUser();
-                const roles = data?.data?.Users.map(
-                    (user: {
-                        Username: string;
-                        Attributes: {
-                            Name: string;
-                            Value: string;
-                        }[];
-                        UserStatus: string;
-                    }) => {
-                        const attributes = user.Attributes;
-                        return {
-                            value:
-                                attributes?.find(
-                                    (attr: { Name: string }) =>
-                                        attr.Name === 'email'
-                                )?.Value || '',
-                            label:
-                                attributes?.find(
-                                    (attr: { Name: string }) =>
-                                        attr.Name === 'name'
-                                )?.Value ||
-                                attributes?.find(
-                                    (attr: { Name: string }) =>
-                                        attr.Name === 'email'
-                                )?.Value ||
-                                user.Username ||
-                                '',
-                        };
-                    }
-                );
-                setuserList(
-                    filter(
-                        roles,
-                        (user: { username: string }) =>
-                            user.username !== currentUser?.username
-                    )
-                );
-            },
-            onError: (err: any) => {
-                toast.error(
-                    err.response?.data?.message || 'Failed to fetch users'
-                );
-            },
-        }
-    );
 
     const { isLoading, mutate } = useMutation(createSystem, {
         mutationKey: 'createSystem',
@@ -170,7 +103,7 @@ const CreateForm = () => {
         onError: (error: any) => {
             const message =
                 error?.errors[0].message ||
-                error.message ||
+                error.response?.data?.message ||
                 'Failed to add system';
             toast.error(message);
         },
@@ -193,7 +126,10 @@ const CreateForm = () => {
             description: '',
             vendor: {
                 vendor_provided: false,
-                vendor: '',
+                vendor: {
+                    value: '',
+                    label: '',
+                },
             },
             customer_facing_info_system: false,
             location: {
@@ -231,9 +167,7 @@ const CreateForm = () => {
     const steps: StepperStepsType[] = [
         {
             label: 'System Information',
-            component: (
-                <SystemInformation formik={formik} userList={userList} />
-            ),
+            component: <SystemInformation formik={formik} />,
         },
         {
             label: 'System Risk',

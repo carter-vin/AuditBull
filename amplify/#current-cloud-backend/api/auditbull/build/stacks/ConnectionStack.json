@@ -118,6 +118,125 @@
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
       }
+    },
+    "SystemVendorsauth0FunctionSystemVendorsauth0FunctionAppSyncFunction3DC30E77": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "SystemVendorsauth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/System.Vendors.auth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
+    },
+    "SystemVendorsDataResolverFnSystemVendorsDataResolverFnAppSyncFunction01CAE5E8": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackVendorsNestedStackVendorsNestedStackResourceB72053B2OutputstransformerrootstackVendorsVendorsDataSource03B04CD0Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "SystemVendorsDataResolverFn",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/System.Vendors.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/System.Vendors.res.vtl"
+            ]
+          ]
+        }
+      }
+    },
+    "SystemVendorsResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "FieldName": "Vendors",
+        "TypeName": "System",
+        "Kind": "PIPELINE",
+        "PipelineConfig": {
+          "Functions": [
+            {
+              "Fn::GetAtt": [
+                "SystemVendorsauth0FunctionSystemVendorsauth0FunctionAppSyncFunction3DC30E77",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "SystemVendorsDataResolverFnSystemVendorsDataResolverFnAppSyncFunction01CAE5E8",
+                "FunctionId"
+              ]
+            }
+          ]
+        },
+        "RequestMappingTemplate": {
+          "Fn::Join": [
+            "",
+            [
+              "$util.qr($ctx.stash.put(\"typeName\", \"System\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"Vendors\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+              {
+                "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+              },
+              "\"))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+              {
+                "Ref": "referencetotransformerrootstackVendorsNestedStackVendorsNestedStackResourceB72053B2OutputstransformerrootstackVendorsVendorsTable374E1E4CRef"
+              },
+              "\"))\n$util.toJson({})"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)"
+      }
     }
   },
   "Parameters": {
@@ -137,6 +256,12 @@
       "Type": "String"
     },
     "referencetotransformerrootstackNotesNestedStackNotesNestedStackResource331514CBOutputstransformerrootstackNotesNotesTable2F9AE580Ref": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackVendorsNestedStackVendorsNestedStackResourceB72053B2OutputstransformerrootstackVendorsVendorsDataSource03B04CD0Name": {
+      "Type": "String"
+    },
+    "referencetotransformerrootstackVendorsNestedStackVendorsNestedStackResourceB72053B2OutputstransformerrootstackVendorsVendorsTable374E1E4CRef": {
       "Type": "String"
     }
   }
