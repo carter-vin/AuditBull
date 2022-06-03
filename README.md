@@ -31,6 +31,7 @@
     - [Working with backend](#working-with-backend)
     - [PS: If Newly created api has CORS Error, Please follow the below steps](#ps-if-newly-created-api-has-cors-error-please-follow-the-below-steps)
 - [Commit Rule](#commit-rule)
+- [Reference](#reference)
 
 # Folder Structure
 Auditbull project is based on Next js with latest version (18.1.0) at the time of creation.
@@ -628,3 +629,15 @@ On audit bull, we have two way to commit data
 
     git commit -m "features: add new feature"
   ```
+
+  # Reference
+  - [Amplify](https://docs.amplify.aws/)
+  - [Amplify CLI](https://docs.amplify.aws/cli/)\
+  - [Amplify Libraries](https://docs.amplify.aws/lib/q/platform/js/)
+  - [Amplify Integration](https://docs.amplify.aws/start/q/integration/react/)
+  - [React Query](https://react-query.tanstack.com/overview)
+  - [Material UI](https://mui.com/)
+  - [React Data Grid MUI](https://mui.com/x/react-data-grid/)
+  - [Next js](https://nextjs.org/)
+  - [Tailwind CSS](https://tailwindcss.com/)
+  - [Lodash](https://lodash.com/docs/4.17.15)
