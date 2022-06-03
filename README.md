@@ -632,7 +632,7 @@ On audit bull, we have two way to commit data
 
   # Reference
   - [Amplify](https://docs.amplify.aws/)
-  - [Amplify CLI](https://docs.amplify.aws/cli/)\
+  - [Amplify CLI](https://docs.amplify.aws/cli/)
   - [Amplify Libraries](https://docs.amplify.aws/lib/q/platform/js/)
   - [Amplify Integration](https://docs.amplify.aws/start/q/integration/react/)
   - [React Query](https://react-query.tanstack.com/overview)
