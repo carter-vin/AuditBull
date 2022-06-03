@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head';
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 
 import Header from 'components/Header';
 import SideBar, { SideBarType } from 'components/SideBar';

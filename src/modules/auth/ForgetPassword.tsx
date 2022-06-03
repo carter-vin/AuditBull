@@ -13,7 +13,6 @@ import {
     useTheme,
 } from '@mui/material';
 import Image from 'next/image';
-
 import Password from 'components/Password';
 
 const ForgetPasswordComponent = () => {

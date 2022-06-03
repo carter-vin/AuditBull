@@ -15,7 +15,10 @@
 - [Used UI Libraries](#used-ui-libraries)
 - [Formatting Code Automatically](#formatting-code-automatically)
 - [Adding Image](#adding-image)
-- [Integration](#integration)
+- [Working with Layouts & Pages](#working-with-layouts--pages)
+- [Working with components](#working-with-components)
+- [Working & createing function for useQuery and useMutation](#working--createing-function-for-usequery-and-usemutation)
+- [Integration / Backend](#integration--backend)
   - [Working with Amplify](#working-with-amplify)
   - [Working with Cognioto](#working-with-cognioto)
   - [AdminQuries](#adminquries)
@@ -24,6 +27,10 @@
   - [Graphql API Amplify](#graphql-api-amplify)
   - [Using React Query with aws amplify](#using-react-query-with-aws-amplify)
     - [Uses of use Mutation](#uses-of-use-mutation)
+  - [Amplify as Severless Backend](#amplify-as-severless-backend)
+    - [Working with backend](#working-with-backend)
+    - [PS: If Newly created api has CORS Error, Please follow the below steps](#ps-if-newly-created-api-has-cors-error-please-follow-the-below-steps)
+- [Commit Rule](#commit-rule)
 
 # Folder Structure
 Auditbull project is based on Next js with latest version (18.1.0) at the time of creation.
@@ -52,8 +59,9 @@ auditbull
 ```
 You can add images, logo into public folder selecting appropriate folder based on `icons logo svgs`
 Creating new modules like `admin,user` you can get through `src/modules`.
-You `hooks` can be use to create some internal state management. 
+`hooks` can be use to create some internal state management. 
 
+Example of hook
 ```
     import {useAppData} from 'hooks/useAppData.tsx';
     const {
@@ -160,7 +168,221 @@ Auditbull use default `image` component provided by the nextjs.
 
 Also for some small and minor images Audit bull is using image provided by material ui. 
 
-# Integration
+# Working with Layouts & Pages
+Layouts are the high order components found on `layouts`
+```
+layouts
+  - BlankLayout.js
+  - DashboardLayout.js
+```
+
+- `BlankLayout` is used for blank pages.
+- `DashboardLayout` is used for dashboard pages such as `vendor system etc`.
+- You can create layout on each specific module  following Domain Driven Design. eg: `SettingLayout` inside `setting module`
+  
+
+Connecting to Dashboard Layout from Page
+
+```
+  cosnt Home = () => {
+    return <p>Home</p>
+  }
+  Home.getLayout = (page: ReactElement) => {
+    return <DashboardLayout>{page}</DashboardLayout>;
+  };
+  export default Home
+```
+
+# Working with components
+Auditbull has some reusable components such as: 
+- Dropzone: 
+  - Based on reactdropzone
+  - For file uploading enabled with dragdrop. 
+  - Please check the component for valid props type.
+  ```
+    <Dropzone
+        label="Upload Files"
+        max={1}
+        files={[]}
+        onDelete={(value: any) => ()}
+        progressBar={<component>}
+        error={''}
+        setFiles={(value: any) => ()}
+        name="file-upload"
+    />
+  ```
+- Input
+  - Based on Textfield from material ui.
+  - Please check the component for valid props type.
+  ```
+    <Input
+      type="text"| "number"| "email"| "password"
+      label="location"
+      name="location"
+      value={''}
+      onChange={() => {}}
+      error={''}
+    />
+  ```
+- Select
+  - Simple select based on matearil ui.
+  - Please check the component for valid props type.
+  ```
+  <Select
+    label="Location"
+    name="location.type"
+    options={locationOptions || []}
+    values={formik.values?.location?.type || ''}
+    onChange={formik.handleChange}
+    error={
+        (formik.touched?.location?.type &&
+            formik.errors?.location?.type) ||
+        ''
+    }
+  />
+  ```
+- MentionTextArea
+  - Based on react-mention.
+  - MentionTextArea provide the functionality of mention user on the text description.
+  - Please check the component for valid props type.
+  ```
+    <MentionTextArea
+      note={note}
+      taggedUser={taggedUser}
+      data={map(users, (user) => {
+          return {
+              id: user?.email || '',
+              display: user?.name || user?.email || '',
+          };
+      })}
+      setNote={setNote}
+      setTaggeduser={setTaggeduser}
+    />
+  ```
+- MultipleSelect
+  - Based on react-select.
+  - Help to select mulitple values with type ahead functionality and many more.
+  - Please check the component for valid props type.
+  ```
+    <MultipleSelect
+      label="breath of service"
+      name="service"
+      options={serviceOption}
+      values={formik.values.service || {}}
+      onChange={(values: any) => {
+          formik.setFieldValue('service', values);
+      }}
+      error={(formik.touched.service && formik.errors.service) || ''}
+  />
+  ```
+- Modal
+  - Modal is simple popover modal based on materail ui with some custom styling.
+  - Please check the component for valid props type.
+   ```
+      <Modal
+          open={true}
+          onClose={handleEditModal}
+          name="edit-user-modal"
+      >
+          <div>hello world</div>
+      </Modal>
+  ```
+- Table
+  - Data table base on matrail xdatagrid
+  - Please check the component for valid props type.
+  ```
+  <Table columns={columns || []} data={users || []} noFilter />
+  ```
+- Password
+  - Simple password input field with show password and hide password feature.
+  - Please check the component for valid props type.
+- Stepper
+  - Stepper is a horizontal progress bar for form showing title and number of steps.
+  - Based on material ui.
+  - Please check the component for valid props type.
+  ```
+    <Stepper
+      activeStep={activeStep}
+      steps={steps || []}
+      isDisabled={isLoading}
+      handleBack={handleBack}
+      isLoading={isLoading}
+      handleSubmit={() => {}}
+    />
+  ```
+- Switch
+  - Simple form input value based on switch in mateiral ui.
+  - For conditional rendor of the value either true or false.
+  - Please check the component for valid props type.
+  ```
+    <Switch
+        name="vendor_provided"
+        checked={false}
+        disabled
+    />
+  ```
+- ComponentHeader
+  - Component Header shows the breadcrumn and the cta action if required on component head/initial.
+  ```
+    <ComponentHeaderProps breadcrumb="Create System" hideCTA />
+  ```
+- Tab
+  - Tab is simple tab component that changes it component on based of active tab.
+  - simillar to steppers
+  ```
+    <Tab tabs={tabs} activeTab={0} loading={false} />
+  ```
+- Sidebar
+  - Sidebar is a sidebar component that shows the sidebar on the left side of the page.`
+  - Its the main component mostly used in layouts such as `Dashboard Layout`, `SettingLayout`.
+  ```
+    <SideBar
+        logoImg='/logo/ab_white_horizontal.svg'
+        logoImgMobile='/logo/ab_vertical.svg'
+        logoText="Audit Bull"
+        menu={[]}
+    />
+  ```
+
+# Working & createing function for useQuery and useMutation
+So for function we are using react query. 
+We can craete a function as follow
+- create `services` folder in the modules that you created. 
+- then on `services` index file create a simple async function that return the whole request. 
+  - example: 
+    - function
+      ```
+      const listVendorOptions = async () => {
+          const listVendorQuery = `
+              query ListVendor {
+                  listVendors {
+                      items {
+                          id
+                          name
+                      }
+                  }
+              }
+              `;
+          return API.graphql(graphqlOperation(listVendorQuery));
+      };
+      ```
+    - usage
+      ```
+        const { isLoading } = useQuery('systems', listVendorOptions, {
+          onSuccess: (data: GraphQLResult<any>) => {
+              if (data.data) {
+                  setSystemList(data?.data?.listVendorOptions?.items || []);
+              }
+          },
+          onError: (error: any) => {
+              const message: string = error?.message || 'Failed to fetch systems';
+              toast.error(message);
+          },
+        });
+      ```
+
+# Integration / Backend
+
 As mention above on `used libraries`, We are using mulitple libraries to build the application. `Amplify, react-query` are one of most important plugin to work on.
 
 ## Working with Amplify
@@ -342,3 +564,67 @@ Setting up admin queries
 
     mutate(values);
 ```
+
+## Amplify as Severless Backend
+- Amplify is connect with dynamodb and cogniot by default. 
+- Authentication has already be define on above sections.
+  
+### Working with backend
+
+- GraphQL API has been used in AuditBull
+- Intitial steps to create graphql api 
+  - `amplify add api ` then choose graphql (follow the steps [docs](https://docs.amplify.aws/cli/graphql/overview/))
+  - create shcema by code 
+    - go to  `ab/amplify/backend/api/<api_name>/schema.grapgql`
+    - create a sechma as you want.
+    - then push to cloud `amplify push`
+  - create shcema by GUI
+    - go to ampliy admin cms
+    - navigate to data
+      - create your shema then save and publish
+    - pull amplify into local
+  - To test the graphql on playgrond, Get into `AWS AppSync`
+    -  choose the API based on environment
+    -  Then Click on run query
+    -  You get a screen with playground of graphql. 
+- Can create lambda funcation
+  - TDDR
+- Using S3 for image storage
+  - add s3 in amplify, follow docs [docs](https://docs.amplify.aws/lib/storage/getting-started/q/platform/js/)
+  ``` amplify add storage ```
+  - `amplify push` after successfully creation of storage
+  - Upload files [Upload Docs](https://docs.amplify.aws/lib/storage/upload/q/platform/js/)
+  ```
+  const result = await Storage.put("test.txt", "Hello");
+  ```
+  -Admin Qureis for fetching user list and other cognito user based APIS [AdminQuries](#adminquries)
+### PS: If Newly created api has CORS Error, Please follow the below steps
+- Go to `API Gateway`
+
+# Commit Rule
+On audit bull, we have two way to commit data
+- checks all the lint errors by husky
+- [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
+  - syntax
+  ```
+    <type>[optional scope]: <description>
+
+    [optional body]
+
+    [optional footer(s)]
+  ```
+  - example
+  ```
+    feat: add new feature
+    fix: fix bug
+    docs: update docs
+    style: fix style
+    refactor: refactor code
+    test: add tests
+    chore: update package.json
+    revert: revert to a commit
+    ci: run CI
+    perf: improve performance
+
+    git commit -m "features: add new feature"
+  ```
