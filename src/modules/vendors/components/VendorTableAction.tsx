@@ -3,8 +3,8 @@ import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { vendorStatus, complianceStatus, OptionType } from 'utils/select';
-import { VendorItem } from 'pages/vendors';
 import { filter } from 'lodash';
+import { VendorItem } from '../views/VendorList';
 
 interface VendorTableActionProps {
     setVendorList: (items: VendorItem[]) => void;
