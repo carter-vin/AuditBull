@@ -1,3 +1,30 @@
+# Audit Bull
+## Audit Bull is the leading website for auditing .........
+
+
+# Table Of Content
+- [Audit Bull](#audit-bull)
+  - [Audit Bull is the leading website for auditing .........](#audit-bull-is-the-leading-website-for-auditing-)
+- [Table Of Content](#table-of-content)
+- [Folder Structure](#folder-structure)
+- [Run and Install](#run-and-install)
+    - [`yarn install` or `yarn`](#yarn-install-or-yarn)
+    - [`yarn dev`](#yarn-dev)
+    - [`yarn run build`](#yarn-run-build)
+    - [`yarn add <package-nanme>`](#yarn-add-package-nanme)
+- [Used UI Libraries](#used-ui-libraries)
+- [Formatting Code Automatically](#formatting-code-automatically)
+- [Adding Image](#adding-image)
+- [Integration](#integration)
+  - [Working with Amplify](#working-with-amplify)
+  - [Working with Cognioto](#working-with-cognioto)
+  - [AdminQuries](#adminquries)
+    - [How to user admin queries](#how-to-user-admin-queries)
+    - [Adding custom function on admin queries](#adding-custom-function-on-admin-queries)
+  - [Graphql API Amplify](#graphql-api-amplify)
+  - [Using React Query with aws amplify](#using-react-query-with-aws-amplify)
+    - [Uses of use Mutation](#uses-of-use-mutation)
+
 # Folder Structure
 Auditbull project is based on Next js with latest version (18.1.0) at the time of creation.
 After clone of the project its looks like 
@@ -146,13 +173,172 @@ Audit Bull Has two environment for working on amplify
 - Audit Bull Environment
   - Staging (for all production and staging )
   - Dev (for all development process)
+  - Switching between the amplify
+    - to get into dev ```amplify env checkout dev```
+    - to get into staging ```amplify env checkout staging```
+  - When to switch env.
+    - On developmenet, local working on our machine: `amplify env must be dev`
+    - On Production/Staging, local working on our machine: `amplify env must be staging`
+  - To verify env, 
+    - check aws-exports.js, there will be  `aws_cloud_logic_custom` has staging `adminqueries`
+    - in staging
+    ```
+        aws_cloud_logic_custom: [
+                {
+                    "name": "AdminQueries",
+                    "endpoint": "https://xxxxxxx.execute-api.us-east-1.amazonaws.com/staging",
+                    "region": "us-east-1"
+                }
+            ],
+    ```
+     - in dev
+    ```
+        aws_cloud_logic_custom: [
+                {
+                    "name": "AdminQueries",
+                    "endpoint": "https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev",
+                    "region": "us-east-1"
+                }
+            ],
+    ```
 
 - Authentication
-  - 
+  - Auditbull get authenticate with `cognito user` and `amplify auth`
+  - Some implemented auth methods are 
+    - Google 
+    - Teams
+    - Slack
+    - Auth.sign() (with users email and password) (not register)
+  - Authentication is truely based on cognito user. 
+  - Authentication used `openID` authentication for `teams slack`
+  - Google can be create by amplify with the script `amplify add auth`
+  - All amplify functions and data are store in folder `amplify/*`
 
+
+- Availabel script in amplify
+  - ` amplify add auth ` to add auth
+  - ` amplify update auth ` to update auth
+  - ` amplify add api ` to create api either rest or graphql
+  - ` amplify push ` to push the latest code of amplify  on cloud amplify
+  - ` amplify pull ` to pull code of latest amplify from  colud amplify to local
+  
 ## Working with Cognioto
-## Environments
-## AdminQuries 
-## Graphql API Amplify
+[Amazon Cognito](https://aws.amazon.com/cognito/) lets you add user sign-up, sign-in, and access control to your web and mobile apps quickly and easily. Amazon Cognito scales to millions of users and supports sign-in with social identity providers, such as Apple, Facebook, Google, and Amazon, and enterprise identity providers via SAML 2.0 and OpenID Connect.
 
-# Working on project recap !
+As above metion on authentication:
+- As we created two env for amplify, we have two cogniot user pool
+  - staging
+  - dev
+
+- Cognito used OpenID connection for authentication
+- Cognito groups users based on `roles` and `openID`
+- Setting up `OpenID`
+    - On user pools, navigate to identify providers
+    - Click on OpenID Connect
+    - Filled all required filed on the openID connect form with select appropriate provider.
+
+## AdminQuries 
+Admin queries gives all the data that required admin authentication such as user list. 
+Setting up admin queries
+- `ampliy add auth`
+  - choose amplify admin queires
+  - create guard such as admin/user
+  - Follow this [Docs](https://docs.amplify.aws/cli/auth/admin/)
+
+### How to user admin queries
+```
+    const requestInfo = {
+       queryStringParameters: {
+            groupname: "Editors",
+            limit: limit,
+            token: nextToken
+        },
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${(await Auth.currentSession())
+                .getAccessToken()
+                .getJwtToken()}`,
+        },
+    };
+ const res = await API.post('AdminQueries', '/listUsersInGroup', requestInfo);
+```
+
+### Adding custom function on admin queries
+- Go to amplify/* 
+- Get into amplify/backedn/function/Admin......./src
+- You can see there files
+  - app.js (main entry point)
+  - cognitoActions.js (collection of actions)
+  - index.js (entry point)
+- Finally add related `Action` on `PolicyDocument` on AdminQureis...... outside of src on same folder
+
+## Graphql API Amplify
+- API, Application Progarm Interface.
+- [Amplify CLI's GraphQL API](https://docs.amplify.aws/cli/graphql/overview/) category makes it easy for you to create a new GraphQL API backed by a database. Just define a GraphQL schema and Amplify CLI will automatically transform the schema into a fully functioning GraphQL API powered by AWS AppSync, Amazon DynamoDB, and more.
+- Adding graphql api 
+```
+    amplify add api
+```
+- Follow the bleow instruction [Docs](https://docs.amplify.aws/cli/graphql/overview/)
+- Schema 
+  ```
+    type System @model @auth(rules: [{ allow: public }]) {
+        id: ID!
+        name: String
+        status: String
+        owner: AWSJSON
+        type: String
+        description: String
+        vendor_provided: Boolean
+        customer_facing_info_system: Boolean
+        location: AWSJSON
+        risk: AWSJSON
+        data_classification: AWSJSON
+        compliance: AWSJSON
+        Vendors: Vendors @hasOne
+    }
+  ```
+
+## Using React Query with aws amplify
+[React Query](https://react-query.tanstack.com/overview) is often described as the missing data-fetching library for React, but in more technical terms, it makes fetching, caching, synchronizing and updating server state in your React applications a breeze.
+
+- useQuery
+- useMutation
+
+### Uses of use Mutation
+```
+    <!-- functions -->
+    const createSystem = async (payload: ISytemPayload) => {
+        const createSystemMutation = `
+            mutation CreateSystem {
+                    createSystem(input: {
+                        name: "${payload.name}", 
+                        status: "${payload.status}", 
+                        type: "${payload.type}", 
+                        description: "${payload.description}", 
+                    }) {
+                        id
+                        name
+                    }
+            }
+        `;
+        return API.graphql(graphqlOperation(createSystemMutation));
+    };
+
+    const { isLoading, mutate } = useMutation(createSystem /* function */, {
+        mutationKey: 'createSystem', (name for key)
+        onSuccess: (res) => {
+            /*
+                success 
+            */
+            console.log('res', res)
+        },
+        onError: (error: any) => {
+            /*
+            Return error message 
+            */
+        },
+    });
+
+    mutate(values);
+```
