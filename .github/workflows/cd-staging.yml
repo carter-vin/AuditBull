@@ -1,0 +1,35 @@
+name: Deploy auditbull application to S3
+
+on:
+    push:
+        branches: [dev]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node: [16]
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node }}
+
+            - run: npm install -g yarn
+
+            - run: yarn
+
+            - run: yarn build && yarn export
+
+            - uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-1
+
+            # - run: aws s3 sync ./out s3://staging.auditbull-demo.com // temporary fix
+            - run: aws s3 sync ./out s3://auditbull-demo.com # we should update it coz dev branch should deployed to [staging.auditbull-demo.com]
+
+            - run: echo "build files have been successfully deployed"
