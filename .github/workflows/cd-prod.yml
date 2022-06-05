@@ -5,6 +5,7 @@ on:
         branches:
             # - main
             - dev # we should replace it with main
+            - cd-fix
 
 jobs:
     build:
@@ -63,9 +64,9 @@ jobs:
                   aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
                   aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
                   application_name: auditbull
-                  environment_name: auditbull-production
+                  environment_name: auditbull-live
                   region: us-east-1
-                  version_label: 'auditbull-prod-${{ steps.format-time.outputs.replaced }}'
+                  version_label: 'auditbull-live-${{ steps.format-time.outputs.replaced }}'
                   deployment_package: deploy.zip
 
             - name: Deployed!
