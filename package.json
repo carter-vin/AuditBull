@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "next start",
+        "start": "next start -p $PORT",
         "export": "next export",
         "prod:build": "yarn build && yarn export",
         "lint": "eslint src/**/*.{ts,tsx} --quiet --fix",
