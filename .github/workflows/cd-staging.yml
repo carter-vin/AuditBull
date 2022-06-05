@@ -5,7 +5,6 @@ on:
         branches:
             # - dev
             - main # we should replace it with dev
-            - cd-https
 
 jobs:
     build:
