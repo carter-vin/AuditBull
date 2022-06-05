@@ -72,6 +72,6 @@
     "adminQueryGroup": "admin",
     "oAuthSecretsPathAmplifyAppId": "dhrbp3dq0eyju",
     "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://auditbull-demo.com/\",\"https://staging.auditbull-demo.com/\"],\"LogoutURLs\":[\"https://auditbull-demo.com/oauth2/\",\"https://staging.auditbull-demo.com/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"http://localhost:3001/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}"
   }
 }

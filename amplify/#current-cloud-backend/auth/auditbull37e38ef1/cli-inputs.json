@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "auditbull37e38ef1_identitypool_37e38ef1",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "auditb37e38ef1",
     "userPoolName": "auditbull37e38ef1_userpool_37e38ef1",
     "autoVerifiedAttributes": [
@@ -35,10 +35,7 @@
     "useDefault": "manual",
     "hostedUI": true,
     "triggers": {},
-    "userPoolGroupList": [
-      "admin",
-      "users"
-    ],
+    "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
@@ -71,7 +68,6 @@
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
     "adminQueryGroup": "admin",
     "oAuthSecretsPathAmplifyAppId": "dhrbp3dq0eyju",
-    "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://auditbull-demo.com/\",\"https://staging.auditbull-demo.com/\"],\"LogoutURLs\":[\"https://auditbull-demo.com/oauth2/\",\"https://staging.auditbull-demo.com/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://auditbull-demo.com/\"],\"LogoutURLs\":[\"https://auditbull-demo.com/\"]}"
   }
 }

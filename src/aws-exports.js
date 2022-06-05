@@ -16,11 +16,11 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "https://auditbull-demo.com/,https://staging.auditbull-demo.com/",
-        "redirectSignOut": "https://auditbull-demo.com/oauth2/,https://staging.auditbull-demo.com/",
+        "redirectSignIn": "https://auditbull-demo.com/",
+        "redirectSignOut": "https://auditbull-demo.com/",
         "responseType": "code"
     },
-    "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",
+    "federationTarget": "COGNITO_USER_POOLS",
     "aws_cognito_username_attributes": [],
     "aws_cognito_social_providers": [
         "GOOGLE"

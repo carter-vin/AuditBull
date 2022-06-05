@@ -158,7 +158,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/auth/auditbull37e38ef1-cloudformation-template.json",
         "Parameters": {
           "identityPoolName": "auditbull37e38ef1_identitypool_37e38ef1",
-          "allowUnauthenticatedIdentities": true,
+          "allowUnauthenticatedIdentities": false,
           "resourceNameTruncated": "auditb37e38ef1",
           "userPoolName": "auditbull37e38ef1_userpool_37e38ef1",
           "autoVerifiedAttributes": "email",
@@ -185,7 +185,7 @@
           "useDefault": "manual",
           "hostedUI": true,
           "triggers": "{}",
-          "userPoolGroupList": "admin,users",
+          "userPoolGroupList": "",
           "serviceName": "Cognito",
           "usernameCaseSensitive": false,
           "useEnabledMfas": true,
@@ -216,8 +216,8 @@
           "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
           "adminQueryGroup": "admin",
           "oAuthSecretsPathAmplifyAppId": "dhrbp3dq0eyju",
-          "googleClientId": "636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com",
-          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://auditbull-demo.com/\",\"https://staging.auditbull-demo.com/\"],\"LogoutURLs\":[\"https://auditbull-demo.com/oauth2/\",\"https://staging.auditbull-demo.com/\"]}",
+          "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://auditbull-demo.com/\"],\"LogoutURLs\":[\"https://auditbull-demo.com/\"]}",
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"636410614439-79ln7aidk49kla4vlrif0tdmgslirmef.apps.googleusercontent.com\",\"client_secret\":\"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\"}]",
           "env": "staging"
         }
       }
@@ -273,7 +273,7 @@
         "TemplateURL": "https://s3.amazonaws.com/amplify-auditbull-staging-193858-deployment/amplify-cfn-templates/function/AdminQueries8b7a0055-cloudformation-template.json",
         "Parameters": {
           "deploymentBucketName": "amplify-auditbull-staging-193858-deployment",
-          "s3Key": "amplify-builds/AdminQueries8b7a0055-424f75325a394e584a71-build.zip",
+          "s3Key": "amplify-builds/AdminQueries8b7a0055-484761775957374f4863-build.zip",
           "authauditbull37e38ef1UserPoolId": {
             "Fn::GetAtt": [
               "authauditbull37e38ef1",
