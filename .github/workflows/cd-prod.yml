@@ -3,8 +3,7 @@ name: deploying nextjs to production
 on:
     push:
         branches:
-            # - main
-            - dev # we should replace it with main
+            - main
 
 jobs:
     build:
