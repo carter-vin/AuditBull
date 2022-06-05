@@ -1,4 +1,4 @@
-name: deploying nextjs application
+name: deploying nextjs application to staging
 
 on:
     push:
