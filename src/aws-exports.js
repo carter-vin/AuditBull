@@ -16,8 +16,8 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "https://ab-app-five.vercel.app/",
-        "redirectSignOut": "https://ab-app-five.vercel.app/",
+        "redirectSignIn": "https://auditbull-demo.com/,https://staging.auditbull-demo.com/",
+        "redirectSignOut": "https://auditbull-demo.com/oauth2/,https://staging.auditbull-demo.com/",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_AND_IDENTITY_POOLS",

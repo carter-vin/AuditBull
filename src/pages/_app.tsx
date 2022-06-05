@@ -19,6 +19,16 @@ import awsmobile from '../aws-exports';
 
 import 'react-toastify/dist/ReactToastify.css';
 
+// const { NODE_ENV } = process.env;
+// const DEFAULT_URL = 'http://localhost:3000/';
+
+// if (NODE_ENV === 'development') {
+//     awsmobile.oauth.redirectSignIn = DEFAULT_URL;
+//     awsmobile.oauth.redirectSignOut = DEFAULT_URL;
+// }
+awsmobile.oauth.redirectSignIn = `${window.location.origin}/`;
+awsmobile.oauth.redirectSignOut = `${window.location.origin}/`;
+
 Amplify.configure({ ...awsmobile, ssr: true });
 // Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
