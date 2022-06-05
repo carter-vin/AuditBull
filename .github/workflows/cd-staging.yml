@@ -1,35 +1,69 @@
-name: Deploy auditbull application to S3
+name: deploying nextjs application
 
 on:
     push:
-        branches: [dev]
+        branches:
+            # - dev
+            - main # we should replace it with dev
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
+
         strategy:
             matrix:
-                node: [16]
-        steps: 
-            - uses: actions/checkout@v3
+                os: [ubuntu-latest]
+                node: [14]
 
-            - uses: actions/setup-node@v3
+        steps:
+            - name: Checkout 🛎
+              uses: actions/checkout@master
+
+            - name: Setup node env 🏗
+              uses: actions/setup-node@v2.1.2
               with:
                   node-version: ${{ matrix.node }}
 
-            - run: npm install -g yarn
-
-            - run: yarn
-
-            - run: yarn build && yarn export
-
-            - uses: aws-actions/configure-aws-credentials@v1
+            - name: Cache node_modules 📦
+              uses: actions/cache@v2
               with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: us-east-1
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
 
-            # - run: aws s3 sync ./out s3://staging.auditbull-demo.com // temporary fix
-            - run: aws s3 sync ./out s3://auditbull-demo.com # we should update it coz dev branch should deployed to [staging.auditbull-demo.com]
+            - name: Installing NPM
+              run: npm install
 
-            - run: echo "build files have been successfully deployed"
+            - name: Building application
+              run: npm run build
+
+            - name: Generate deployment package
+              run: zip -r deploy.zip * .[^.]* -x "**node_modules**"
+
+            - name: Get timestamp
+              uses: gerred/actions/current-time@master
+              id: current-time
+
+            - name: Run string replace
+              uses: frabert/replace-string-action@master
+              id: format-time
+              with:
+                  pattern: '[:\.]+'
+                  string: '${{ steps.current-time.outputs.time }}'
+                  replace-with: '-'
+                  flags: 'g'
+
+            - name: Beanstalk Deploy for app
+              uses: einaregilsson/beanstalk-deploy@v20
+              with:
+                  aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
+                  aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+                  application_name: auditbull
+                  environment_name: auditbull-development
+                  region: us-east-1
+                  version_label: 'auditbull-dev-${{ steps.format-time.outputs.replaced }}'
+                  deployment_package: deploy.zip
+
+            - name: Deployed!
+              run: echo App deployed to ELB
