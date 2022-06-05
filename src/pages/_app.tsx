@@ -26,8 +26,16 @@ import 'react-toastify/dist/ReactToastify.css';
 //     awsmobile.oauth.redirectSignIn = DEFAULT_URL;
 //     awsmobile.oauth.redirectSignOut = DEFAULT_URL;
 // }
+
 awsmobile.oauth.redirectSignIn = `${window.location.origin}/`;
 awsmobile.oauth.redirectSignOut = `${window.location.origin}/`;
+
+// eslint-disable-next-line no-console
+console.log('AWS_CONFIG', {
+    awsmobileRedirect: awsmobile.oauth.redirectSignIn,
+    awsmobile,
+    origin: window.location.origin,
+});
 
 Amplify.configure({ ...awsmobile, ssr: true });
 // Amplify.Logger.LOG_LEVEL = 'DEBUG';
