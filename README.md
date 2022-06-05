@@ -33,6 +33,7 @@
         -   [PS: If Newly created api has CORS Error, Please follow the below steps](#ps-if-newly-created-api-has-cors-error-please-follow-the-below-steps)
 -   [Commit Rule](#commit-rule)
 -   [Reference](#reference)
+-   [Deployment Process](#deployment-process)
 
 # Folder Structure
 
@@ -220,54 +221,54 @@ Auditbull has some reusable components such as:
     -   For file uploading enabled with dragdrop.
     -   Please check the component for valid props type.
 
-    ```
-      <Dropzone
-          label="Upload Files"
-          max={1}
-          files={[]}
-          onDelete={(value: any) => ()}
-          progressBar={<component>}
-          error={''}
-          setFiles={(value: any) => ()}
-          name="file-upload"
-      />
-    ```
+        ```
+          <Dropzone
+              label="Upload Files"
+              max={1}
+              files={[]}
+              onDelete={(value: any) => ()}
+              progressBar={<component>}
+              error={''}
+              setFiles={(value: any) => ()}
+              name="file-upload"
+          />
+        ```
 
 -   Input
 
     -   Based on Textfield from material ui.
     -   Please check the component for valid props type.
 
-    ```
-      <Input
-        type="text"| "number"| "email"| "password"
-        label="location"
-        name="location"
-        value={''}
-        onChange={() => {}}
-        error={''}
-      />
-    ```
+        ```
+          <Input
+            type="text"| "number"| "email"| "password"
+            label="location"
+            name="location"
+            value={''}
+            onChange={() => {}}
+            error={''}
+          />
+        ```
 
 -   Select
 
     -   Simple select based on matearil ui.
     -   Please check the component for valid props type.
 
-    ```
-    <Select
-      label="Location"
-      name="location.type"
-      options={locationOptions || []}
-      values={formik.values?.location?.type || ''}
-      onChange={formik.handleChange}
-      error={
-          (formik.touched?.location?.type &&
-              formik.errors?.location?.type) ||
-          ''
-      }
-    />
-    ```
+        ```
+        <Select
+          label="Location"
+          name="location.type"
+          options={locationOptions || []}
+          values={formik.values?.location?.type || ''}
+          onChange={formik.handleChange}
+          error={
+              (formik.touched?.location?.type &&
+                  formik.errors?.location?.type) ||
+              ''
+          }
+        />
+        ```
 
 -   MentionTextArea
 
@@ -275,20 +276,20 @@ Auditbull has some reusable components such as:
     -   MentionTextArea provide the functionality of mention user on the text description.
     -   Please check the component for valid props type.
 
-    ```
-      <MentionTextArea
-        note={note}
-        taggedUser={taggedUser}
-        data={map(users, (user) => {
-            return {
-                id: user?.email || '',
-                display: user?.name || user?.email || '',
-            };
-        })}
-        setNote={setNote}
-        setTaggeduser={setTaggeduser}
-      />
-    ```
+        ```
+          <MentionTextArea
+            note={note}
+            taggedUser={taggedUser}
+            data={map(users, (user) => {
+                return {
+                    id: user?.email || '',
+                    display: user?.name || user?.email || '',
+                };
+            })}
+            setNote={setNote}
+            setTaggeduser={setTaggeduser}
+          />
+        ```
 
 -   MultipleSelect
 
@@ -296,42 +297,42 @@ Auditbull has some reusable components such as:
     -   Help to select mulitple values with type ahead functionality and many more.
     -   Please check the component for valid props type.
 
-    ```
-      <MultipleSelect
-        label="breath of service"
-        name="service"
-        options={serviceOption}
-        values={formik.values.service || {}}
-        onChange={(values: any) => {
-            formik.setFieldValue('service', values);
-        }}
-        error={(formik.touched.service && formik.errors.service) || ''}
-    />
-    ```
+        ```
+          <MultipleSelect
+            label="breath of service"
+            name="service"
+            options={serviceOption}
+            values={formik.values.service || {}}
+            onChange={(values: any) => {
+                formik.setFieldValue('service', values);
+            }}
+            error={(formik.touched.service && formik.errors.service) || ''}
+        />
+        ```
 
 -   Modal
 
     -   Modal is simple popover modal based on materail ui with some custom styling.
     -   Please check the component for valid props type.
 
-    ```
-       <Modal
-           open={true}
-           onClose={handleEditModal}
-           name="edit-user-modal"
-       >
-           <div>hello world</div>
-       </Modal>
-    ```
+        ```
+           <Modal
+               open={true}
+               onClose={handleEditModal}
+               name="edit-user-modal"
+           >
+               <div>hello world</div>
+           </Modal>
+        ```
 
 -   Table
 
     -   Data table base on matrail xdatagrid
     -   Please check the component for valid props type.
 
-    ```
-    <Table columns={columns || []} data={users || []} noFilter />
-    ```
+        ```
+        <Table columns={columns || []} data={users || []} noFilter />
+        ```
 
 -   Password
     -   Simple password input field with show password and hide password feature.
@@ -342,16 +343,16 @@ Auditbull has some reusable components such as:
     -   Based on material ui.
     -   Please check the component for valid props type.
 
-    ```
-      <Stepper
-        activeStep={activeStep}
-        steps={steps || []}
-        isDisabled={isLoading}
-        handleBack={handleBack}
-        isLoading={isLoading}
-        handleSubmit={() => {}}
-      />
-    ```
+        ```
+          <Stepper
+            activeStep={activeStep}
+            steps={steps || []}
+            isDisabled={isLoading}
+            handleBack={handleBack}
+            isLoading={isLoading}
+            handleSubmit={() => {}}
+          />
+        ```
 
 -   Switch
 
@@ -359,44 +360,44 @@ Auditbull has some reusable components such as:
     -   For conditional rendor of the value either true or false.
     -   Please check the component for valid props type.
 
-    ```
-      <Switch
-          name="vendor_provided"
-          checked={false}
-          disabled
-      />
-    ```
+        ```
+          <Switch
+              name="vendor_provided"
+              checked={false}
+              disabled
+          />
+        ```
 
 -   ComponentHeader
 
     -   Component Header shows the breadcrumn and the cta action if required on component head/initial.
 
-    ```
-      <ComponentHeaderProps breadcrumb="Create System" hideCTA />
-    ```
+        ```
+          <ComponentHeaderProps breadcrumb="Create System" hideCTA />
+        ```
 
 -   Tab
 
     -   Tab is simple tab component that changes it component on based of active tab.
     -   simillar to steppers
 
-    ```
-      <Tab tabs={tabs} activeTab={0} loading={false} />
-    ```
+        ```
+          <Tab tabs={tabs} activeTab={0} loading={false} />
+        ```
 
 -   Sidebar
 
     -   Sidebar is a sidebar component that shows the sidebar on the left side of the page.`
     -   Its the main component mostly used in layouts such as `Dashboard Layout`, `SettingLayout`.
 
-    ```
-      <SideBar
-          logoImg='/logo/ab_white_horizontal.svg'
-          logoImgMobile='/logo/ab_vertical.svg'
-          logoText="Audit Bull"
-          menu={[]}
-      />
-    ```
+        ```
+          <SideBar
+              logoImg='/logo/ab_white_horizontal.svg'
+              logoImgMobile='/logo/ab_vertical.svg'
+              logoText="Audit Bull"
+              menu={[]}
+          />
+        ```
 
 # Working & createing function for useQuery and useMutation
 
@@ -410,37 +411,37 @@ We can craete a function as follow
 
         -   function
 
-            ```
-            const listVendorOptions = async () => {
-                const listVendorQuery = `
-                    query ListVendor {
-                        listVendors {
-                            items {
-                                id
-                                name
-                            }
-                        }
-                    }
-                    `;
-                return API.graphql(graphqlOperation(listVendorQuery));
-            };
-            ```
+                  ```
+                  const listVendorOptions = async () => {
+                      const listVendorQuery = `
+                          query ListVendor {
+                              listVendors {
+                                  items {
+                                      id
+                                      name
+                                  }
+                              }
+                          }
+                          `;
+                      return API.graphql(graphqlOperation(listVendorQuery));
+                  };
+                  ```
 
         -   usage
 
-            ```
-              const { isLoading } = useQuery('systems', listVendorOptions, {
-                onSuccess: (data: GraphQLResult<any>) => {
-                    if (data.data) {
-                        setSystemList(data?.data?.listVendorOptions?.items || []);
-                    }
-                },
-                onError: (error: any) => {
-                    const message: string = error?.message || 'Failed to fetch systems';
-                    toast.error(message);
-                },
-              });
-            ```
+                  ```
+                    const { isLoading } = useQuery('systems', listVendorOptions, {
+                      onSuccess: (data: GraphQLResult<any>) => {
+                          if (data.data) {
+                              setSystemList(data?.data?.listVendorOptions?.items || []);
+                          }
+                      },
+                      onError: (error: any) => {
+                          const message: string = error?.message || 'Failed to fetch systems';
+                          toast.error(message);
+                      },
+                    });
+                  ```
 
 # Integration / Backend
 
@@ -470,27 +471,27 @@ Audit Bull Has two environment for working on amplify
         -   check aws-exports.js, there will be `aws_cloud_logic_custom` has staging `adminqueries`
         -   in staging
 
-        ```
-            aws_cloud_logic_custom: [
-                    {
-                        "name": "AdminQueries",
-                        "endpoint": "https://xxxxxxx.execute-api.us-east-1.amazonaws.com/staging",
-                        "region": "us-east-1"
-                    }
-                ],
-        ```
+            ```
+                aws_cloud_logic_custom: [
+                        {
+                            "name": "AdminQueries",
+                            "endpoint": "https://xxxxxxx.execute-api.us-east-1.amazonaws.com/staging",
+                            "region": "us-east-1"
+                        }
+                    ],
+            ```
 
         -   in dev
 
-        ```
-            aws_cloud_logic_custom: [
-                    {
-                        "name": "AdminQueries",
-                        "endpoint": "https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev",
-                        "region": "us-east-1"
-                    }
-                ],
-        ```
+            ```
+                aws_cloud_logic_custom: [
+                        {
+                            "name": "AdminQueries",
+                            "endpoint": "https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev",
+                            "region": "us-east-1"
+                        }
+                    ],
+            ```
 
 -   Authentication
 
@@ -678,11 +679,11 @@ Setting up admin queries
     -   `amplify push` after successfully creation of storage
     -   Upload files [Upload Docs](https://docs.amplify.aws/lib/storage/upload/q/platform/js/)
 
-    ```
-    const result = await Storage.put("test.txt", "Hello");
-    ```
+        ```
+        const result = await Storage.put("test.txt", "Hello");
+        ```
 
-    -Admin Qureis for fetching user list and other cognito user based APIS [AdminQuries](#adminquries)
+        -Admin Qureis for fetching user list and other cognito user based APIS [AdminQuries](#adminquries)
 
 ### PS: If Newly created api has CORS Error, Please follow the below steps
 
@@ -697,30 +698,30 @@ On audit bull, we have two way to commit data
 
     -   syntax
 
-    ```
-      <type>[optional scope]: <description>
+        ```
+          <type>[optional scope]: <description>
 
-      [optional body]
+          [optional body]
 
-      [optional footer(s)]
-    ```
+          [optional footer(s)]
+        ```
 
     -   example
 
-    ```
-      feat: add new feature
-      fix: fix bug
-      docs: update docs
-      style: fix style
-      refactor: refactor code
-      test: add tests
-      chore: update package.json
-      revert: revert to a commit
-      ci: run CI
-      perf: improve performance
+        ```
+          feat: add new feature
+          fix: fix bug
+          docs: update docs
+          style: fix style
+          refactor: refactor code
+          test: add tests
+          chore: update package.json
+          revert: revert to a commit
+          ci: run CI
+          perf: improve performance
 
-      git commit -m "features: add new feature"
-    ```
+          git commit -m "features: add new feature"
+        ```
 
 # Reference
 
@@ -735,7 +736,7 @@ On audit bull, we have two way to commit data
 -   [Tailwind CSS](https://tailwindcss.com/)
 -   [Lodash](https://lodash.com/docs/4.17.15)
 
-## Deployment Process
+# Deployment Process
 
 **`We have two processes:`**
 
