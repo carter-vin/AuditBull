@@ -1,5 +1,5 @@
 {
-  "Description": "Root Stack for AWS Amplify CLI",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"8.1.0\",\"stackType\":\"auth-Cognito-UserPool-Groups\",\"metadata\":{}}",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": {
     "env": {
@@ -178,6 +178,23 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                }
+              ]
+            },
+            "PolicyName": "UserGroupLogPolicy"
+          },
+          {
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
                     "cognito-identity:SetIdentityPoolRoles",
                     "cognito-identity:ListIdentityPools",
                     "cognito-identity:describeIdentityPool"
@@ -243,42 +260,8 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 300
-      }
-    },
-    "LambdaCloudWatchPolicy": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-              ],
-              "Resource": {
-                "Fn::Sub": [
-                  "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${lambdaName}:log-stream:*",
-                  {
-                    "lambdaName": {
-                      "Ref": "RoleMapFunction"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "PolicyName": "UserGroupLogPolicy",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ]
       }
     },
     "RoleMapFunctionInput": {

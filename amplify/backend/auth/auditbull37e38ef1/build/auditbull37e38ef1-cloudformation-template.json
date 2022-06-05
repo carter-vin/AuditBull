@@ -146,10 +146,10 @@
     "oAuthSecretsPathAmplifyAppId": {
       "Type": "String"
     },
-    "googleClientId": {
+    "oAuthMetadata": {
       "Type": "String"
     },
-    "oAuthMetadata": {
+    "googleClientId": {
       "Type": "String"
     }
   },
