@@ -33,11 +33,14 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-node-
 
-            - name: Installing NPM
-              run: npm install
+            - name: Installing yarn
+              run: npm install -g yarn
+
+            - name: Installing project packages
+              run: yarn
 
             - name: Building application
-              run: npm run build
+              run: yarn build
 
             - name: Generate deployment package
               run: zip -r deploy.zip * .[^.]* -x "**node_modules**"
